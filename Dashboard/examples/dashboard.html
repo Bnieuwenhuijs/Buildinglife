@@ -135,7 +135,7 @@
             <div class="card ">
               <div class="card-header ">
                 <h5 class="card-title">Building Materials</h5>
-                <p class="card-category">Provide the materials within the building you want to valuate. If unknown, an estimation will be made</p>
+                <p class="card-category mb-0">Provide the materials within the building you want to valuate. If unknown, an estimation will be made</p>
               </div>
               <div class="card-body ">
 					
@@ -258,28 +258,73 @@
 			  
 					<!-- Row 6 - Rubber&Lead //-->
 					<div class="row">
-						<!-- Polystyrene //-->
+						<!-- Rubber //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Polystyrene</span>
+									<span class="input-group-text" id="inputGroup-sizing-sm">Rubber</span>
 								</div>
 									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
 					
-						<!-- Drywall //-->
+						<!-- Lead //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Drywall</span>
+									<span class="input-group-text" id="inputGroup-sizing-sm">Lead</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>							
+					</div>
+					
+					<!-- Row 7 - Nickel&Titanium //-->
+					<div class="row">
+						<!-- Nickel //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Nickel</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+					
+						<!-- Titanium //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Titanium</span>
 								</div>
 									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>							
 					</div>
 			  
-			  
+					<!-- Row 8 - Brass&Iron //-->
+					<div class="row">
+						<!-- Brass //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Brass</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+					
+						<!-- Iron //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Iron</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>							
+					</div>
+					
 			  </div>
               <div class="card-footer ">
                 <hr>
@@ -295,11 +340,63 @@
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Building Characteristics</h5>
+                <h5 class="card-title mb-0">Building Characteristics</h5>
                 <p class="card-category">Provide the characteristics of the building you want to valuate. Note: building material estimations are based on these.</p>
               </div>
               <div class="card-body ">
-                <canvas id=chartHours width="400" height="150"></canvas>
+                
+				<!-- Row 1 - Building Year & Building Functionality //-->
+					<div class="row">
+						<!-- Building Year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Building year</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+						
+						<!-- Building Functionality//-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Building functionality</span>
+								</div>
+									<select type="text" class="form-control" size="1">
+										<option> Residential </option>
+										<option> Work </option>
+										<option> Else </option>
+									</select>
+							</div>
+						</div>
+									
+					</div>
+				
+				<!-- Row 2 - Number of renovations & last renovation //-->
+					<div class="row">
+						<!-- Brass //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Number of renovations</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+					
+						<!-- Last renovation year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Last renovation (Year)</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>							
+					</div>
+				
+				
               </div>
               <div class="card-footer ">
                 <hr>
