@@ -16,7 +16,6 @@
   <!-- CSS Files -->
   <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
   <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
-  <link href="../../css/style.css" rel="stylesheet">
 </head>
 
 <body class="">
@@ -25,19 +24,24 @@
       <!--
         Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
     -->
-
+	
 	<!-- Logo at top (Profile picture) //-->
       <div class="logo">
-
-
-        <a class="sticky-logo">
-          <h1><span>Building</span><font color="#B0C4DE">Life</font></h1>
+	  
+	  
+        <a class="simple-text logo-mini">
+          <div class="logo-image-small">
+            <img src="../assets/img/mike.jpg">
+          </div>
+        </a>
+        <a class="simple-text logo-normal">
+          Mike Hermans
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
         </a>
       </div>
-
+     
 	<!-- Sidebar items //-->
 	 <div class="sidebar-wrapper">
         <ul class="nav">
@@ -62,8 +66,8 @@
         </ul>
       </div>
     </div>
-
-
+	
+	
     <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
@@ -119,13 +123,13 @@
       </nav>
       <!-- End Navbar -->
       <!-- <div class="panel-header panel-header-lg">
-
+  
   <canvas id="bigDashboardChart"></canvas>
-
-
+  
+  
 </div> -->
       <div class="content">
-
+	  
 				<div class="row" style="display: none" id="valueEstimationResults">
 					<div class="col-md-12">
 						<div class="card ">
@@ -155,165 +159,17 @@
             </div>
           </div>
         </div>
-
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title mb-0">Building Characteristics</h5>
-                <p class="card-category">Provide the characteristics of the building you want to valuate. Note: building material estimations are based on these.</p>
-                </div>
-                  <div class="card-body ">
-                    <!-- Row 1 - Building Year & Building Functionality //-->
-    					      <div class="row">
-    						    <!-- Building Year //-->
-    						      <div class="col-sm-6 col-sm-offset-0">
-    							      <div class="input-group input-group-sm mb-2 input-group-xs2">
-    								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building year</span>
-    								      </div>
-    									    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-    							      </div>
-    						      </div>
-    						      <!-- Building Functionality//-->
-    						      <div class="col-sm-6 col-sm-offset-0">
-    							      <div class="input-group input-group-sm mb-2">
-    								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building functionality</span>
-    								      </div>
-    									    <select type="text" class="form-control" size="1">
-    										    <option> Residential </option>
-    										    <option> Work </option>
-    										    <option> Else </option>
-    									    </select>
-    							      </div>
-    						      </div>
-    								</div>
-    				        <div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
-    				          <div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
-    							      <div class="input-group input-group-sm mb-2 input-group-xs2">
-    								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Number of renovations</span>
-    								      </div>
-    									    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-    							      </div>
-    						      </div>
-
-    						<!-- Last renovation year //-->
-    						<div class="col-sm-6 col-sm-offset-0">
-    							<div class="input-group input-group-sm mb-2 input-group-xs2">
-    								<div class="input-group-prepend">
-    									<span class="input-group-text" id="inputGroup-sizing-sm">Last renovation (Year)</span>
-    								</div>
-    									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-    							</div>
-    						</div>
-    					</div>
-
-
-                  </div>
-                  <div class="card-footer ">
-                    <hr>
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Last valuation was 10 minutes ago.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+	  
+	  
 	  	<button type="button" class="btn btn-primary" onclick="showResultsValueEstimation()" >Estimate the value</button>
-
+		
 		<script>
 		function showResultsValueEstimation() {
-        var total = 0;
-        var res = 0;
-        if (document.getElementById("txtBox_steel").value == "") {
-          alert(res);
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_steel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_copper").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_copper").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_concrete").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_concrete").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_timber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_timber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_alu").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_alu").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_plastic").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_plastic").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_clay").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_clay").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_glass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_glass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_drywall").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_drywall").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_poly").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_poly").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_rubber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_rubber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_lead").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_lead").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_nickel").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_nickel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_titanium").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_titanium").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_brass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_brass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_iron").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_iron").value = res;
-        }
-        total += res;
-        document.getElementById("txtBox_total").value = total;
-      }
+			var result = document.getElementById("valueEstimationResults");
+			result.style.display = "block";
+		}
 		</script>
-
+	  
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
@@ -322,7 +178,7 @@
                 <p class="card-category mb-0">Provide the materials within the building you want to valuate. If unknown, an estimation will be made</p>
               </div>
               <div class="card-body ">
-
+					
 					<!-- Row 1 - Steel&Copper //-->
 					<div class="row">
 						<!-- Steel //-->
@@ -331,46 +187,46 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Steel</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_steel">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 					<!-- Copper //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Copper</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_copper">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+									
 					</div>
-
+					
 					<!-- Row 2 - Concrete&Timber //-->
 					<div class="row">
-
+					
 						<!-- Concrete //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Concrete</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_concrete">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Timber //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Timber</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_timber">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+					
 					<!-- Row 3 - Aluminium&Plastic //-->
 					<div class="row">
 						<!-- Aluminium //-->
@@ -379,21 +235,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Aluminium</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_alu">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Plastic //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Plastic</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_plastic">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+			  
 					<!-- Row 4 - Clay&Glass //-->
 					<div class="row">
 						<!-- Clay //-->
@@ -402,21 +258,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Clay</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_clay">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Glass //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Glass</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"  id="txtBox_glass">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+			  
 					<!-- Row 5 - Polystyrene&Drywall //-->
 					<div class="row">
 						<!-- Polystyrene //-->
@@ -425,21 +281,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Polystyrene</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_poly">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Drywall //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Drywall</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_drywall">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+			  
 					<!-- Row 6 - Rubber&Lead //-->
 					<div class="row">
 						<!-- Rubber //-->
@@ -448,21 +304,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Rubber</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_rubber">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Lead //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Lead</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_lead">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+					
 					<!-- Row 7 - Nickel&Titanium //-->
 					<div class="row">
 						<!-- Nickel //-->
@@ -471,21 +327,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Nickel</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_nickel">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Titanium //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Titanium</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_titanium">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
+			  
 					<!-- Row 8 - Brass&Iron //-->
 					<div class="row">
 						<!-- Brass //-->
@@ -494,30 +350,21 @@
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Brass</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_brass">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
 						</div>
-
+					
 						<!-- Iron //-->
 						<div class="col-sm-6 col-sm-offset-0">
 							<div class="input-group input-group-sm mb-2 input-group-xs2">
 								<div class="input-group-prepend">
 									<span class="input-group-text" id="inputGroup-sizing-sm">Iron</span>
 								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_iron">
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
 							</div>
-						</div>
+						</div>							
 					</div>
-
-          <div class="row">
-            <div class="input-group input-group-sm mb-2 input-group-xs2">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Total</span>
-              </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_total">
-            </div>
-          </div>
-
+					
 			  </div>
               <div class="card-footer ">
                 <hr>
@@ -528,8 +375,78 @@
             </div>
           </div>
         </div>
-
-
+		
+		<div class="row">
+          <div class="col-md-12">
+            <div class="card ">
+              <div class="card-header ">
+                <h5 class="card-title mb-0">Building Characteristics</h5>
+                <p class="card-category">Provide the characteristics of the building you want to valuate. Note: building material estimations are based on these.</p>
+              </div>
+              <div class="card-body ">
+                
+				<!-- Row 1 - Building Year & Building Functionality //-->
+					<div class="row">
+						<!-- Building Year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Building year</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+						
+						<!-- Building Functionality//-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Building functionality</span>
+								</div>
+									<select type="text" class="form-control" size="1">
+										<option> Residential </option>
+										<option> Work </option>
+										<option> Else </option>
+									</select>
+							</div>
+						</div>
+									
+					</div>
+				
+				<!-- Row 2 - Number of renovations & last renovation //-->
+					<div class="row">
+						<!-- Brass //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Number of renovations</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>
+					
+						<!-- Last renovation year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Last renovation (Year)</span>
+								</div>
+									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+							</div>
+						</div>							
+					</div>
+				
+				
+              </div>
+              <div class="card-footer ">
+                <hr>
+                <div class="stats">
+                  <i class="fa fa-history"></i> Last valuation was 10 minutes ago.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 	  </div>
         <!-- <div class="row">
           <div class="col-md-4">
@@ -593,9 +510,9 @@
       </footer>
     </div>
   </div>
-
-
-
+  
+  
+  
   <!--   Core JS Files   -->
   <script src="../assets/js/core/jquery.min.js"></script>
   <script src="../assets/js/core/popper.min.js"></script>
