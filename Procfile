@@ -1,1 +1,1 @@
- gunicorn Buildinglife:app
+gunicorn Buildinglife:app
