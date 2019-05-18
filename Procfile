@@ -1,1 +1,1 @@
-web: gunicorn app.__init__:app
+web: gunicorn buildinglife:app
