@@ -42,7 +42,7 @@
 
 </head>
 
-<body class="text-center" id="loginBody"
+<body class="text-center" style="background-image: url(static/Front_end/img/background/login-background.jpg); background-size: cover ">
   <header>
     <!-- header-area start -->
     <div id="sticker" class="header-area">
@@ -61,7 +61,7 @@
 										<span class="icon-bar"></span>
 									</button>
                 <!-- Brand -->
-                <a class="navbar-brand page-scroll sticky-logo" href="index.html">
+                <a class="navbar-brand page-scroll sticky-logo" href="index">
                   <h1><span>Building</span>Life</h1>
                   <!-- Uncomment below if you prefer to use an image logo -->
                   <!-- <img src="img/logo.png" alt="" title=""> -->
@@ -72,27 +72,27 @@
                 <ul class="nav navbar-nav navbar-right">
 
                   <li class="active">
-                    <a class="page-scroll" href="index.html">Home</a>
+                    <a class="page-scroll" href="index">Home</a>
                   </li>
 
                   <li>
-                    <a class="page-scroll" href="index.html#about">About</a>
+                    <a class="page-scroll" href="indexabout">About</a>
                   </li>
 
                   <li>
-                    <a class="page-scroll" href="index.html#services">Services</a>
+                    <a class="page-scroll" href="indexservices">Services</a>
                   </li>
 
                   <li>
-                    <a class="page-scroll" href="index.html#team">Team</a>
+                    <a class="page-scroll" href="indexteam">Team</a>
                   </li>
 
                   <li>
-                    <a class="page-scroll" href="index.html#contact">Contact</a>
+                    <a class="page-scroll" href="indexcontact">Contact</a>
                   </li>
 
                   <li>
-                    <a class="page-scroll" href="Login.html">Login</a>
+                    <a class="page-scroll" href="login">Login</a>
                   </li>
 
 
@@ -107,18 +107,19 @@
     </div>
     <!-- header-area end -->
   </header>
+  
   <!-- header end -->
-    <div class="container" id="div-signin">
-      <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-      <label for="inputEmail" class="sr-only">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
-      <div class="checkbox mb-3">
-        <input type="checkbox" name="remembered" value="remember-me"> Remember me
-      </div>
-      <a href="./Dashboard/examples/dashboard.html" class="btn btn-lg btn-primary btn-block" role="button">Link Button</a>
-      <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+    <div style="width: 40%; margin-left: 30%; margin-top: 15%;">
+	
+		<h1 class="h3 font-weight-normal">Please sign in</h1>
+		<label for="inputEmail" class="sr-only">Email address</label>
+		<input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+		<label for="inputPassword" class="sr-only">Password</label>
+		<input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+		<div class="checkbox mb-3">
+			<input type="checkbox" name="remembered" value="remember-me"> Remember me
+		</div>
+     <a href="dashboard" class="btn btn-lg btn-primary btn-block" role="button">Link Button</a>
+     <p class="mt-5 mb-3 text-muted">&copy; 2019</p>
     </div>
   </body>

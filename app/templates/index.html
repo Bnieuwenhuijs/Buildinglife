@@ -52,7 +52,16 @@
 
 </head>
 
-<body data-spy="scroll" data-target="#navbar-example">
+<script>
+
+    myfunction2 = function(){
+        document.getElementById('{{ scroll }}').scrollIntoView();
+    }
+
+</script>
+
+
+<body data-spy="scroll" data-target="#navbar-example" onload="myfunction2()">
 
   <div id="preloader"></div>
 
@@ -74,7 +83,7 @@
 										<span class="icon-bar"></span>
 									</button>
                 <!-- Brand -->
-                <a class="navbar-brand page-scroll sticky-logo" href="index.html">
+                <a class="navbar-brand page-scroll sticky-logo" href="index">
                   <h1><span>Building</span>Life</h1>
                   <!-- Uncomment below if you prefer to use an image logo -->
                   <!-- <img src="img/logo.png" alt="" title=""> -->
