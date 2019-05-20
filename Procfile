@@ -1,1 +1,1 @@
-web: flask db upgrade; flask translate compile; gunicorn BuildingLife:app
+web: flask db upgrade; flask translate compile; gunicorn BuildingLife:app --log-level=debug
