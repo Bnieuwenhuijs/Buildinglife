@@ -322,21 +322,18 @@
 		
 		<script>
 		var number = {{  testNR }}
-		var list_elements_div  = []
-		var list_elements_name = []
+		var list_elements = []
 		
 		function isEven(n) {
 			return n % 2 == 0;
 		}
 		
 		function AddMaterial() {
+			number = number + 1
 			
 			var select = document.getElementById("MaterialInput");
 			var materialSelected = select.options[select.selectedIndex].text;
-		
-		if (!list_elements_name.includes(materialSelected)) {
 			
-			number = number + 1
 			if (number % 2 == 1) {
 				var divToAppend = document.getElementById("materialBody");
 				
@@ -375,10 +372,6 @@
 				Div.appendChild(rowDiv)
 				row.appendChild(Div)
 				divToAppend.appendChild(row)
-				
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
-				
 			} else {
 				var divToAppend = document.getElementById((number-1) + "row");
 				
@@ -413,55 +406,10 @@
 				Div.appendChild(rowDiv)
 				
 				divToAppend.appendChild(Div)
-				
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
 			}
-		  }
 		}
 		
-		function RemoveMaterial() {
-			var select = document.getElementById("MaterialInput");
-			var materialSelected = select.options[select.selectedIndex].text;
-
-			if (list_elements_name.includes(materialSelected)) {
-				number = number - 1
-				
-				// Remove the variable
-				var index_remove = list_elements_name.indexOf(materialSelected)
-				list_elements_div.splice( index_remove, 1 )
-				list_elements_name.splice( index_remove, 1 )
-			
-				document.getElementById(materialSelected + "_entireField").remove()
-				
-				for (var prop of list_elements_name) {
-					document.getElementById(prop + "_entireField").remove()
-				}
-					
-				for (var i = 0; i <= number; i++) {
-					if ( (i + 1) % 2 == 1) {
-						document.getElementById( (i + 1) + "row").remove()
-						
-						var row = document.createElement("div")
-						row.className = "row"
-						row.id = (i + 1) + "row"
-						
-						row.appendChild(list_elements_div[i])
-						document.getElementById("materialBody").appendChild(row)
-					} else {
-						document.getElementById(i + "row").appendChild(list_elements_div[i])
-					}
-				}
-				
-				
-				
-				
-				
-				//document.getElementById(element + "_entireField").remove();
-				
-
-			}
-		}
+		
 		</script
 
 			<div class="row">
