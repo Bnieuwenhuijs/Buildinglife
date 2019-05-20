@@ -35,43 +35,31 @@ def dashboard():
     # WTform for the building characteristics input
     form_building_charachteristics = DashboardInputCharacteristicsForm()
 
-    # Create a list for all the materials for the FieldList
-    building_materials = [{"material": "Steel"},
-                          {"material": "Copper"},
-                          {"material": "Concrete"},
-                          {"material": "Timber"},
-                          {"material": "Aluminium"},
-                          {"material": "Plastic"},
-                          {"material": "Clay"},
-                          {"material": "Glass"},
-                          {"material": "Polystyrene"},
-                          {"material": "Drywall"},
-                          {"material": "Rubber"},
-                          {"material": "Lead"},
-                          {"material": "Nickel"},
-                          {"material": "Titanium"},
-                          {"material": "Brass"},
-                          {"material": "Iron"}
-                         ]
-
-    print("we zitten in de oorspronkelijke")
-
-    form_building_materials = DashboardInputMaterialsForm(building_materials=building_materials)
-    return render_template('dashboard.html', form_build_char=form_building_charachteristics , form_build_mat=form_building_materials, testNR = 0)
+    return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
     # WTform for the building characteristics input
     form_building_charachteristics = DashboardInputCharacteristicsForm()
-
-    form_building_materials = DashboardInputMaterialsForm()
     
     #list4 = request.args.get('list2')
     #print(list4)
 
-    Steel = request.form.get("Steel_input")
-    print(Steel)
+    Steel       = request.form.get("Steel_input")
+    Copper      = request.form.get("Copper_input")
+    Concrete    = request.form.get("Concrete_input")
+    Timber      = request.form.get("Timber_input")
+    Glass       = request.form.get("Glass_input")
+    Polystyrene = request.form.get("Polystyrene_input")
 
-    return render_template('dashboard.html', form_build_char=form_building_charachteristics , form_build_mat=form_building_materials, testNR = 0)
+
+    print(Steel)
+    print(Copper)
+    print(Concrete)
+    print(Timber)
+    print(Glass)
+    print(Polystyrene)
+
+    return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0)
 
     
