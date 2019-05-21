@@ -5,8 +5,8 @@ from wtforms.validators import DataRequired
 class DashboardInputCharacteristicsForm(FlaskForm):
     building_year          = DateField(label='Building Year', format='%Y', validators=[DataRequired()])
     building_functionality = SelectField(label='Building Functionality', validators=[DataRequired()], choices=[("Residential", "Residential"), ("Office", "Office"), ("Other", "Other")])
-    square_meters          = DecimalField(label="Square Meters", places=3, rounding=None)
-    number_floors          = IntegerField(label="Number of Floors")
+    square_meters          = DecimalField(label="Square Meters", validators=[DataRequired()], places=3, rounding=None)
+    number_floors          = IntegerField(label="Number of Floors", validators=[DataRequired()])
 
 class DashboardIndividualInputMaterialForm(FlaskForm):
     material = DecimalField(places=3, rounding=None)
