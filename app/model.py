@@ -7,7 +7,7 @@ import requests
 import json
 
 dataset = pd.read_csv('Buildinglife_dataset.csv', sep=';')
-y = dataset.iloc[:, 11].values
+y = dataset.iloc[:, 10].values
 X = dataset.iloc[:, 0:3].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
