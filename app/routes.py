@@ -1,7 +1,8 @@
 from flask import render_template
 from flask import request
 from app import app
-from app.models import User
+from app import db
+from app.models import Building
 from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm
 import pickle
 from pathlib import Path
@@ -70,6 +71,13 @@ def testing():
         square_meters = form_building_charachteristics.square_meters.data
         nr_floors     = form_building_charachteristics.number_floors.data
 
+        #Put in DB
+        building = Building(building_year= building_year, building_functionality= functionality, square_meters= square_meters, number_floors= nr_floors)
+        db.session.add(building)
+        db.session.commit()
+
+
+        #calculation total square meters
         total_square_meters = nr_floors * square_meters
         
         #list4 = request.args.get('list2')
@@ -148,4 +156,6 @@ def testing():
                                number_floors = nr_floors
                                )
 
-    
+@app.route('/history')
+def history():
+    return render_template('history.html')    

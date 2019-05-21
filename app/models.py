@@ -1,13 +1,15 @@
 from app import db
 
-class User(db.Model):
-    __tablename__ = "user"
+class Building(db.Model):
+    __tablename__ = "Building"
 
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
-    password_hash = db.Column(db.String(128))
+    id                      = db.Column(db.Integer, primary_key=True)    
+    building_year           = db.Column(db.Integer)
+    building_functionality  = db.Column(db.String(120))
+    square_meters           = db.Column(db.Float)
+    number_floors           = db.Column(db.Integer)
+
 
     def __repr__(self):
-        return '<User {}>'.format(self.username) 
+        return '<Building {}>'.format(self.building_functionality) 
 
