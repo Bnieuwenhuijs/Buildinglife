@@ -145,7 +145,7 @@ def testing():
                                 { "Name" : "GLass", "Quantity" : Glass, "Value" : glass_value},
                                 { "Name" : "Polystyrene", "Quantity" : Polystyrene, "Value" : polystyrene_value}]
 
-        return render_template('dashboard.html', 
+        return render_template('estimation.html', 
                                form_build_char=form_building_charachteristics , 
                                numberOfMaterialsDisplayed = 0, 
                                total_value = total_value,
