@@ -13,9 +13,11 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+  
   <!-- CSS Files -->
-  <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="../assets/css/paper-dashboard.css?v=2.0.0" rel="stylesheet" />
+   <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/bootstrap.min.css') }}" rel= "stylesheet" >
+   <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/paper-dashboard.css') }}" rel= "stylesheet" >
+  
 </head>
 
 <body class="">
@@ -31,11 +33,11 @@
 
         <a class="simple-text logo-mini">
           <div class="logo-image-small">
-            <img src="../assets/img/mike.jpg">
+            <img src="static/Front_end/Dashboard/assets/img/mike.jpg">
           </div>
         </a>
         <a class="simple-text logo-normal">
-          Mike Hermans
+			Mike Hermans
           <!-- <div class="logo-image-big">
             <img src="../assets/img/logo-big.png">
           </div> -->
@@ -88,7 +90,8 @@
             <span class="navbar-toggler-bar navbar-kebab"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form>
+            <form action="" method="post" novalidate>
+			
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
@@ -99,19 +102,6 @@
               </div>
             </form>
             <ul class="navbar-nav">
-             <!-- <li class="nav-item btn-rotate dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <i class="nc-icon nc-bell-55"></i>
-                  <p>
-                    <span class="d-lg-none d-md-block">Some Actions</span>
-                  </p>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </li> //-->
               <li class="nav-item">
                 <a class="nav-link btn-rotate">
                   <i class="nc-icon nc-settings-gear-65"></i>
@@ -160,47 +150,54 @@
           </div>
         </div>
 
-
+	<form action="" method="POST" novalidate>
+	{{ form_build_char.hidden_tag() }}
+	<button type="submit" class="btn btn-primary" >Estimate the value</button>
+	
+	<div id="testDIV">
+	
+	</div>
+	
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
                 <h5 class="card-title mb-0">Building Characteristics</h5>
-                <p class="card-category">Provide the characteristics of the building you want to valuate. Note: building material estimations are based on these.</p>
+                <p class="card-category">Provide the characteristics of the building you want to valuate.</p>
                 </div>
                   <div class="card-body ">
                     <!-- Row 1 - Building Year & Building Functionality //-->
+					
     					      <div class="row">
     						    <!-- Building Year //-->
     						      <div class="col-sm-6 col-sm-offset-0">
     							      <div class="input-group input-group-sm mb-2 input-group-xs2">
     								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building year</span>
+    									      <div class="input-group-text" id="inputGroup-sizing-sm">Building Year</div>
     								      </div>
-    									    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+											{{form_build_char.building_year(class ="form-control", placeholder="The year the building was build") }}
+    									    <!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
     							      </div>
     						      </div>
     						      <!-- Building Functionality//-->
     						      <div class="col-sm-6 col-sm-offset-0">
     							      <div class="input-group input-group-sm mb-2">
     								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building functionality</span>
+    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building Functionality</span>
     								      </div>
-    									    <select type="text" class="form-control" size="1">
-    										    <option> Residential </option>
-    										    <option> Work </option>
-    										    <option> Else </option>
-    									    </select>
+											{{form_build_char.building_functionality(class ="form-control", size="1") }}
     							      </div>
     						      </div>
     								</div>
+									
     				        <div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
     				          <div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
     							      <div class="input-group input-group-sm mb-2 input-group-xs2">
     								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Number of renovations</span>
+    									      <span class="input-group-text" id="inputGroup-sizing-sm">Square Meters</span>
     								      </div>
-    									    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+										    {{form_build_char.square_meters(class ="form-control", placeholder="Square meters of the building") }}
+    									    <!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
     							      </div>
     						      </div>
 
@@ -208,14 +205,14 @@
     						<div class="col-sm-6 col-sm-offset-0">
     							<div class="input-group input-group-sm mb-2 input-group-xs2">
     								<div class="input-group-prepend">
-    									<span class="input-group-text" id="inputGroup-sizing-sm">Last renovation (Year)</span>
+    									<span class="input-group-text" id="inputGroup-sizing-sm">Number of Floors</span>
     								</div>
-    									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+    									{{form_build_char.number_floors(class ="form-control", placeholder="The amount of floors within the building") }}
     							</div>
     						</div>
     					</div>
-
-
+						
+				  <!-- Footer of Building Characteristics //-->
                   </div>
                   <div class="card-footer ">
                     <hr>
@@ -226,9 +223,14 @@
                 </div>
               </div>
             </div>
-
-	  	<button type="button" class="btn btn-primary" onclick="showResultsValueEstimation()" >Estimate the value</button>
-
+		
+	
+			
+			
+	  	<!-- a href= {{url_for('testing', list2 = list_test )}} > Testt</a>
+		<button type="submit" class="btn btn-primary"> </button> //-->
+		
+		<!-- Antoine's script //-->
 		<script>
 		function showResultsValueEstimation() {
         var total = 0;
@@ -317,211 +319,173 @@
         document.getElementById("txtBox_total").value = total;
       }
 		</script>
+		
+		<script>
+		var number = {{  testNR }}
+		var list_elements_div  = []
+		var list_elements_name = []
+		
+		function isEven(n) {
+			return n % 2 == 0;
+		}
+		
+		function AddMaterial() {
+			
+			var select = document.getElementById("MaterialInput");
+			var materialSelected = select.options[select.selectedIndex].text;
+		
+		if (!list_elements_name.includes(materialSelected)) {
+			
+			number = number + 1
+			if (number % 2 == 1) {
+				var divToAppend = document.getElementById("materialBody");
+				
+				var row = document.createElement("div")
+				row.className = "row"
+				row.id = number + "row"
+				
+				var Div = document.createElement("div")
+				Div.className = "col-sm-6 col-sm-offset-0"
+				<!-- ID of the entire field -->
+				Div.id = materialSelected + "_entireField"
+				
+				var rowDiv = document.createElement("div")
+				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+				
+				var rowDivDiv = document.createElement("div")
+				rowDivDiv.className = "input-group-prepend"
+				
+				var rowDivDivSpan = document.createElement("span")
+				rowDivDivSpan.className = "input-group-text"
+				rowDivDivSpan.id = "inputGroup-sizing-sm"
+				
+				<!-- The text on the left side -->
+				rowDivDivSpan.innerText = materialSelected
+				
+				rowDivInput = document.createElement("input")
+				rowDivInput.className = "form-control"
+				
+				<!-- Name of the Input field -->
+				rowDivInput.name = materialSelected + "_input"
+				rowDivInput.nodeType = "text"
+				
+				rowDivDiv.appendChild(rowDivDivSpan)
+				rowDiv.appendChild(rowDivDiv)
+				rowDiv.appendChild(rowDivInput)
+				Div.appendChild(rowDiv)
+				row.appendChild(Div)
+				divToAppend.appendChild(row)
+				
+				list_elements_div.push(Div)
+				list_elements_name.push(materialSelected)
+				
+			} else {
+				var divToAppend = document.getElementById((number-1) + "row");
+				
+				var Div = document.createElement("div")
+				Div.className = "col-sm-6 col-sm-offset-0"
+				<!-- ID of the entire field -->
+				Div.id = materialSelected + "_entireField"
+				
+				var rowDiv = document.createElement("div")
+				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+				
+				var rowDivDiv = document.createElement("div")
+				rowDivDiv.className = "input-group-prepend"
+				
+				var rowDivDivSpan = document.createElement("span")
+				rowDivDivSpan.className = "input-group-text"
+				rowDivDivSpan.id = "inputGroup-sizing-sm"
+				
+				<!-- The text on the left side -->
+				rowDivDivSpan.innerText = materialSelected
+				
+				rowDivInput = document.createElement("input")
+				rowDivInput.className = "form-control"
+				
+				<!-- Name of the Input field -->
+				rowDivInput.name = materialSelected + "_input"
+				rowDivInput.nodeType = "text"
+				
+				rowDivDiv.appendChild(rowDivDivSpan)
+				rowDiv.appendChild(rowDivDiv)
+				rowDiv.appendChild(rowDivInput)
+				Div.appendChild(rowDiv)
+				
+				divToAppend.appendChild(Div)
+				
+				list_elements_div.push(Div)
+				list_elements_name.push(materialSelected)
+			}
+		  }
+		}
+		
+		function RemoveMaterial() {
+			var select = document.getElementById("MaterialInput");
+			var materialSelected = select.options[select.selectedIndex].text;
 
-        <div class="row">
-          <div class="col-md-12">
+			if (list_elements_name.includes(materialSelected)) {
+				number = number - 1
+				
+				// Remove the variable
+				var index_remove = list_elements_name.indexOf(materialSelected)
+				list_elements_div.splice( index_remove, 1 )
+				list_elements_name.splice( index_remove, 1 )
+			
+				document.getElementById(materialSelected + "_entireField").remove()
+				
+				for (var prop of list_elements_name) {
+					document.getElementById(prop + "_entireField").remove()
+				}
+					
+				for (var i = 0; i <= number; i++) {
+					if ( (i + 1) % 2 == 1) {
+						document.getElementById( (i + 1) + "row").remove()
+						
+						var row = document.createElement("div")
+						row.className = "row"
+						row.id = (i + 1) + "row"
+						
+						row.appendChild(list_elements_div[i])
+						document.getElementById("materialBody").appendChild(row)
+					} else {
+						document.getElementById(i + "row").appendChild(list_elements_div[i])
+					}
+				}
+				
+				
+				
+				
+				
+				//document.getElementById(element + "_entireField").remove();
+				
+
+			}
+		}
+		</script
+
+			<div class="row">
+         <div class="row"> 
+		  <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title">Building Materials</h5>
-                <p class="card-category mb-0">Provide the materials within the building you want to valuate. If unknown, an estimation will be made</p>
+                <h5 class="card-title mb-0">Building Materials</h5>
+                <div class="card-category">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
               </div>
-              <div class="card-body ">
-
-					<!-- Row 1 - Steel&Copper //-->
-					<div class="row">
-						<!-- Steel //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Steel</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_steel">
-							</div>
-						</div>
-
-					<!-- Copper //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Copper</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_copper">
-							</div>
-						</div>
-
-					</div>
-
-					<!-- Row 2 - Concrete&Timber //-->
-					<div class="row">
-
-						<!-- Concrete //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Concrete</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_concrete">
-							</div>
-						</div>
-
-						<!-- Timber //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Timber</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_timber">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 3 - Aluminium&Plastic //-->
-					<div class="row">
-						<!-- Aluminium //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Aluminium</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_alu">
-							</div>
-						</div>
-
-						<!-- Plastic //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Plastic</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_plastic">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 4 - Clay&Glass //-->
-					<div class="row">
-						<!-- Clay //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Clay</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_clay">
-							</div>
-						</div>
-
-						<!-- Glass //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Glass</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"  id="txtBox_glass">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 5 - Polystyrene&Drywall //-->
-					<div class="row">
-						<!-- Polystyrene //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Polystyrene</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_poly">
-							</div>
-						</div>
-
-						<!-- Drywall //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Drywall</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_drywall">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 6 - Rubber&Lead //-->
-					<div class="row">
-						<!-- Rubber //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Rubber</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_rubber">
-							</div>
-						</div>
-
-						<!-- Lead //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Lead</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_lead">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 7 - Nickel&Titanium //-->
-					<div class="row">
-						<!-- Nickel //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Nickel</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_nickel">
-							</div>
-						</div>
-
-						<!-- Titanium //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Titanium</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_titanium">
-							</div>
-						</div>
-					</div>
-
-					<!-- Row 8 - Brass&Iron //-->
-					<div class="row">
-						<!-- Brass //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Brass</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_brass">
-							</div>
-						</div>
-
-						<!-- Iron //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Iron</span>
-								</div>
-									<input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_iron">
-							</div>
-						</div>
-					</div>
-
-          <div class="row">
-            <div class="input-group input-group-sm mb-2 input-group-xs2">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Total</span>
-              </div>
-                <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="txtBox_total">
-            </div>
-          </div>
-
+			  
+              <div class="card-body" id="materialBody">
+					<select class="form-control col-sm-4 col-sm-offset-0" id="MaterialInput">
+							<option value="Steel">Steel</option>
+							<option value="Copper">Copper</option>
+							<option value="Concrete">Concrete</option>
+							<option value="Timber">Timber</option>
+							<option value="Glass">Glass</option>
+							<option value="volvo">Polystyrene</option>
+					</select>
+					<button type="button" class="btn btn-success" onclick="AddMaterial()">Add Material</button>
+					<button type="button" class="btn btn-danger" onclick="RemoveMaterial()">Remove Material</button>
+					
+					
 			  </div>
               <div class="card-footer ">
                 <hr>
@@ -530,9 +494,14 @@
                 </div>
               </div>
             </div>
+			
+			<!-- End of the form //-->
+			</form>
           </div>
         </div>
+		
 
+		</form>
 
 	  </div>
         <!-- <div class="row">
@@ -600,26 +569,25 @@
 
 
 
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/jquery.min.js"></script>
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
+  <!--      Core JS Files   -->
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/jquery.min.js') }}"></script>
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/popper.min.js') }}"></script>
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/bootstrap.min.js') }}"></script>
+	
+  
   <!-- <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> //-->
   <!--  Google Maps Plugin    -->
   <!-- Chart JS -->
-  <script src="../assets/js/plugins/chartjs.min.js"></script>
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/plugins/chartjs.min.js') }}"></script>
+
   <!--  Notifications Plugin    -->
-  <script src="../assets/js/plugins/bootstrap-notify.js"></script>
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/plugins/bootstrap-notify.js') }}"></script>
+
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script>
-  <!-- Paper Dashboard DEMO methods, don't include it in your project! -->
-  <script src="../assets/demo/demo.js"></script>
-  <script>
-    $(document).ready(function() {
-      // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
-      demo.initChartsPages();
-    });
-  </script>
+  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/paper-dashboard.min.js') }}"></script>
+  
+  <!-- <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script> -->
+ 
 </body>
 
 </html>
