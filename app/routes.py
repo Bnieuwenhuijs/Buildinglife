@@ -129,22 +129,22 @@ def testing():
 
 
         #Value_estimations
-        steel_value       = value_calculation(Steel, 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-        copper_value      = value_calculation(Copper, 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-        concrete_value    = value_calculation(Concrete, 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-        timber_value      = value_calculation(Timber, 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-        glass_value       = value_calculation(Glass, 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-        polystyrene_value = value_calculation(Polystyrene, 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+        steel_value       = float(value_calculation(Steel, 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) ) )
+        copper_value      = float(value_calculation(Copper, 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) ) )
+        concrete_value    = float(value_calculation(Concrete, 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) ) )
+        timber_value      = float(value_calculation(Timber, 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) ) )
+        glass_value       = float(value_calculation(Glass, 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) ) )
+        polystyrene_value = float(value_calculation(Polystyrene, 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) ) )
 
         total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
         total_value = sum(total_list)
         
-        material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(Steel,2),  "Value" : round(steel_value,2)},
-                                { "Name" : "Copper", "Quantity" : round(Copper,2), "Value" : round(copper_value,2)},
-                                { "Name" : "Concrete", "Quantity" : round(Concrete,2), "Value" : round(concrete_value,2)},
-                                { "Name" : "Timber", "Quantity" : round(Timber,2), "Value" : round(timber_value,2)},
-                                { "Name" : "GLass", "Quantity" : round(Glass,2), "Value" : round(glass_value,2)},
-                                { "Name" : "Polystyrene", "Quantity" : round(Polystyrene,2), "Value" : round(polystyrene_value,2)}]
+        material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
+                                { "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
+                                { "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
+                                { "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
+                                { "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
+                                { "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
 
         return render_template('estimation.html', 
                                form_build_char=form_building_charachteristics , 
