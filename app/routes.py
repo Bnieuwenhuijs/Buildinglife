@@ -158,4 +158,7 @@ def testing():
 
 @app.route('/history')
 def history():
-    return render_template('history.html')    
+    buildings = Building.query.order_by(Building.id.desc())
+    print(buildings)
+    return render_template('history.html', buildings=buildings)
+    
