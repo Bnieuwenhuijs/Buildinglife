@@ -102,7 +102,7 @@ def testing():
         # Predictions of material quantity if not provided
         #regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
         regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
-        print(regression_model_path)
+
         if Steel==None:
             steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
             Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
