@@ -1,4 +1,4 @@
-astroid==2.2.5
+astroid==1.6.6
 Click==7.0
 colorama==0.4.1
 Flask==1.0.3
