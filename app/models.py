@@ -9,7 +9,5 @@ class Building(db.Model):
     square_meters           = db.Column(db.Float)
     number_floors           = db.Column(db.Integer)
 
-
     def __repr__(self):
-        return '<Building {}>'.format(self.building_functionality) 
-
+        return '<Building {}>'.format(self.building_year)

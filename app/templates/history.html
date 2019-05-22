@@ -76,28 +76,15 @@
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
+              
             </div>
-            <a class="navbar-brand" href="#pablo">Value estimation Dashboard</a>
+            <a class="navbar-brand" href="#pablo">History</a>
           </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-          </button>
+          
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form action="" method="post">
 			
               <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
                 </div>
               </div>
             </form>
@@ -119,452 +106,41 @@
 
 </div> -->
       <div class="content">
-
-				<div class="row" style="display: none" id="valueEstimationResults">
-					<div class="col-md-12">
-						<div class="card ">
-							<div class="card-header ">
-							<h5 class="card-title">Results Value Estimation</h5>
-							</div>
-						<div class="card-body ">
-				<p> <b> Steel </b> - 300 euro </p>
-				<p> <b> Copper </b> - 350 euro </p>
-				<p> <b> Concrete </b> - 80 euro </p>
-				<p> <b> Timber </b> - 110 euro </p>
-				<p> <b> Aluminium </b> - 225 euro </p>
-				<p> <b> Plastic </b> - 130 euro </p>
-				<p> <b> Clay </b> - 100 euro </p>
-				<p> <b> Glass </b> - 75 euro </p>
-				<p> <b> Polystyrene </b> - 180 euro </p>
-				<p> <b> Drywall </b> - 100 euro </p>
-				<p> <b> Rubber </b> - 120 euro </p>
-				<p> <b> Lead </b> - 125 euro </p>
-				<p> <b> Nickel </b> - 140 euro </p>
-				<p> <b> Titanium </b> - 250 euro </p>
-				<p> <b> Bras </b> - 80 euro </p>
-				<p> <b> Iron </b> - 285 euro </p>
-				<p> </p>
-				<h5> <b> Total value </b> - 2650 euro </h5>
-			  </div>
-            </div>
-          </div>
-        </div>
-
-	<form action="" method="POST">
-	{{ form_build_char.hidden_tag() }}
-	<button type="submit" class="btn btn-primary" >Estimate the value</button>
-	
-	<div id="testDIV">
-	
-	</div>
-	
         <div class="row">
-          <div class="col-md-12">
+        {% for building in buildings %}
+          <div class="col-md-10">
             <div class="card ">
               <div class="card-header ">
-                <h5 class="card-title mb-0">Building Characteristics</h5>
-                <p class="card-category">Provide the characteristics of the building you want to valuate.</p>
+                <h6 class="card-title mb-0">  </h6>
                 </div>
                   <div class="card-body ">
-                    <!-- Row 1 - Building Year & Building Functionality //-->
-					
-    					      <div class="row">
-    						    <!-- Building Year //-->
-    						      <div class="col-sm-6 col-sm-offset-0">
-    							      <div class="input-group input-group-sm mb-2 input-group-xs2">
-    								      <div class="input-group-prepend">
-    									      <div class="input-group-text" id="inputGroup-sizing-sm">Building Year</div>
-    								      </div>
-											{{form_build_char.building_year(class ="form-control", placeholder="The year the building was build") }}
-    									    <!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-    							      </div>
-    						      </div>
-    						      <!-- Building Functionality//-->
-    						      <div class="col-sm-6 col-sm-offset-0">
-    							      <div class="input-group input-group-sm mb-2">
-    								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Building Functionality</span>
-    								      </div>
-											{{form_build_char.building_functionality(class ="form-control", size="1") }}
-    							      </div>
-    						      </div>
-    								</div>
-									
-    				        <div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
-    				          <div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
-    							      <div class="input-group input-group-sm mb-2 input-group-xs2">
-    								      <div class="input-group-prepend">
-    									      <span class="input-group-text" id="inputGroup-sizing-sm">Square Meters</span>
-    								      </div>
-										    {{form_build_char.square_meters(class ="form-control", placeholder="Square meters of the building") }}
-    									    <!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-    							      </div>
-    						      </div>
+							      <div class="row" style="margin-top:10px">							      
+    									<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
+											  
+											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
+											  
+											<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>									  
+											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
+    									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+							      </div>
+							   
+							      <div class="row" style="margin-top:10px">							      
+    								  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
+											  
+											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
+											  
+											<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>									  
+											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
+    									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+							      </div>
 
-    						<!-- Last renovation year //-->
-    						<div class="col-sm-6 col-sm-offset-0">
-    							<div class="input-group input-group-sm mb-2 input-group-xs2">
-    								<div class="input-group-prepend">
-    									<span class="input-group-text" id="inputGroup-sizing-sm">Number of Floors</span>
-    								</div>
-    									{{form_build_char.number_floors(class ="form-control", placeholder="The amount of floors within the building") }}
-    							</div>
-    						</div>
-    					</div>
-						
-				  <!-- Footer of Building Characteristics //-->
-                  </div>
-                  <div class="card-footer ">
-                    <hr>
-                    <div class="stats">
-                      <i class="fa fa-history"></i> Last valuation was 10 minutes ago.
-                    </div>
                   </div>
                 </div>
               </div>
+			    {% endfor %}
+
             </div>
-		
-	
-			
-			
-	  	<!-- a href= {{url_for('testing', list2 = list_test )}} > Testt</a>
-		<button type="submit" class="btn btn-primary"> </button> //-->
-		
-		<!-- Antoine's script //-->
-		<script>
-		function showResultsValueEstimation() {
-        var total = 0;
-        var res = 0;
-        if (document.getElementById("txtBox_steel").value == "") {
-          alert(res);
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_steel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_copper").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_copper").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_concrete").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_concrete").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_timber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_timber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_alu").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_alu").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_plastic").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_plastic").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_clay").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_clay").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_glass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_glass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_drywall").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_drywall").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_poly").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_poly").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_rubber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_rubber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_lead").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_lead").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_nickel").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_nickel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_titanium").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_titanium").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_brass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_brass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_iron").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_iron").value = res;
-        }
-        total += res;
-        document.getElementById("txtBox_total").value = total;
-      }
-		</script>
-		
-		<script>
-		var number = {{  numberOfMaterialsDisplayed }}
-		var list_elements_div  = []
-		var list_elements_name = []
-		
-		function isEven(n) {
-			return n % 2 == 0;
-		}
-		
-		function AddMaterial() {
-			
-			var select = document.getElementById("MaterialInput");
-			var materialSelected = select.options[select.selectedIndex].text;
-		
-		if (!list_elements_name.includes(materialSelected)) {
-			
-			number = number + 1
-			if (number % 2 == 1) {
-				var divToAppend = document.getElementById("materialBody");
-				
-				var row = document.createElement("div")
-				row.className = "row"
-				row.id = number + "row"
-				
-				var Div = document.createElement("div")
-				Div.className = "col-sm-6 col-sm-offset-0"
-				<!-- ID of the entire field -->
-				Div.id = materialSelected + "_entireField"
-				
-				var rowDiv = document.createElement("div")
-				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-				
-				var rowDivDiv = document.createElement("div")
-				rowDivDiv.className = "input-group-prepend"
-				
-				var rowDivDivSpan = document.createElement("span")
-				rowDivDivSpan.className = "input-group-text"
-				rowDivDivSpan.id = "inputGroup-sizing-sm"
-				
-				<!-- The text on the left side -->
-				rowDivDivSpan.innerText = materialSelected
-				
-				rowDivInput = document.createElement("input")
-				rowDivInput.className = "form-control"
-				
-				<!-- Name of the Input field -->
-				rowDivInput.name = materialSelected + "_input"
-				rowDivInput.nodeType = "text"
-				
-				rowDivDiv.appendChild(rowDivDivSpan)
-				rowDiv.appendChild(rowDivDiv)
-				rowDiv.appendChild(rowDivInput)
-				Div.appendChild(rowDiv)
-				row.appendChild(Div)
-				divToAppend.appendChild(row)
-				
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
-				
-			} else {
-				var divToAppend = document.getElementById((number-1) + "row");
-				
-				var Div = document.createElement("div")
-				Div.className = "col-sm-6 col-sm-offset-0"
-				<!-- ID of the entire field -->
-				Div.id = materialSelected + "_entireField"
-				
-				var rowDiv = document.createElement("div")
-				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-				
-				var rowDivDiv = document.createElement("div")
-				rowDivDiv.className = "input-group-prepend"
-				
-				var rowDivDivSpan = document.createElement("span")
-				rowDivDivSpan.className = "input-group-text"
-				rowDivDivSpan.id = "inputGroup-sizing-sm"
-				
-				<!-- The text on the left side -->
-				rowDivDivSpan.innerText = materialSelected
-				
-				rowDivInput = document.createElement("input")
-				rowDivInput.className = "form-control"
-				
-				<!-- Name of the Input field -->
-				rowDivInput.name = materialSelected + "_input"
-				rowDivInput.nodeType = "text"
-				
-				rowDivDiv.appendChild(rowDivDivSpan)
-				rowDiv.appendChild(rowDivDiv)
-				rowDiv.appendChild(rowDivInput)
-				Div.appendChild(rowDiv)
-				
-				divToAppend.appendChild(Div)
-				
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
-			}
-		  }
-		}
-		
-		function RemoveMaterial() {
-			var select = document.getElementById("MaterialInput");
-			var materialSelected = select.options[select.selectedIndex].text;
-
-			if (list_elements_name.includes(materialSelected)) {
-				number = number - 1
-				
-				// Remove the variable
-				var index_remove = list_elements_name.indexOf(materialSelected)
-				list_elements_div.splice( index_remove, 1 )
-				list_elements_name.splice( index_remove, 1 )
-			
-				document.getElementById(materialSelected + "_entireField").remove()
-				
-				for (var prop of list_elements_name) {
-					document.getElementById(prop + "_entireField").remove()
-				}
-					
-				for (var i = 0; i <= number; i++) {
-					if ( (i + 1) % 2 == 1) {
-						document.getElementById( (i + 1) + "row").remove()
-						
-						var row = document.createElement("div")
-						row.className = "row"
-						row.id = (i + 1) + "row"
-						
-						row.appendChild(list_elements_div[i])
-						document.getElementById("materialBody").appendChild(row)
-					} else {
-						document.getElementById(i + "row").appendChild(list_elements_div[i])
-					}
-				}
-				
-				
-				
-				
-				
-				//document.getElementById(element + "_entireField").remove();
-				
-
-			}
-		}
-		</script
-
-			<div class="row">
-         <div class="row"> 
-		  <div class="col-md-12">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title mb-0">Building Materials</h5>
-                <div class="card-category">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
-              </div>
-			  
-              <div class="card-body" id="materialBody">
-					<select class="form-control col-sm-4 col-sm-offset-0" id="MaterialInput">
-							<option value="Steel">Steel</option>
-							<option value="Copper">Copper</option>
-							<option value="Concrete">Concrete</option>
-							<option value="Timber">Timber</option>
-							<option value="Glass">Glass</option>
-							<option value="volvo">Polystyrene</option>
-					</select>
-					<button type="button" class="btn btn-success" onclick="AddMaterial()">Add Material</button>
-					<button type="button" class="btn btn-danger" onclick="RemoveMaterial()">Remove Material</button>
-					
-					
-			  </div>
-              <div class="card-footer ">
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-history"></i> Last valuation was 10 minutes ago.
-                </div>
-              </div>
-            </div>
-			
-			<!-- End of the form //-->
-			</form>
-          </div>
-        </div>
-		
-
-		</form>
-
 	  </div>
-        <!-- <div class="row">
-          <div class="col-md-4">
-            <div class="card ">
-              <div class="card-header ">
-                <h5 class="card-title">Email Statistics</h5>
-                <p class="card-category">Last Campaign Performance</p>
-              </div>
-              <div class="card-body ">
-                <canvas id="chartEmail"></canvas>
-              </div>
-              <div class="card-footer ">
-                <div class="legend">
-                  <i class="fa fa-circle text-primary"></i> Opened
-                  <i class="fa fa-circle text-warning"></i> Read
-                  <i class="fa fa-circle text-danger"></i> Deleted
-                  <i class="fa fa-circle text-gray"></i> Unopened
-                </div>
-                <hr>
-                <div class="stats">
-                  <i class="fa fa-calendar"></i> Number of emails sent
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-8">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-title">NASDAQ: AAPL</h5>
-                <p class="card-category">Line Chart with Points</p>
-              </div>
-              <div class="card-body">
-                <canvas id="speedChart" width="400" height="100"></canvas>
-              </div>
-              <div class="card-footer">
-                <div class="chart-legend">
-                  <i class="fa fa-circle text-info"></i> Tesla Model S
-                  <i class="fa fa-circle text-warning"></i> BMW 5 Series
-                </div>
-                <hr/>
-                <div class="card-stats">
-                  <i class="fa fa-check"></i> Data information certified
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> //-->
-      <footer class="footer footer-black  footer-white ">
-        <div class="container-fluid">
-          <div class="row">
-            <nav class="footer-nav">
-              <ul>
-                <li>
-                  <a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </footer>
-    </div>
   </div>
 
 
