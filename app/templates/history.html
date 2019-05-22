@@ -13,11 +13,13 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  
+
   <!-- CSS Files -->
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/bootstrap.min.css') }}" rel= "stylesheet" >
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/paper-dashboard.css') }}" rel= "stylesheet" >
-  
+   <link href= "{{ url_for('static',filename='Front_end/css/style.css') }}" rel= "stylesheet" >
+
+
 </head>
 
 <body class="">
@@ -29,18 +31,10 @@
 
 	<!-- Logo at top (Profile picture) //-->
       <div class="logo">
-
-
-        <a class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="static/Front_end/Dashboard/assets/img/mike.jpg">
-          </div>
-        </a>
-        <a class="simple-text logo-normal">
-			Mike Hermans
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
+        <a class="sticky-logo" href="index.html">
+          <h1><span>Building</span><font color="#D8D8D8">Life</font></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <img src="img/logo.png" alt="" title=""> -->
         </a>
       </div>
 
@@ -76,13 +70,13 @@
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <div class="navbar-toggle">
-              
+
             </div>
             <a class="navbar-brand" href="#pablo">History</a>
           </div>
-          
+
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
-			
+
               <div class="input-group no-border">
                 <div class="input-group-append">
                 </div>
@@ -110,32 +104,56 @@
         {% for building in buildings %}
           <div class="col-md-10">
             <div class="card ">
-              <div class="card-header ">
-                <h6 class="card-title mb-0">  </h6>
-                </div>
-                  <div class="card-body ">
-							      <div class="row" style="margin-top:10px">							      
-    									<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
-											  
-											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
-											  
-											<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>									  
-											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
-    									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-							      </div>
-							   
-							      <div class="row" style="margin-top:10px">							      
-    								  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
-											  
-											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
-											  
-											<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>									  
-											<div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
-    									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-							      </div>
+              <div class="card-body ">
+                <div class="row" style="margin-top:10px">
+                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Building-year</div>
 
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
+
+                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Building Functionality</div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
+                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Square Meters</div>
+
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
+
+                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Number of Floors</div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
+                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+                <p>
+                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Year {{ building.building_year }} used for {{ building.building_functionality }} purpose with {{ building.number_floors }} floors and {{ building.square_meters }} square meters
+                  </button>
+                </p>
+                <div class="collapse" id="collapseExample">
+                  <div class="card card-body">
+                    <div class="row" style="margin-top:10px">
+                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
+
+                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
+
+                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>
+                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
+                          <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                    </div>
+
+                    <div class="row" style="margin-top:10px">
+                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
+
+                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
+
+                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>
+                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
+                          <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                    </div>
                   </div>
                 </div>
+              </div>
+            </div>
               </div>
 			    {% endfor %}
 
@@ -149,8 +167,8 @@
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/jquery.min.js') }}"></script>
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/popper.min.js') }}"></script>
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/bootstrap.min.js') }}"></script>
-	
-  
+
+
   <!-- <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> //-->
   <!--  Google Maps Plugin    -->
   <!-- Chart JS -->
@@ -161,9 +179,9 @@
 
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/paper-dashboard.min.js') }}"></script>
-  
+
   <!-- <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script> -->
- 
+
 </body>
 
 </html>
