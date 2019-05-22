@@ -20,7 +20,54 @@
   
 </head>
 
-<body class="">
+<script>
+
+function addMaterials(){
+  var i;
+  var material_value_dict = {{material_value_dict | safe}}
+  for (i = 0; i < {{  material_value_dict | length }}; i++) {
+   var divToAppend = document.getElementById("material_estim_body");
+
+   var upperdiv = document.createElement("div")
+   upperdiv.className = "col-md-8"
+   var carddiv  = document.createElement("div")
+   carddiv.className = "card"
+   carddiv.style     = "margin-bottom:4px; margin-top: 4px"
+
+
+   var card_header = document.createElement("div")
+   card_header.className = "card-header"
+   card_header.innerHTML = "<h6>" + material_value_dict[i]["Name"] + "</h6>"
+
+   var card_body = document.createElement("div")
+   card_body.className = "card-body"
+   card_body.style     = "margin-bottom: 0px; margin-top: 0px; padding: 5px 15px 10px 15px"
+   card_body.innerHTML = "<div class='row' style='margin-top:0px'>"	+
+                          "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Quantity</div>" +
+                          "<div class='p-3 bg-light text-dark rounded col-md-3'>" + material_value_dict[i]["Quantity"] + " KG" + "</div>" +
+                          "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Value</div>" +
+                          "<div class='p-3 bg-light text-dark rounded col-md-3'>" + "€ " + material_value_dict[i]["Value"] + "</div>" +
+                          "</div>"
+
+   "<div class=p-3 col-md-3 style=background-color: #e3e3e3; color: #66615B>Building-year</div>" 
+   //<div class="p-3 bg-light text-dark rounded col-md-3">{{ building_year }}</div>
+   //<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div><div class="p-3 bg-light text-dark rounded col-md-3">{{ functionality }}</div>
+
+
+   carddiv.appendChild(card_header)
+   carddiv.appendChild(card_body)
+   upperdiv.appendChild(carddiv)
+
+   divToAppend.appendChild(upperdiv)
+  }
+ }
+
+</script>
+
+
+
+
+<body class="" onload="addMaterials()">
   <div class="wrapper ">
     <div class="sidebar" data-color="white" data-active-color="danger">
       <!--
@@ -122,7 +169,7 @@
         <div class="row">
           <div class="col-md-8">
             <div class="card ">
-              <div class="card-header ">
+              <div class="card-header">
                 <h6 class="card-title mb-0">Summary</h6>
                 </div>
                   <div class="card-body ">
@@ -130,7 +177,7 @@
 							  <div class="row">						      
     									      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Total Estimated Value</div>
 											  
-											  <div class="p-3 bg-light text-dark rounded col-md-9"> <strong>€{{ total_value }}</strong></div>
+											  <div class="p-3 bg-light text-dark rounded col-md-9"> <strong>€{{ total_value | round(2, 'common') }}</strong></div>
     									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
 							   </div>
 							   
@@ -161,14 +208,20 @@
 			  
 			  
 			  <div class="col-md-4">
-					<div class="card" style="height: 245px">
+          <div class="card" style="height: 245px">
+            <div class="card-header ">
+              <h6 class="card-title mb-0">Material Quantity Estimation Chart</h6>
+            </div>
 						 <div class="card-body ">
 							<canvas id="pieChart"></canvas>
 						 </div>
 					</div>
 				</div>
-            </div>
+      </div>
 
+      <div class="row" id = "material_estim_body">
+
+      </div>
 
 
 
@@ -218,20 +271,17 @@
   var myPieChart = new Chart(ctxP, {
     type: 'pie',
     data: {
-      labels: ["Red", "Green", "Yellow", "Grey", "Dark Grey"],
+      labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
       datasets: [{
-        data: [300, 50, 100, 40, 120],
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+        data: [{{ material_value_dict[0]["Quantity"]}}, {{ material_value_dict[1]["Quantity"]}}, {{ material_value_dict[2]["Quantity"]}}, {{ material_value_dict[3]["Quantity"]}}, {{ material_value_dict[4]["Quantity"]}}, {{ material_value_dict[5]["Quantity"]}}],
+        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
+        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
       }]
     },
     options: {
       responsive: true
     }
   });
-
-</script>
-
-
+ </script>
 
 </html>

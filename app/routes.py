@@ -21,7 +21,7 @@ def value_calculation(KG, price, depreciation_rate, diminishing_value_rate, recy
 
     recyclability  = price * recyclability
 
-    estimated_value = (price_per_kg * KG) - diminish_value + recyclability
+    estimated_value = (float(price_per_kg) * float(KG)) - diminish_value + recyclability
 
     return estimated_value
 
@@ -138,8 +138,8 @@ def testing():
         total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
         total_value = sum(total_list)
         
-        material_value_dict =  [{ "Name" : "Steel", "Quantity" : Steel, "Value" : steel_value},
-                                { "Name" : "Copper", "Quantity" : Copper, "Value" : copper_value},
+        material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(Steel,2),  "Value" : round(steel_value,2)},
+                                { "Name" : "Copper", "Quantity" : round(Copper,2), "Value" : copper_value},
                                 { "Name" : "Concrete", "Quantity" : Concrete, "Value" : concrete_value},
                                 { "Name" : "Timber", "Quantity" : Timber, "Value" : timber_value},
                                 { "Name" : "GLass", "Quantity" : Glass, "Value" : glass_value},
