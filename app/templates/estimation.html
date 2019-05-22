@@ -49,16 +49,53 @@ function addMaterials(){
                           "<div class='p-3 bg-light text-dark rounded col-md-3'>" + "€ " + material_value_dict[i]["Value"] + "</div>" +
                           "</div>"
 
-   "<div class=p-3 col-md-3 style=background-color: #e3e3e3; color: #66615B>Building-year</div>" 
-   //<div class="p-3 bg-light text-dark rounded col-md-3">{{ building_year }}</div>
-   //<div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div><div class="p-3 bg-light text-dark rounded col-md-3">{{ functionality }}</div>
-
-
    carddiv.appendChild(card_header)
    carddiv.appendChild(card_body)
    upperdiv.appendChild(carddiv)
 
    divToAppend.appendChild(upperdiv)
+
+    if (i==0) {
+      var graph_upper_div = document.createElement("div")
+      graph_upper_div.className = "col-md-4"
+
+      var graph_card_div = document.createElement("div")
+      graph_card_div.className  = "card"
+      graph_card_div.style = "margin-bottom:4px; margin-top: 4px"
+
+      var graph_card_header = document.createElement("div")
+      graph_card_header.className = "card-header"
+      graph_card_header.innerHTML = "<h6> Material Value Estimation </h6>"
+
+      var graph_card_body = document.createElement("div")
+      graph_card_body.className = "card-body"
+      graph_card_body.innerHTML = "<canvas id='pieChart2'></canvas>"
+      
+      graph_card_div.appendChild(graph_card_header)
+      graph_card_div.appendChild(graph_card_body)
+      graph_upper_div.appendChild(graph_card_div)
+
+      //divToAppend.appendChild(graph_upper_div)
+
+      // Pie2
+      //var ctxP2 = document.getElementById("pieChart2").getContext('2d');
+      //var myPieChart2 = new Chart(ctxP2, {
+      //  type: 'pie',
+      //  data: {
+      //  labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
+      //  datasets: [{
+      //  data: [{{ material_value_dict[0]["Quantity"]}}, {{ material_value_dict[1]["Quantity"]}}, {{ material_value_dict[2]["Quantity"]}}, {{ material_value_dict[3]["Quantity"]}}, {{ material_value_dict[4]["Quantity"]}}, {{ material_value_dict[5]["Quantity"]}}],
+      //  backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
+      //  hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
+      //    }]
+      //  },
+      //options: {
+      //responsive: true
+      //}
+      //});
+
+      } // For the if statement
+
   }
  }
 
@@ -210,14 +247,15 @@ function addMaterials(){
 			  <div class="col-md-4">
           <div class="card">
             <div class="card-header ">
-              <h6 class="card-title mb-0">Material Quantity Estimation Chart</h6>
+              <h6 class="card-title mb-0">Material Quantity Estimation</h6>
             </div>
 						 <div class="card-body ">
-							<canvas id="pieChart"></canvas>
+							<canvas id="pieChart" style="height: 250px"></canvas>
 						 </div>
 					</div>
 				</div>
       </div>
+
 
       <div class="row" id = "material_estim_body">
 
@@ -282,6 +320,7 @@ function addMaterials(){
       responsive: true
     }
   });
+
  </script>
 
 </html>

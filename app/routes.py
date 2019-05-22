@@ -100,30 +100,31 @@ def testing():
         Polystyrene = request.form.get("Polystyrene_input")
 
         # Predictions of material quantity if not provided
-        regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
-        
+        #regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
+        regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
+
         if Steel==None:
-            steel_model = pickle.load(open(regression_model_path + "\\steel_model.sav", 'rb'))
+            steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
             Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
         
         if Concrete==None:
-            concrete_model = pickle.load(open(regression_model_path + "\\concrete_model.sav", 'rb'))
+            concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
             Concrete = concrete_model.predict([[total_square_meters,funct,building_year]])[0]
 
         if Copper==None:
-            copper_model = pickle.load(open(regression_model_path + "\\copper_model.sav", 'rb'))
+            copper_model = pickle.load(open(os.path.join(regression_model_path, "copper_model.sav") , 'rb'))
             Copper = copper_model.predict([[total_square_meters,funct,building_year]])[0]
 
         if Glass==None:
-            glass_model = pickle.load(open(regression_model_path + "\\glass_model.sav", 'rb'))
+            glass_model = pickle.load(open(os.path.join(regression_model_path, "glass_model.sav"), 'rb'))
             Glass = glass_model.predict([[total_square_meters,funct,building_year]])[0]
 
         if Polystyrene==None:
-            polystyrene_model = pickle.load(open(regression_model_path + "\\polystyrene_model.sav", 'rb'))
+            polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
             Polystyrene = polystyrene_model.predict([[total_square_meters,funct,building_year]])[0]
 
         if Timber==None:
-            timber_model = pickle.load(open(regression_model_path + "\\timber_model.sav", 'rb'))
+            timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
             Timber = timber_model.predict([[total_square_meters,funct,building_year]])[0]
 
 
@@ -139,11 +140,11 @@ def testing():
         total_value = sum(total_list)
         
         material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(Steel,2),  "Value" : round(steel_value,2)},
-                                { "Name" : "Copper", "Quantity" : round(Copper,2), "Value" : copper_value},
-                                { "Name" : "Concrete", "Quantity" : Concrete, "Value" : concrete_value},
-                                { "Name" : "Timber", "Quantity" : Timber, "Value" : timber_value},
-                                { "Name" : "GLass", "Quantity" : Glass, "Value" : glass_value},
-                                { "Name" : "Polystyrene", "Quantity" : Polystyrene, "Value" : polystyrene_value}]
+                                { "Name" : "Copper", "Quantity" : round(Copper,2), "Value" : round(copper_value,2)},
+                                { "Name" : "Concrete", "Quantity" : round(Concrete,2), "Value" : round(concrete_value,2)},
+                                { "Name" : "Timber", "Quantity" : round(Timber,2), "Value" : round(timber_value,2)},
+                                { "Name" : "GLass", "Quantity" : round(Glass,2), "Value" : round(glass_value,2)},
+                                { "Name" : "Polystyrene", "Quantity" : round(Polystyrene,2), "Value" : round(polystyrene_value,2)}]
 
         return render_template('estimation.html', 
                                form_build_char=form_building_charachteristics , 
