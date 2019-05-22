@@ -103,38 +103,37 @@ def testing():
         #regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
         regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
 
-        if Steel==None:
+        if Steel==None or Steel=="None" or Steel == "":
             steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
             Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
         
-        if Concrete==None:
+        if Concrete==None or Concrete == "None" or Concrete == "":
             concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
             Concrete = concrete_model.predict([[total_square_meters,funct,building_year]])[0]
 
-        if Copper==None:
+        if Copper==None or Concrete == "None" or Copper == "":
             copper_model = pickle.load(open(os.path.join(regression_model_path, "copper_model.sav") , 'rb'))
             Copper = copper_model.predict([[total_square_meters,funct,building_year]])[0]
 
-        if Glass==None:
+        if Glass==None or Glass == "None" or Glass == "":
             glass_model = pickle.load(open(os.path.join(regression_model_path, "glass_model.sav"), 'rb'))
             Glass = glass_model.predict([[total_square_meters,funct,building_year]])[0]
 
-        if Polystyrene==None:
+        if Polystyrene==None or Polystyrene == "None" or Polystyrene == "":
             polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
             Polystyrene = polystyrene_model.predict([[total_square_meters,funct,building_year]])[0]
 
-        if Timber==None:
+        if Timber==None or Timber == "None" or Timber == "":
             timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
             Timber = timber_model.predict([[total_square_meters,funct,building_year]])[0]
 
-
         #Value_estimations
-        steel_value       = float(value_calculation(Steel, 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) ) )
-        copper_value      = float(value_calculation(Copper, 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) ) )
-        concrete_value    = float(value_calculation(Concrete, 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) ) )
-        timber_value      = float(value_calculation(Timber, 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) ) )
-        glass_value       = float(value_calculation(Glass, 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) ) )
-        polystyrene_value = float(value_calculation(Polystyrene, 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) ) )
+        steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+        copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+        concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+        timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+        glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+        polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 
         total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
         total_value = sum(total_list)
