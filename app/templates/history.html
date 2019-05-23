@@ -39,7 +39,7 @@
       </div>
 
 	<!-- Sidebar items //-->
-	 <div class="sidebar-wrapper">
+	    <div class="sidebar-wrapper">
         <ul class="nav">
           <li>
             <a href="dashboard">
@@ -106,54 +106,155 @@
             <div class="card ">
               <div class="card-body ">
                 <div class="row" style="margin-top:10px">
-                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Building-year</div>
+                  <div class="p-3 col-md-3" style="background-color: #3dd53d; color: #FFFFFF">Building-year</div>
 
                   <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
 
-                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Building Functionality</div>
+                  <div class="p-3 col-md-3" style="background-color: #3dd53d; color: #FFFFFF">Building Functionality</div>
                   <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
                       <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
                 </div>
 
                 <div class="row" style="margin-top:10px">
-                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Square Meters</div>
+                  <div class="p-3 col-md-3" style="background-color: #3dd53d; color: #FFFFFF">Square Meters</div>
 
                   <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
 
-                  <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Number of Floors</div>
+                  <div class="p-3 col-md-3" style="background-color: #3dd53d; color: #FFFFFF">Number of Floors</div>
                   <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
                       <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
                 </div>
-                <p>
-                  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Year {{ building.building_year }} used for {{ building.building_functionality }} purpose with {{ building.number_floors }} floors and {{ building.square_meters }} square meters
-                  </button>
-                </p>
-                <div class="collapse" id="collapseExample">
-                  <div class="card card-body">
-                    <div class="row" style="margin-top:10px">
-                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
-
-                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_year }}</div>
-
-                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>
-                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
-                          <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-                    </div>
-
-                    <div class="row" style="margin-top:10px">
-                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
-
-                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
-
-                      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>
-                      <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.number_floors }}</div>
-                          <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                <div class="row" style="margin-top:10px">
+                  <div class="p-3 col-md-6">
+                    <p>
+                      <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      More infos
+                      </button>
+                    </p>
+                  </div>
+                  <div class="p-3 col-md-6">
+                    <div class="custom-control custom-checkbox">
+                      <input id="checkbox_{{ building.id }}" type="checkbox" class="custom-control-input">
+                      <label class="custom-control-label" for="checkbox_{{ building.id }}">Validated</label>
                     </div>
                   </div>
                 </div>
+                <div class="collapse" id="collapseExample">
+
+
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Steel </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #43464B; color: #FFFFFF">Estimated quantity (Kg)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelqtt{{ building.id }}" value="{{ building.steel_quantity }}" readonly>
+                        <div class="p-3 col-md-3" style="background-color: #43464B; color: #FFFFFF">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelvl{{ building.id }}" value="{{ building.steel_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Copper </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #b87333; color: #FFFFFF">Estimated quantity (Kg)</div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3"  id="copperqtt{{ building.id }}" value="{{ building.copper_quantity }}" readonly>
+
+                        <div class="p-3 col-md-3" style="background-color: #b87333; color: #FFFFFF">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="coppervl{{ building.id }}" value="{{ building.copper_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Concrete </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #b7b6b5; color: #FFFFFF">Estimated quantity (Kg)</div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concreteqtt{{ building.id }}" value="{{ building.concrete_quantity }}" readonly>
+
+                        <div class="p-3 col-md-3" style="background-color: #b7b6b5; color: #FFFFFF">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concretevl{{ building.id }}" value="{{ building.concrete_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Timber </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #a0855c; color: #FFFFFF">Estimated quantity (Kg)</div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timberqtt{{ building.id }}" value="{{ building.timber_quantity }}" readonly>
+
+                        <div class="p-3 col-md-3" style="background-color: #a0855c; color: #FFFFFF">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timbervl{{ building.id }}" value="{{ building.timber_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Glass </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #d9dada; color: #66615B">Estimated quantity (Kg)</div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassqtt{{ building.id }}" value="{{ building.glass_quantity }}" readonly>
+
+                        <div class="p-3 col-md-3" style="background-color: #d9dada; color: #66615B">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassvl{{ building.id }}" value="{{ building.glass_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card ">
+                    <div class="card-header">
+                      <h6> Polystyrene </h6>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Estimated quantity (Kg)</div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyqtt{{ building.id }}" value="{{ building.polystyrene_quantity }}" readonly>
+
+                        <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Estimated value (€)</div>
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyvl{{ building.id }}" value="{{ building.polystyrene_Value }}" readonly>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+                    <div class="card-body ">
+                      <div class="row" style="margin-top:10px">
+                        <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Total value </div>
+
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" value="{{ building.total_value }}" readonly>
+
+                        <button class="btn btn-primary" type="button" style="margin-left: 20%" onclick="validationTest({{ building.id }})">
+                        Validate the estimation
+                        </button>
+                            <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                      </div>
+                    </div>
+
+                  </div
+                </div>
               </div>
             </div>
+              </div>
               </div>
 			    {% endfor %}
 
@@ -161,7 +262,23 @@
 	  </div>
   </div>
 
-
+  <script>
+  function validationTest(id) {
+    document.getElementById("steelqtt"+id).readOnly = false;
+    document.getElementById("steelvl"+id).readOnly = false;
+    document.getElementById("copperqtt"+id).readOnly = false;
+    document.getElementById("coppervl"+id).readOnly = false;
+    document.getElementById("timberqtt"+id).readOnly = false;
+    document.getElementById("timbervl"+id).readOnly = false;
+    document.getElementById("polyqtt"+id).readOnly = false;
+    document.getElementById("polyvl"+id).readOnly = false;
+    document.getElementById("concreteqtt"+id).readOnly = false;
+    document.getElementById("concretevl"+id).readOnly = false;
+    document.getElementById("glassqtt"+id).readOnly = false;
+    document.getElementById("glassvl"+id).readOnly = false;
+    document.getElementById("checkbox_"+id).checked = true;
+  }
+  </script>
 
   <!--      Core JS Files   -->
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/jquery.min.js') }}"></script>
