@@ -71,12 +71,6 @@ def testing():
         square_meters = form_building_charachteristics.square_meters.data
         nr_floors     = form_building_charachteristics.number_floors.data
 
-        #Put in DB
-        building = Building(building_year= building_year, building_functionality= functionality, square_meters= square_meters, number_floors= nr_floors)
-        db.session.add(building)
-        db.session.commit()
-
-
         #calculation total square meters
         total_square_meters = nr_floors * square_meters
         
@@ -151,7 +145,20 @@ def testing():
 
         total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
         total_value = sum(total_list)
-        
+
+        #Put in DB
+        building = Building(building_year= building_year, building_functionality= functionality, square_meters= square_meters,
+                            number_floors= nr_floors,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2), 
+                            steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),               
+                            copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
+                            concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
+                            timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2), 
+                            glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),    
+                            polystyrene_Value=    round(float(polystyrene_value),2))
+                            
+        db.session.add(building)
+        db.session.commit()
+
         material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
                                 { "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
                                 { "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},

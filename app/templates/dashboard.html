@@ -13,11 +13,13 @@
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  
+
   <!-- CSS Files -->
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/bootstrap.min.css') }}" rel= "stylesheet" >
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/paper-dashboard.css') }}" rel= "stylesheet" >
-  
+   <link href= "{{ url_for('static',filename='Front_end/css/style.css') }}" rel= "stylesheet" >
+
+
 </head>
 
 <body class="">
@@ -29,18 +31,10 @@
 
 	<!-- Logo at top (Profile picture) //-->
       <div class="logo">
-
-
-        <a class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="static/Front_end/Dashboard/assets/img/mike.jpg">
-          </div>
-        </a>
-        <a class="simple-text logo-normal">
-			Mike Hermans
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
+        <a class="sticky-logo" href="index.html">
+          <h1><span>Building</span><font color="#D8D8D8">Life</font></h1>
+          <!-- Uncomment below if you prefer to use an image logo -->
+          <!-- <img src="img/logo.png" alt="" title=""> -->
         </a>
       </div>
 
@@ -91,7 +85,7 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form action="" method="post">
-			
+
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
@@ -153,11 +147,11 @@
 	<form action="" method="POST">
 	{{ form_build_char.hidden_tag() }}
 	<button type="submit" class="btn btn-primary" >Estimate the value</button>
-	
+
 	<div id="testDIV">
-	
+
 	</div>
-	
+
         <div class="row">
           <div class="col-md-12">
             <div class="card ">
@@ -167,7 +161,7 @@
                 </div>
                   <div class="card-body ">
                     <!-- Row 1 - Building Year & Building Functionality //-->
-					
+
     					      <div class="row">
     						    <!-- Building Year //-->
     						      <div class="col-sm-6 col-sm-offset-0">
@@ -189,7 +183,7 @@
     							      </div>
     						      </div>
     								</div>
-									
+
     				        <div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
     				          <div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
     							      <div class="input-group input-group-sm mb-2 input-group-xs2">
@@ -211,7 +205,7 @@
     							</div>
     						</div>
     					</div>
-						
+
 				  <!-- Footer of Building Characteristics //-->
                   </div>
                   <div class="card-footer ">
@@ -223,13 +217,13 @@
                 </div>
               </div>
             </div>
-		
-	
-			
-			
+
+
+
+
 	  	<!-- a href= {{url_for('testing', list2 = list_test )}} > Testt</a>
 		<button type="submit" class="btn btn-primary"> </button> //-->
-		
+
 		<!-- Antoine's script //-->
 		<script>
 		function showResultsValueEstimation() {
@@ -319,160 +313,160 @@
         document.getElementById("txtBox_total").value = total;
       }
 		</script>
-		
+
 		<script>
 		var number = {{  numberOfMaterialsDisplayed }}
 		var list_elements_div  = []
 		var list_elements_name = []
-		
+
 		function isEven(n) {
 			return n % 2 == 0;
 		}
-		
+
 		function AddMaterial() {
-			
+
 			var select = document.getElementById("MaterialInput");
 			var materialSelected = select.options[select.selectedIndex].text;
-		
+
 		if (!list_elements_name.includes(materialSelected)) {
-			
+
 			number = number + 1
 			if (number % 2 == 1) {
 				var divToAppend = document.getElementById("materialBody");
-				
+
 				var row = document.createElement("div")
 				row.className = "row"
 				row.id = number + "row"
-				
+
 				var Div = document.createElement("div")
 				Div.className = "col-sm-6 col-sm-offset-0"
 				<!-- ID of the entire field -->
 				Div.id = materialSelected + "_entireField"
-				
+
 				var rowDiv = document.createElement("div")
 				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-				
+
 				var rowDivDiv = document.createElement("div")
 				rowDivDiv.className = "input-group-prepend"
-				
+
 				var rowDivDivSpan = document.createElement("span")
 				rowDivDivSpan.className = "input-group-text"
 				rowDivDivSpan.id = "inputGroup-sizing-sm"
-				
+
 				<!-- The text on the left side -->
 				rowDivDivSpan.innerText = materialSelected
-				
+
 				rowDivInput = document.createElement("input")
 				rowDivInput.className = "form-control"
-				
+
 				<!-- Name of the Input field -->
 				rowDivInput.name = materialSelected + "_input"
 				rowDivInput.nodeType = "text"
-				
+
 				rowDivDiv.appendChild(rowDivDivSpan)
 				rowDiv.appendChild(rowDivDiv)
 				rowDiv.appendChild(rowDivInput)
 				Div.appendChild(rowDiv)
 				row.appendChild(Div)
 				divToAppend.appendChild(row)
-				
+
 				list_elements_div.push(Div)
 				list_elements_name.push(materialSelected)
-				
+
 			} else {
 				var divToAppend = document.getElementById((number-1) + "row");
-				
+
 				var Div = document.createElement("div")
 				Div.className = "col-sm-6 col-sm-offset-0"
 				<!-- ID of the entire field -->
 				Div.id = materialSelected + "_entireField"
-				
+
 				var rowDiv = document.createElement("div")
 				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-				
+
 				var rowDivDiv = document.createElement("div")
 				rowDivDiv.className = "input-group-prepend"
-				
+
 				var rowDivDivSpan = document.createElement("span")
 				rowDivDivSpan.className = "input-group-text"
 				rowDivDivSpan.id = "inputGroup-sizing-sm"
-				
+
 				<!-- The text on the left side -->
 				rowDivDivSpan.innerText = materialSelected
-				
+
 				rowDivInput = document.createElement("input")
 				rowDivInput.className = "form-control"
-				
+
 				<!-- Name of the Input field -->
 				rowDivInput.name = materialSelected + "_input"
 				rowDivInput.nodeType = "text"
-				
+
 				rowDivDiv.appendChild(rowDivDivSpan)
 				rowDiv.appendChild(rowDivDiv)
 				rowDiv.appendChild(rowDivInput)
 				Div.appendChild(rowDiv)
-				
+
 				divToAppend.appendChild(Div)
-				
+
 				list_elements_div.push(Div)
 				list_elements_name.push(materialSelected)
 			}
 		  }
 		}
-		
+
 		function RemoveMaterial() {
 			var select = document.getElementById("MaterialInput");
 			var materialSelected = select.options[select.selectedIndex].text;
 
 			if (list_elements_name.includes(materialSelected)) {
 				number = number - 1
-				
+
 				// Remove the variable
 				var index_remove = list_elements_name.indexOf(materialSelected)
 				list_elements_div.splice( index_remove, 1 )
 				list_elements_name.splice( index_remove, 1 )
-			
+
 				document.getElementById(materialSelected + "_entireField").remove()
-				
+
 				for (var prop of list_elements_name) {
 					document.getElementById(prop + "_entireField").remove()
 				}
-					
+
 				for (var i = 0; i <= number; i++) {
 					if ( (i + 1) % 2 == 1) {
 						document.getElementById( (i + 1) + "row").remove()
-						
+
 						var row = document.createElement("div")
 						row.className = "row"
 						row.id = (i + 1) + "row"
-						
+
 						row.appendChild(list_elements_div[i])
 						document.getElementById("materialBody").appendChild(row)
 					} else {
 						document.getElementById(i + "row").appendChild(list_elements_div[i])
 					}
 				}
-				
-				
-				
-				
-				
+
+
+
+
+
 				//document.getElementById(element + "_entireField").remove();
-				
+
 
 			}
 		}
 		</script
 
 			<div class="row">
-         <div class="row"> 
+         <div class="row">
 		  <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
                 <h5 class="card-title mb-0">Building Materials</h5>
                 <div class="card-category">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
               </div>
-			  
+
               <div class="card-body" id="materialBody">
 					<select class="form-control col-sm-4 col-sm-offset-0" id="MaterialInput">
 							<option value="Steel">Steel</option>
@@ -484,8 +478,8 @@
 					</select>
 					<button type="button" class="btn btn-success" onclick="AddMaterial()">Add Material</button>
 					<button type="button" class="btn btn-danger" onclick="RemoveMaterial()">Remove Material</button>
-					
-					
+
+
 			  </div>
               <div class="card-footer ">
                 <hr style="margin-top: 2pt; margin-bottom: 2pt">
@@ -494,12 +488,12 @@
                 </div>
               </div>
             </div>
-			
+
 			<!-- End of the form //-->
 			</form>
           </div>
         </div>
-		
+
 
 		</form>
 
@@ -573,8 +567,8 @@
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/jquery.min.js') }}"></script>
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/popper.min.js') }}"></script>
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/bootstrap.min.js') }}"></script>
-	
-  
+
+
   <!-- <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> //-->
   <!--  Google Maps Plugin    -->
   <!-- Chart JS -->
@@ -585,9 +579,9 @@
 
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/paper-dashboard.min.js') }}"></script>
-  
+
   <!-- <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script> -->
- 
+
 </body>
 
 </html>
