@@ -1,5 +1,5 @@
 from flask import render_template
-from flask import request
+from flask import request, flash, redirect, url_for
 from app import app
 from app import db
 from app.models import Building
@@ -99,11 +99,25 @@ def testing():
         Glass       = request.form.get("Glass_input")
         Polystyrene = request.form.get("Polystyrene_input")
 
+        # For later functionality
+        #if Steel != None or Steel != "None" or Steel != "":
+        #    try:
+        #        float(Steel)
+        #        float(Copper)
+        #        float(Concrete)
+        #        float(Timber)
+        #        float(Glass)
+        #        float(Polystyrene)
+        #    except (ValueError, AttributeError, TypeError):
+        #        print("ERROR WTF")
+        #        flash("Check the flashing mate")
+        #        return redirect(url_for('dashboard'))
+
         # Predictions of material quantity if not provided
         #regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
         regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
 
-        if Steel==None or Steel=="None" or Steel == "":
+        if Steel == None or Steel == "None" or Steel == "":
             steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
             Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
         
