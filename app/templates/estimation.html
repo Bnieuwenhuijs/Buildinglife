@@ -1,161 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-  <meta charset="utf-8" />
-  <!--<link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png"> //-->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>
-    BuildingLife Dashboard
-  </title>
-  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-  
-  <!-- CSS Files -->
-   <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/bootstrap.min.css') }}" rel= "stylesheet" >
-   <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/paper-dashboard.css') }}" rel= "stylesheet" >
-  
-</head>
+{% block content %}
 
-<script>
+    <script>
+    document.getElementsByTagName("BODY")[0].onload = function addMaterials(){
+      var i;
+      var material_value_dict = {{material_value_dict | safe}}
+      for (i = 0; i < {{  material_value_dict | length }}; i++) {
+       var divToAppend = document.getElementById("material_estim_body");
 
-function addMaterials(){
-  var i;
-  var material_value_dict = {{material_value_dict | safe}}
-  for (i = 0; i < {{  material_value_dict | length }}; i++) {
-   var divToAppend = document.getElementById("material_estim_body");
-
-   var upperdiv = document.createElement("div")
-   upperdiv.className = "col-md-12"
-   upperdiv.style = "padding-right: 0pt; padding-left: 0pt"
-   var carddiv  = document.createElement("div")
-   carddiv.className = "card"
-   carddiv.style     = "margin-bottom:4px; margin-top: 4px"
+       var upperdiv = document.createElement("div")
+       upperdiv.className = "col-md-12"
+       upperdiv.style = "padding-right: 0pt; padding-left: 0pt"
+       var carddiv  = document.createElement("div")
+       carddiv.className = "card"
+       carddiv.style     = "margin-bottom:4px; margin-top: 4px"
 
 
-   var card_header = document.createElement("div")
-   card_header.className = "card-header"
-   card_header.innerHTML = "<h6>" + material_value_dict[i]["Name"] + "</h6>"
+       var card_header = document.createElement("div")
+       card_header.className = "card-header"
+       card_header.innerHTML = "<h6>" + material_value_dict[i]["Name"] + "</h6>"
 
-   var card_body = document.createElement("div")
-   card_body.className = "card-body"
-   card_body.style     = "margin-bottom: 0px; margin-top: 0px; padding: 5px 15px 10px 15px"
-   card_body.innerHTML = "<div class='row' style='margin-top:0px'>"	+
-                          "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Quantity</div>" +
-                          "<div class='p-3 bg-light text-dark rounded col-md-3'>" + material_value_dict[i]["Quantity"] + " KG" + "</div>" +
-                          "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Value</div>" +
-                          "<div class='p-3 bg-light text-dark rounded col-md-3'>" + "€ " + material_value_dict[i]["Value"] + "</div>" +
-                          "</div>"
+       var card_body = document.createElement("div")
+       card_body.className = "card-body"
+       card_body.style     = "margin-bottom: 0px; margin-top: 0px; padding: 5px 15px 10px 15px"
+       card_body.innerHTML = "<div class='row' style='margin-top:0px'>"	+
+                              "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Quantity</div>" +
+                              "<div class='p-3 bg-light text-dark rounded col-md-3'>" + material_value_dict[i]["Quantity"] + " KG" + "</div>" +
+                              "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Value</div>" +
+                              "<div class='p-3 bg-light text-dark rounded col-md-3'>" + "€ " + material_value_dict[i]["Value"] + "</div>" +
+                              "</div>"
 
-   carddiv.appendChild(card_header)
-   carddiv.appendChild(card_body)
-   upperdiv.appendChild(carddiv)
+       carddiv.appendChild(card_header)
+       carddiv.appendChild(card_body)
+       upperdiv.appendChild(carddiv)
 
-   divToAppend.appendChild(upperdiv)
+       divToAppend.appendChild(upperdiv)
 
-    if (i==0) {
-      var divToAppend_graph = document.getElementById("graph2_body");
+        if (i==0) {
+          var divToAppend_graph = document.getElementById("graph2_body");
 
-      var graph_upper_div = document.createElement("div")
-      //graph_upper_div.className = "col-md-12"
+          var graph_upper_div = document.createElement("div")
+          //graph_upper_div.className = "col-md-12"
 
-      var graph_card_div = document.createElement("div")
-      graph_card_div.className  = "card"
-      graph_card_div.style = "margin-bottom:4px; margin-top: 4px"
+          var graph_card_div = document.createElement("div")
+          graph_card_div.className  = "card"
+          graph_card_div.style = "margin-bottom:4px; margin-top: 4px"
 
-      var graph_card_header = document.createElement("div")
-      graph_card_header.className = "card-header"
-      graph_card_header.innerHTML = "<h6> Material Value Estimation </h6>"
+          var graph_card_header = document.createElement("div")
+          graph_card_header.className = "card-header"
+          graph_card_header.innerHTML = "<h6> Material Value Estimation </h6>"
 
-      var graph_card_body = document.createElement("div")
-      graph_card_body.className = "card-body mb-0"
-      graph_card_body.innerHTML = "<canvas id='pieChart2' style='height: 250px'></canvas>"
-      
-      graph_card_div.appendChild(graph_card_header)
-      graph_card_div.appendChild(graph_card_body)
-      graph_upper_div.appendChild(graph_card_div)
+          var graph_card_body = document.createElement("div")
+          graph_card_body.className = "card-body mb-0"
+          graph_card_body.innerHTML = "<canvas id='pieChart2' style='height: 250px'></canvas>"
 
-      divToAppend_graph.appendChild(graph_upper_div)
+          graph_card_div.appendChild(graph_card_header)
+          graph_card_div.appendChild(graph_card_body)
+          graph_upper_div.appendChild(graph_card_div)
 
-       //Pie2
-      var ctxP2 = document.getElementById("pieChart2").getContext('2d');
-      var myPieChart2 = new Chart(ctxP2, {
-        type: 'pie',
-        data: {
-        labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
-        datasets: [{
-        data: [{{ material_value_dict[0]["Value"]}}, {{ material_value_dict[1]["Value"]}}, {{ material_value_dict[2]["Value"]}}, {{ material_value_dict[3]["Value"]}}, {{ material_value_dict[4]["Value"]}}, {{ material_value_dict[5]["Value"]}}],
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
-          }]
-        },
-      options: {
-      responsive: true
+          divToAppend_graph.appendChild(graph_upper_div)
+
+           //Pie2
+          var ctxP2 = document.getElementById("pieChart2").getContext('2d');
+          var myPieChart2 = new Chart(ctxP2, {
+            type: 'pie',
+            data: {
+            labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
+            datasets: [{
+            data: [{{ material_value_dict[0]["Value"]}}, {{ material_value_dict[1]["Value"]}}, {{ material_value_dict[2]["Value"]}}, {{ material_value_dict[3]["Value"]}}, {{ material_value_dict[4]["Value"]}}, {{ material_value_dict[5]["Value"]}}],
+            backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
+            hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
+              }]
+            },
+          options: {
+          responsive: true
+          }
+          });
+
+          } // For the if statement
+
       }
-      });
-
-      } // For the if statement
-
-  }
- }
-
-</script>
-
-
-
-
-<body class="" onload="addMaterials()">
-  <div class="wrapper ">
-    <div class="sidebar" data-color="white" data-active-color="danger">
-      <!--
-        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow"
-    -->
-
-	<!-- Logo at top (Profile picture) //-->
-      <div class="logo">
-
-
-        <a class="simple-text logo-mini">
-          <div class="logo-image-small">
-            <img src="static/Front_end/Dashboard/assets/img/mike.jpg">
-          </div>
-        </a>
-        <a class="simple-text logo-normal">
-			Mike Hermans
-          <!-- <div class="logo-image-big">
-            <img src="../assets/img/logo-big.png">
-          </div> -->
-        </a>
-      </div>
-
-	<!-- Sidebar items //-->
-	 <div class="sidebar-wrapper">
-        <ul class="nav">
-          <li class="active ">
-            <a href="dashboard">
-              <i class="nc-icon nc-bank"></i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li>
-            <a href="history">
-              <i class="fa fa-history"></i>
-              <p>History</p>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-
+    };
+    </script>
 
     <div class="main-panel">
       <!-- Navbar -->
@@ -178,7 +105,7 @@ function addMaterials(){
           </button>
           <div class="collapse navbar-collapse justify-content-end" id="navigation">
             <form action="" method="post">
-			
+
               <div class="input-group no-border">
                 <input type="text" value="" class="form-control" placeholder="Search...">
                 <div class="input-group-append">
@@ -213,40 +140,40 @@ function addMaterials(){
                 <h6 class="card-title mb-0">Summary</h6>
                 </div>
                   <div class="card-body ">
-							  
-							  <div class="row">						      
+
+							  <div class="row">
     									      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Total Estimated Value</div>
-											  
+
 											  <div class="p-3 bg-light text-dark rounded col-md-9"> <strong>€{{ total_value | round(2, 'common') }}</strong></div>
     									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
 							   </div>
-							   
-							   <div class="row" style="margin-top:10px">							      
+
+							   <div class="row" style="margin-top:10px">
     									      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
-											  
+
 											  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building_year }}</div>
-											  
-											  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>									  
+
+											  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building Functionality</div>
 											  <div class="p-3 bg-light text-dark rounded col-md-3">{{ functionality }}</div>
     									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
 							   </div>
-							   
-							   <div class="row" style="margin-top:10px">							      
+
+							   <div class="row" style="margin-top:10px">
     									      <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
-											  
+
 											  <div class="p-3 bg-light text-dark rounded col-md-3">{{ square_meters }}</div>
-											  
-											  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>									  
+
+											  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Number of Floors</div>
 											  <div class="p-3 bg-light text-dark rounded col-md-3">{{ number_floors }}</div>
     									    <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
 							   </div>
-							   
+
 
                   </div>
                 </div>
               </div>
-			  
-			  
+
+
 			  <div class="col-md-4">
           <div class="card">
             <div class="card-header ">
@@ -288,47 +215,23 @@ function addMaterials(){
       </footer>
     </div>
   </div>
+  <script>
+    //pie
+    var ctxP = document.getElementById("pieChart").getContext('2d');
+    var myPieChart = new Chart(ctxP, {
+      type: 'pie',
+      data: {
+        labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
+        datasets: [{
+          data: [{{ material_value_dict[0]["Quantity"]}}, {{ material_value_dict[1]["Quantity"]}}, {{ material_value_dict[2]["Quantity"]}}, {{ material_value_dict[3]["Quantity"]}}, {{ material_value_dict[4]["Quantity"]}}, {{ material_value_dict[5]["Quantity"]}}],
+          backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
+          hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
 
-
-  <!--      Core JS Files   -->
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/jquery.min.js') }}"></script>
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/popper.min.js') }}"></script>
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/core/bootstrap.min.js') }}"></script>
-	
-  
-  <!-- <script src="../assets/js/plugins/perfect-scrollbar.jquery.min.js"></script> //-->
-  <!--  Google Maps Plugin    -->
-  <!-- Chart JS -->
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/plugins/chartjs.min.js') }}"></script>
-
-  <!--  Notifications Plugin    -->
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/plugins/bootstrap-notify.js') }}"></script>
-
-  <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{url_for('static', filename='Front_end/Dashboard/assets/js/paper-dashboard.min.js') }}"></script>
-  
-  <!-- <script src="../assets/js/paper-dashboard.min.js?v=2.0.0" type="text/javascript"></script> -->
- 
-</body>
-
-<script>
-  //pie
-  var ctxP = document.getElementById("pieChart").getContext('2d');
-  var myPieChart = new Chart(ctxP, {
-    type: 'pie',
-    data: {
-      labels: ["Steel", "Copper", "Concrete", "Timber", "Glass", "Polystyrene"],
-      datasets: [{
-        data: [{{ material_value_dict[0]["Quantity"]}}, {{ material_value_dict[1]["Quantity"]}}, {{ material_value_dict[2]["Quantity"]}}, {{ material_value_dict[3]["Quantity"]}}, {{ material_value_dict[4]["Quantity"]}}, {{ material_value_dict[5]["Quantity"]}}],
-        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
-        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
-      }]
-    },
-    options: {
-      responsive: true
-    }
-  });
-
- </script>
-
-</html>
+   </script>
+{% endblock %}
