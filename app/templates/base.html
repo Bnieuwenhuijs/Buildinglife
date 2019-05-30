@@ -17,7 +17,11 @@
   <!-- CSS Files -->
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/bootstrap.min.css') }}" rel= "stylesheet" >
    <link href= "{{ url_for('static',filename='Front_end/Dashboard/assets/css/paper-dashboard.css') }}" rel= "stylesheet" >
-   <link href= "{{ url_for('static',filename='Front_end/css/style.css') }}" rel= "stylesheet" >
+  <!-- <link href= "{{ url_for('static',filename='Front_end/css/style.css') }}" rel= "stylesheet" > -->
+
+   <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
+
+   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 
 
 </head>
@@ -30,33 +34,41 @@
     -->
 
 	<!-- Logo at top (Profile picture) //-->
-      <div class="logo">
-        <a class="sticky-logo" href="index.html">
-          <h1><span>Building</span><font color="#D8D8D8">Life</font></h1>
+      <div class="logo mx-auto">
+        <a class="sticky-logo" href="dashboard">
+          <!-- <h1><span>Building</span><font color="#D8D8D8">Life</font></h1> -->
           <!-- Uncomment below if you prefer to use an image logo -->
-          <!-- <img src="img/logo.png" alt="" title=""> -->
+          <img style="width: 55%; height:50%; vertical-align: middle;" class="img-fluid mx-auto d-block" src="static/Front_end/img/Logo.png" alt="" title="">
         </a>
       </div>
 
 	<!-- Sidebar items //-->
-	 <div class="sidebar-wrapper">
+	 <div class="sidebar-wrapper" style="overflow: hidden">
         <ul class="nav">
-          <li class="active ">
+          {% if url_for(request.endpoint) == "/dashboard" %}
+            <li class="active ">
+          {% else %}
+            <li>
+          {% endif %}
             <a href="dashboard">
               <i class="nc-icon nc-bank"></i>
-              <p>Dashboard</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">Dashboard</p>
             </a>
           </li>
-          <li>
+          {% if url_for(request.endpoint) == "/history" %}
+            <li class="active ">
+          {% else %}
+            <li>
+          {% endif %}
             <a href="history">
               <i class="fa fa-history"></i>
-              <p>History</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">History</p>
             </a>
           </li>
           <li>
             <a href="">
               <i class="nc-icon nc-single-02"></i>
-              <p>User Profile</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem;">User Profile</p>
             </a>
           </li>
         </ul>
