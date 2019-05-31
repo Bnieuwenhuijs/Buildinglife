@@ -418,9 +418,9 @@ Copyright (c) 2015 Daniel Eden
 .show>.navbar .navbar-nav>a.btn.dropdown-toggle,
 .show>.navbar .navbar-nav>a.btn.dropdown-toggle:focus,
 .show>.navbar .navbar-nav>a.btn.dropdown-toggle:hover {
-  background-color: #403D39 !important;
+  //background-color: #403D39;
   color: #FFFFFF !important;
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 .btn:not([data-action]):hover,
@@ -623,9 +623,14 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 }
 
 .btn-primary {
-  background-color: #51cbce;
+  background-color:  rgba(106,207,255,1);
+  border-color: rgba(106,207,255,1);
   color: #FFFFFF;
+  box-shadow: 0 2px 6px 0 rgba(114,124,245,.5);
 }
+
+
+
 
 .btn-primary:hover,
 .btn-primary:focus,
@@ -638,9 +643,10 @@ fieldset[disabled] .navbar .navbar-nav>a.btn.active {
 .show>.btn-primary.dropdown-toggle,
 .show>.btn-primary.dropdown-toggle:focus,
 .show>.btn-primary.dropdown-toggle:hover {
-  background-color: #34b5b8 !important;
+  background-color: rgba(57, 142, 233, 0.93) !important;
+  border-color: rgba(57, 142, 233, 0.93) !important;
   color: #FFFFFF !important;
-  box-shadow: none !important;
+  box-shadow: 0 2px 6px 0 rgba(114,124,245,.5) !important;
 }
 
 .btn-primary:not([data-action]):hover {
@@ -2494,9 +2500,10 @@ a.text-gray:hover {
 body {
   color: #2c2c2c;
   font-size: 14px;
-  font-family: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  font-family: 'Nunito', sans-serif;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  font-weight: 400;
 }
 
 .main {
@@ -3043,9 +3050,9 @@ a[data-toggle="collapse"][aria-expanded="true"] .caret,
 }
 
 .navbar.navbar-transparent {
-  background-color: transparent !important;
-  box-shadow: none;
-  border-bottom: 1px solid #ddd;
+  background-color: #fff !important;
+  box-shadow: 0 0 35px 0 rgba(154,161,171,.15)
+  //border-bottom: 1px solid #ddd;
 }
 
 .navbar.navbar-transparent a:not(.dropdown-item):not(.btn) {
@@ -4657,7 +4664,7 @@ License - nucleoapp.com/license/
 
 .sidebar .nav,
 .off-canvas-sidebar .nav {
-  margin-top: 20px;
+  margin-top: 0px;
   display: block;
 }
 
@@ -4680,12 +4687,12 @@ License - nucleoapp.com/license/
   display: block;
   text-decoration: none;
   position: relative;
-  text-transform: uppercase;
+  //text-transform: uppercase;
   cursor: pointer;
   font-size: 12px;
   padding: 10px 8px;
   line-height: 30px;
-  opacity: .7;
+  opacity: 1;
 }
 
 .sidebar .nav li .nav>li>a,
@@ -4787,7 +4794,7 @@ License - nucleoapp.com/license/
 
 .sidebar .logo:after,
 .off-canvas-sidebar .logo:after {
-  content: '';
+  //content: '';
   position: absolute;
   bottom: 0;
   right: 15px;
@@ -4857,16 +4864,18 @@ License - nucleoapp.com/license/
   background: -webkit-linear-gradient(#66615B 0%, #000 80%);
   background: -o-linear-gradient(#66615B 0%, #000 80%);
   background: -moz-linear-gradient(#66615B 0%, #000 80%);
-  background: linear-gradient(#66615B 0%, #000 80%);
+  background: linear-gradient(135deg, rgba(76,162,240,1) 0%, rgba(106,207,255,1) 60%);
   z-index: 3;
 }
 
 .sidebar[data-color="white"]:after,
 .off-canvas-sidebar[data-color="white"]:after {
-  background: #FFFFFF;
+  background: linear-gradient(135deg, rgba(76,162,240,1) 0%, rgba(106,207,255,1) 60%);
+
 }
 
 .sidebar[data-color="white"] .nav li a,
+.sidebar[data-color="white"] .nav li a p,
 .sidebar[data-color="white"] .nav li a i,
 .sidebar[data-color="white"] .nav li a[data-toggle="collapse"],
 .sidebar[data-color="white"] .nav li a[data-toggle="collapse"] i,
@@ -4878,8 +4887,8 @@ License - nucleoapp.com/license/
 .off-canvas-sidebar[data-color="white"] .nav li a[data-toggle="collapse"] i,
 .off-canvas-sidebar[data-color="white"] .nav li a[data-toggle="collapse"]~div>ul>li .sidebar-mini-icon,
 .off-canvas-sidebar[data-color="white"] .nav li a[data-toggle="collapse"]~div>ul>li>a {
-  color: #66615B;
-  opacity: .7;
+  color: #cedce4;
+  opacity: 1;
 }
 
 .sidebar[data-color="white"] .nav li:hover:not(.active)>a,
@@ -4985,6 +4994,7 @@ License - nucleoapp.com/license/
 }
 
 .sidebar[data-active-color="danger"] .nav li.active>a,
+.sidebar[data-active-color="danger"] .nav li.active>a p,
 .sidebar[data-active-color="danger"] .nav li.active>a i,
 .sidebar[data-active-color="danger"] .nav li.active>a[data-toggle="collapse"],
 .sidebar[data-active-color="danger"] .nav li.active>a[data-toggle="collapse"] i,
@@ -4996,7 +5006,7 @@ License - nucleoapp.com/license/
 .off-canvas-sidebar[data-active-color="danger"] .nav li.active>a[data-toggle="collapse"] i,
 .off-canvas-sidebar[data-active-color="danger"] .nav li.active>a[data-toggle="collapse"]~div>ul>li.active .sidebar-mini-icon,
 .off-canvas-sidebar[data-active-color="danger"] .nav li.active>a[data-toggle="collapse"]~div>ul>li.active>a {
-  color: #ef8157;
+  color: #fff;
   opacity: 1;
 }
 
@@ -5021,7 +5031,7 @@ License - nucleoapp.com/license/
   position: relative;
   float: right;
   width: calc(100% - 260px);
-  background-color: #f4f3ef;
+  background-color: #fafbfe;
   -webkit-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   -moz-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
   -o-transition: all 0.5s cubic-bezier(0.685, 0.0473, 0.346, 1);
@@ -6295,7 +6305,7 @@ License - nucleoapp.com/license/
   }
   .sidebar .sidebar-wrapper li.active>a:not([data-toggle="collapse"]):before,
   .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li:before {
-    border-right: 17px solid #DDDDDD;
+    //border-right: 17px solid #DDDDDD;
     border-top: 17px solid transparent;
     border-bottom: 17px solid transparent;
     content: "";
@@ -6308,7 +6318,7 @@ License - nucleoapp.com/license/
   }
   .sidebar .sidebar-wrapper li.active>a:not([data-toggle="collapse"]):after,
   .sidebar .sidebar-wrapper li.active>[data-toggle="collapse"]+div .nav li:after {
-    border-right: 17px solid #f4f3ef;
+    //border-right: 17px solid #fafbfe;
     border-top: 17px solid transparent;
     border-bottom: 17px solid transparent;
     content: "";
