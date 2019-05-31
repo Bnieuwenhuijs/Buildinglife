@@ -330,7 +330,7 @@
 				rowDivDivSpan.id = "inputGroup-sizing-sm"
 
 				<!-- The text on the left side -->
-				rowDivDivSpan.innerText = materialSelected
+				rowDivDivSpan.innerText = materialSelected + " (KG)"
 
 				rowDivInput = document.createElement("input")
 				rowDivInput.className = "form-control"
@@ -406,17 +406,19 @@
               </div>
 
               <div class="card-body" id="materialBody">
-					<select class="form-control col-sm-4 col-sm-offset-0" id="MaterialInput">
+          
+          <div class="row">
+					  <select class="form-control col-sm-4 col-sm-offset-0" style="margin-left: 15px; margin-bottom: 5px" id="MaterialInput">
 							<option value="Steel">Steel</option>
 							<option value="Copper">Copper</option>
 							<option value="Concrete">Concrete</option>
 							<option value="Timber">Timber</option>
 							<option value="Glass">Glass</option>
 							<option value="volvo">Polystyrene</option>
-					</select>
-					<button type="button" class="btn btn-primary" onclick="AddMaterial()"><i class="fa fa-plus"></i></button>
-					<button type="button" class="btn btn-primary" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
-
+					  </select>
+					  <button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="AddMaterial()"><i class="fa fa-plus"></i></button>
+					  <button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
+          </div>
 
 			  </div>
               <div class="card-footer ">
