@@ -29,6 +29,7 @@
                   <div class="input-group-text">
                     <i class="nc-icon nc-zoom-split"></i>
                   </div>
+      
                 </div>
               </div>
             </form>
@@ -156,101 +157,6 @@
             </div>
 
 
-
-
-	  	<!-- a href= {{url_for('testing', list2 = list_test )}} > Testt</a>
-		<button type="submit" class="btn btn-primary"> </button> //-->
-
-		<!-- Antoine's script //-->
-		<script>
-		function showResultsValueEstimation() {
-        var total = 0;
-        var res = 0;
-        if (document.getElementById("txtBox_steel").value == "") {
-          alert(res);
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_steel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_copper").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_copper").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_concrete").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_concrete").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_timber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_timber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_alu").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_alu").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_plastic").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_plastic").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_clay").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_clay").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_glass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_glass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_drywall").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_drywall").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_poly").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_poly").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_rubber").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_rubber").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_lead").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_lead").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_nickel").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_nickel").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_titanium").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_titanium").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_brass").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_brass").value = res;
-        }
-        total += res;
-        if (document.getElementById("txtBox_iron").value == "") {
-          res = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
-          document.getElementById("txtBox_iron").value = res;
-        }
-        total += res;
-        document.getElementById("txtBox_total").value = total;
-      }
-		</script>
-
 		<script>
 		var number = {{  numberOfMaterialsDisplayed }}
 		var list_elements_div  = []
@@ -277,7 +183,7 @@
 
 				var Div = document.createElement("div")
 				Div.className = "col-sm-6 col-sm-offset-0"
-				<!-- ID of the entire field -->
+				// ID of the entire field
 				Div.id = materialSelected + "_entireField"
 
 				var rowDiv = document.createElement("div")
@@ -290,13 +196,13 @@
 				rowDivDivSpan.className = "input-group-text"
 				rowDivDivSpan.id = "inputGroup-sizing-sm"
 
-				<!-- The text on the left side -->
+				// The text on the left side
 				rowDivDivSpan.innerText = materialSelected + " (KG)"
 
 				rowDivInput = document.createElement("input")
 				rowDivInput.className = "form-control"
 
-				<!-- Name of the Input field -->
+				// Name of the Input field
 				rowDivInput.name = materialSelected + "_input"
 				rowDivInput.nodeType = "text"
 
@@ -313,9 +219,9 @@
 			} else {
 				var divToAppend = document.getElementById((number-1) + "row");
 
-				var Div = document.createElement("div")
-				Div.className = "col-sm-6 col-sm-offset-0"
-				<!-- ID of the entire field -->
+				var Div = document.createElement("div");
+				Div.className = "col-sm-6 col-sm-offset-0";
+				// ID of the entire field
 				Div.id = materialSelected + "_entireField"
 
 				var rowDiv = document.createElement("div")
@@ -328,13 +234,13 @@
 				rowDivDivSpan.className = "input-group-text"
 				rowDivDivSpan.id = "inputGroup-sizing-sm"
 
-				<!-- The text on the left side -->
-				rowDivDivSpan.innerText = materialSelected
+				// The text on the left side
+				rowDivDivSpan.innerText = materialSelected + " (KG)"
 
 				rowDivInput = document.createElement("input")
 				rowDivInput.className = "form-control"
 
-				<!-- Name of the Input field -->
+				// Name of the Input field
 				rowDivInput.name = materialSelected + "_input"
 				rowDivInput.nodeType = "text"
 
@@ -393,10 +299,10 @@
 
 			}
 		}
-		</script
+    
+		</script>
 
-			<div class="row">
-         <div class="row">
+		<div class="row">
 		  <div class="col-md-12">
             <div class="card ">
               <div class="card-header ">
@@ -405,17 +311,19 @@
               </div>
 
               <div class="card-body" id="materialBody">
-					<select class="form-control col-sm-4 col-sm-offset-0" id="MaterialInput">
+          
+          <div class="row">
+					  <select class="form-control col-sm-4 col-sm-offset-0" style="margin-left: 15px; margin-bottom: 5px" id="MaterialInput">
 							<option value="Steel">Steel</option>
 							<option value="Copper">Copper</option>
 							<option value="Concrete">Concrete</option>
 							<option value="Timber">Timber</option>
 							<option value="Glass">Glass</option>
 							<option value="volvo">Polystyrene</option>
-					</select>
-					<button type="button" class="btn btn-success" onclick="AddMaterial()">Add Material</button>
-					<button type="button" class="btn btn-danger" onclick="RemoveMaterial()">Remove Material</button>
-
+					  </select>
+					  <button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="AddMaterial()"><i class="fa fa-plus"></i></button>
+					  <button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
+          </div>
 
 			  </div>
               <div class="card-footer ">

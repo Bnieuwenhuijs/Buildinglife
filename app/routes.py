@@ -2,21 +2,33 @@ from flask import render_template
 from flask import request, flash, redirect, url_for
 from app import app
 from app import db
-from app.models import Building
-from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm
+from app.models import Building, User
+from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import pickle
 from pathlib import Path
 import os
 import datetime
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 def value_calculation(KG, price, depreciation_rate, diminishing_value_rate, recyclability, years_old):
     #mult_KG_price = KG * price
-    
+
     if price * ( depreciation_rate * years_old) < price * (1-recyclability):
         price_per_kg = price * 0.1
     else:
         price_per_kg = price * (depreciation_rate * years_old)
-    
+
     diminish_value = (3 * diminishing_value_rate) * price_per_kg
 
     recyclability  = price * recyclability
@@ -47,22 +59,35 @@ def indexteam():
 def indexcontact():
     return render_template('index.html', scroll='contact')
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('Login.html')
+
+    form = LoginForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if check_password_hash(user.password_hash, form.password.data):
+                login_user(user, remember=form.remember.data)
+                return redirect(url_for('dashboard'))
+
+        return '<h1>Invalid username or password</h1>'
+        #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
+
+    return render_template('login.html', form=form)
 
 @app.route('/dashboard')
 def dashboard():
     # WTform for the building characteristics input
     form_building_charachteristics = DashboardInputCharacteristicsForm()
 
-    return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0)
+    return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
-   
+
    if request.method=='POST':
-   
+
         # WTform for the building characteristics input
         form_building_charachteristics = DashboardInputCharacteristicsForm()
 
@@ -73,7 +98,7 @@ def testing():
 
         #calculation total square meters
         total_square_meters = nr_floors * square_meters
-        
+
         #list4 = request.args.get('list2')
         #print(list4)
 
@@ -114,7 +139,7 @@ def testing():
         if Steel == None or Steel == "None" or Steel == "":
             steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
             Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
-        
+
         if Concrete==None or Concrete == "None" or Concrete == "":
             concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
             Concrete = concrete_model.predict([[total_square_meters,funct,building_year]])[0]
@@ -148,14 +173,14 @@ def testing():
 
         #Put in DB
         building = Building(building_year= building_year, building_functionality= functionality, square_meters= square_meters,
-                            number_floors= nr_floors,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2), 
-                            steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),               
+                            number_floors= nr_floors,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
+                            steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
                             copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
                             concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
-                            timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2), 
-                            glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),    
+                            timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2),
+                            glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),
                             polystyrene_Value=    round(float(polystyrene_value),2))
-                            
+
         db.session.add(building)
         db.session.commit()
 
@@ -166,9 +191,9 @@ def testing():
                                 { "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
                                 { "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
 
-        return render_template('estimation.html', 
-                               form_build_char=form_building_charachteristics , 
-                               numberOfMaterialsDisplayed = 0, 
+        return render_template('estimation.html',
+                               form_build_char=form_building_charachteristics ,
+                               numberOfMaterialsDisplayed = 0,
                                total_value = total_value,
                                material_value_dict = material_value_dict,
                                building_year = building_year,
@@ -182,4 +207,21 @@ def history():
     buildings = Building.query.order_by(Building.id.desc())
     print(buildings)
     return render_template('history.html', buildings=buildings)
-    
+
+
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
+        db.session.add(new_user)
+        db.session.commit()
+
+        #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
+
+        return render_template('signup.html', form=form)
+
+    return render_template('signup.html', form=form)
