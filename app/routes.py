@@ -80,7 +80,7 @@ def login():
 def dashboard():
     # WTform for the building characteristics input
     form_building_charachteristics = DashboardInputCharacteristicsForm()
-
+    current_user.username = "test"
     return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
 @app.route('/dashboard', methods=['GET', 'POST'])

@@ -25,3 +25,4 @@ flask_migrate==2.5.1
 pandas==0.24.1
 requests==2.22.0
 sklearn
+flask_login
