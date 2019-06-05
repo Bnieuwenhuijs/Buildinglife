@@ -233,3 +233,8 @@ def history():
     buildings = Building.query.order_by(Building.id.desc())
     print(buildings)
     return render_template('history.html', buildings=buildings)
+
+@app.route('/BuildingManagement')
+def BuildingManagement():
+
+    return render_template('buildingmanagement.html')

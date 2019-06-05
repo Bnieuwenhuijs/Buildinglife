@@ -38,7 +38,7 @@
         <a class="sticky-logo" href="dashboard">
           <!-- <h1><span>Building</span><font color="#D8D8D8">Life</font></h1> -->
           <!-- Uncomment below if you prefer to use an image logo -->
-          <img style="width: 55%; height:50%; vertical-align: middle;" class="img-fluid mx-auto d-block" src="static/Front_end/img/Logo.png" alt="" title="">
+          <img style="width: 55%; height:50%; vertical-align: middle;" class="img-fluid mx-auto d-block" src="static/Front_end/img/Logo_Updated.png" alt="" title="">
         </a>
       </div>
 
@@ -52,7 +52,7 @@
           {% endif %}
             <a href="dashboard">
               <i class="nc-icon nc-bank"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">Dashboard</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">Dashboard</p>
             </a>
           </li>
           {% if url_for(request.endpoint) == "/history" %}
@@ -62,13 +62,23 @@
           {% endif %}
             <a href="history">
               <i class="fa fa-history"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">History</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">History</p>
+            </a>
+          </li>
+          {% if url_for(request.endpoint) == "/BuildingManagement" %}
+          <li class="active ">
+          {% else %}
+          <li>
+          {% endif %}
+            <a href="BuildingManagement">
+              <i class="fa fa-building"></i>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem;">Building Management</p>
             </a>
           </li>
           <li>
             <a href="">
               <i class="nc-icon nc-single-02"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem;">User Profile</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem;">User Profile</p>
             </a>
           </li>
         </ul>
