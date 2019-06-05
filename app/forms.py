@@ -16,12 +16,12 @@ class DashboardInputMaterialsForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     email = StringField(label='email', validators=[DataRequired(), Email(message='Invalid email'), Length(max=50)])
-    username = StringField(label='username', validators=[DataRequired(), Length(min=4, max=15)])
+    username = StringField(label='username', validators=[DataRequired()])
     name = StringField(label='name', validators=[DataRequired()])
     surname = StringField(label='surname', validators=[DataRequired()])
-    password = PasswordField(label='password', validators=[DataRequired(), Length(min=8, max=80)])
+    password = PasswordField(label='password', validators=[DataRequired()])
 
 class LoginForm(FlaskForm):
-    username = StringField(label='username', validators=[DataRequired(), Length(min=4, max=15)])
-    password = PasswordField(label='password', validators=[DataRequired(), Length(min=8, max=80)])
+    username = StringField(label='username', validators=[DataRequired()])
+    password = PasswordField(label='password', validators=[DataRequired()])
     remember = BooleanField(label='remember me')

@@ -11,6 +11,9 @@ from pathlib import Path
 import os
 import datetime
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
 
 
 login_manager = LoginManager()
@@ -71,10 +74,33 @@ def login():
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('dashboard'))
 
-        return '<h1>Invalid username or password</h1>'
+        flash('Your login/password does not match or exists')
+
         #return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
     return render_template('login.html', form=form)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if not user:
+            user1 = User.query.filter_by(email=form.email.data).first()
+            if not user1:
+                hashed_password = generate_password_hash(form.password.data, method='sha256')
+                new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
+                db.session.add(new_user)
+                db.session.commit()
+                flash('You successfully created your account')
+            else:
+                flash('There is already an account with that email')
+        else:
+            flash('There is already an account with that username')
+    return render_template('signup.html', form=form)
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -207,21 +233,3 @@ def history():
     buildings = Building.query.order_by(Building.id.desc())
     print(buildings)
     return render_template('history.html', buildings=buildings)
-
-
-
-@app.route('/signup', methods=['GET', 'POST'])
-def signup():
-    form = RegisterForm()
-
-    if form.validate_on_submit():
-        hashed_password = generate_password_hash(form.password.data, method='sha256')
-        new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
-        db.session.add(new_user)
-        db.session.commit()
-
-        #return '<h1>' + form.username.data + ' ' + form.email.data + ' ' + form.password.data + '</h1>'
-
-        return render_template('signup.html', form=form)
-
-    return render_template('signup.html', form=form)
