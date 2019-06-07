@@ -50,37 +50,37 @@
 
 
 </div> -->
-					<div class="content">
+	<div class="content">
 
-					<div class="row" style="display: none" id="valueEstimationResults">
-						<div class="col-md-12">
-							<div class="card ">
-								<div class="card-header ">
-									<h5 class="card-title">Results Value Estimation</h5>
-								</div>
-								<div class="card-body ">
-									<p> <b> Steel </b> - 300 euro </p>
-									<p> <b> Copper </b> - 350 euro </p>
-									<p> <b> Concrete </b> - 80 euro </p>
-									<p> <b> Timber </b> - 110 euro </p>
-									<p> <b> Aluminium </b> - 225 euro </p>
-									<p> <b> Plastic </b> - 130 euro </p>
-									<p> <b> Clay </b> - 100 euro </p>
-									<p> <b> Glass </b> - 75 euro </p>
-									<p> <b> Polystyrene </b> - 180 euro </p>
-									<p> <b> Drywall </b> - 100 euro </p>
-									<p> <b> Rubber </b> - 120 euro </p>
-									<p> <b> Lead </b> - 125 euro </p>
-									<p> <b> Nickel </b> - 140 euro </p>
-									<p> <b> Titanium </b> - 250 euro </p>
-									<p> <b> Bras </b> - 80 euro </p>
-									<p> <b> Iron </b> - 285 euro </p>
-									<p> </p>
-									<h5> <b> Total value </b> - 2650 euro </h5>
-								</div>
-							</div>
-						</div>
-					</div>
+	<div class="row" style="display: none" id="valueEstimationResults">
+		<div class="col-md-12">
+			<div class="card ">
+				<div class="card-header ">
+					<h5 class="card-title">Results Value Estimation</h5>
+				</div>
+				<div class="card-body ">
+					<p> <b> Steel </b> - 300 euro </p>
+					<p> <b> Copper </b> - 350 euro </p>
+					<p> <b> Concrete </b> - 80 euro </p>
+					<p> <b> Timber </b> - 110 euro </p>
+					<p> <b> Aluminium </b> - 225 euro </p>
+					<p> <b> Plastic </b> - 130 euro </p>
+					<p> <b> Clay </b> - 100 euro </p>
+					<p> <b> Glass </b> - 75 euro </p>
+					<p> <b> Polystyrene </b> - 180 euro </p>
+					<p> <b> Drywall </b> - 100 euro </p>
+					<p> <b> Rubber </b> - 120 euro </p>
+					<p> <b> Lead </b> - 125 euro </p>
+					<p> <b> Nickel </b> - 140 euro </p>
+					<p> <b> Titanium </b> - 250 euro </p>
+					<p> <b> Bras </b> - 80 euro </p>
+					<p> <b> Iron </b> - 285 euro </p>
+					<p> </p>
+					<h5> <b> Total value </b> - 2650 euro </h5>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<form action="" method="POST">
 	{{ form_build_char.hidden_tag() }}
@@ -92,62 +92,60 @@
 				<div class="card-header ">
 					<h5 class="card-title mb-0">Building Characteristics</h5>
 					<p class="card-category">Provide the characteristics of the building you want to valuate.</p>
-					</div>
-						<div class="card-body ">
-							<!-- Row 1 - Building Year & Building Functionality //-->
-
-							<div class="row">
-							<!-- Building Year //-->
-								<div class="col-sm-6 col-sm-offset-0">
-									<div class="input-group input-group-sm mb-2 input-group-xs2">
-										<div class="input-group-prepend">
-											<div class="input-group-text" id="inputGroup-sizing-sm">Building Year</div>
-										</div>
-								{{form_build_char.building_year(class ="form-control", placeholder="The year the building was build") }}
-										<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-									</div>
+				</div>
+				<div class="card-body ">
+					<div class="row">
+					<!-- Building Year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<div class="input-group-text" id="inputGroup-sizing-sm">Building Year</div>
 								</div>
-								<!-- Building Functionality//-->
-								<div class="col-sm-6 col-sm-offset-0">
-									<div class="input-group input-group-sm mb-2">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Building Functionality</span>
-										</div>
-								{{form_build_char.building_functionality(class ="form-control", size="1") }}
-									</div>
-								</div>
+						{{form_build_char.building_year(class ="form-control", placeholder="The year the building was build") }}
+								<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
 							</div>
-
-							<div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
-								<div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
-									<div class="input-group input-group-sm mb-2 input-group-xs2">
-										<div class="input-group-prepend">
-											<span class="input-group-text" id="inputGroup-sizing-sm">Square Meters</span>
-										</div>
-									{{form_build_char.square_meters(class ="form-control", placeholder="Square meters of the building") }}
-										<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-									</div>
+						</div>
+						<!-- Building Functionality//-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Building Functionality</span>
 								</div>
-
-					<!-- Last renovation year //-->
-					<div class="col-sm-6 col-sm-offset-0">
-						<div class="input-group input-group-sm mb-2 input-group-xs2">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="inputGroup-sizing-sm">Number of Floors</span>
+						{{form_build_char.building_functionality(class ="form-control", size="1") }}
 							</div>
-								{{form_build_char.number_floors(class ="form-control", placeholder="The amount of floors within the building") }}
 						</div>
 					</div>
-				</div>
+
+					<div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
+						<div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Square Meters</span>
+								</div>
+							{{form_build_char.square_meters(class ="form-control", placeholder="Square meters of the building") }}
+								<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
+							</div>
+						</div>
+
+						<!-- Last renovation year //-->
+						<div class="col-sm-6 col-sm-offset-0">
+							<div class="input-group input-group-sm mb-2 input-group-xs2">
+								<div class="input-group-prepend">
+									<span class="input-group-text" id="inputGroup-sizing-sm">Number of Floors</span>
+								</div>
+									{{form_build_char.number_floors(class ="form-control", placeholder="The amount of floors within the building") }}
+							</div>
+						</div>
+					</div>
 
 		<!-- Footer of Building Characteristics //-->
-						</div>
-						<div class="card-footer ">
-							<hr>
-						</div>
-					</div>
+				</div>
+				<div class="card-footer ">
+					<hr>
 				</div>
 			</div>
+		</div>
+	</div>
 
 
 		<script>
