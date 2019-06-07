@@ -112,7 +112,7 @@ def dashboard():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
-   if request.method=='POST':
+	if request.method=='POST':
 
 		# WTform for the building characteristics input
 		form_building_charachteristics = DashboardInputCharacteristicsForm()
@@ -238,7 +238,7 @@ def history():
 def BuildingManagement():
 	return render_template('buildingmanagement.html')
 
-@app.route('/UserProfile', methods=['GET', 'POST'])
+@app.route('/UserProfile')
 def UserProfile():
 	edit_user_profile_form = EditUserProfileForm()
 
@@ -256,5 +256,14 @@ def UserProfile():
 		user = user, 
 		edit_user_profile_form = edit_user_profile_form,
 		edit_user_email_form = edit_user_email_form)
+
+@app.route('/UserProfile', methods=['GET', 'POST'])
+def UpdateUserProfile():
+	EditUserForm = EditUserProfileForm()
+	if EditUserForm.validate_on_submit():
+		current_user.display_name = EditUserForm.user_display_name.data
+		print "<h1>" + current_user.display_name + "</h1>"
+		db.session.commit()
+		
 
 
