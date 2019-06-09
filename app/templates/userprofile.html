@@ -37,6 +37,11 @@
                   <i class="nc-icon nc-settings-gear-65"></i>
                 </a>
               </li>
+              <li class="nav-item">
+                <a class="nav-link btn-rotate" href="{{url_for('logout')}}">
+                  <i class="fa fa-sign-out"></i>
+                </a>
+              </li>
             </ul>
           </div>
         </div>
@@ -56,7 +61,7 @@
                   <div class="col-sm-6 col-sm-offset-0">
                     <div class="input-group input-group-sm mb-2 input-group-xs2">
                       <div class="input-group-prepend">
-                        <div class="input-group-text" id="inputGroup-sizing-sm">Name   </div>
+                        <div class="input-group-text" id="inputGroup-sizing-sm">Name</div>
                       </div>
                       {{edit_user_profile_form.user_display_name(class ="form-control", placeholder=user.name) }}
                     </div>
@@ -72,7 +77,15 @@
                       </div>
                       {{edit_user_profile_form.user_display_username(class ="form-control", placeholder=user.username) }}
                     </div>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <div class="input-group input-group-sm mb-2 input-group-xs2">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text" id="inputGroup-sizing-sm">Email</div>
+                      </div>
+                      {{edit_user_profile_form.user_display_email(class ="form-control", placeholder=user.username) }}
+                    </div>
+                    <div class="form-group">
+                      {{ edit_user_profile_form.submit(class="btn btn-primary") }}
+                    </div>
                   </div>
                 </form>
               </div>
@@ -80,37 +93,6 @@
           </form>
         </div>
 
-      <!-- Edit email settings -->
-      <div class="content">
-        <form action="" method="POST">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card ">
-                <div class="card-header ">
-                  <h4 class="card-title mb-0">Edit your email settings</h4>
-                </div>
-                <form action="" method="POST">
-                  {{ edit_user_email_form.hidden_tag() }}
-                  <div class="col-sm-6 col-sm-offset-0">
-                    <div class="input-group input-group-sm mb-2 input-group-xs2">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text" id="inputGroup-sizing-sm">Email</div>
-                      </div>
-                      {{edit_user_email_form.user_main_email(class ="form-control", placeholder=user.email) }}
-                    </div>
-                    <div class="input-group input-group-sm mb-2 input-group-xs2">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text" id="inputGroup-sizing-sm">Receive Newsletter</div>
-                      </div>
-                      {{edit_user_email_form.user_main_email_newsletter(class ="form-control", size="1") }}
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </form>
-        </div>
 
       <!-- Delete profile -->
       <div class="content">
@@ -122,7 +104,7 @@
                   <h4 class="card-title mb-0">Delete profile</h4>
                 </div>
                 <form action="" method="POST">
-                  <!-- {{ edit_user_email_form.hidden_tag() }} -->
+                  
                   <div class="col-sm-8 col-sm-offset-0">
                     <p>
                       Before confirming that you would like your profile deleted, we'd like to take a moment to explain the implications of deletion:
@@ -137,19 +119,22 @@
                     </ul>
                       Confirming deletion will only delete this profile on BuildingLife&copy; - it will not affect any of your other profiles on the BuildingLife&copy; network. If you want to delete multiple profiles, you'll need to visit each profile separately and request deletion of those individual profiles.
                     </p>
-                    <p style="color: #ef8157; font-weight: bold;">
-                      <input type="checkbox" id="termsChkbx " onchange="isChecked(this, 'sub1')" /> I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.
+                    <p style="color: #EF8157; font-weight: bold;">
+                      <input type="checkbox" id="termsChkbx " onchange="isChecked(this, 'sub1')"/>  I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.
                       
                     </p>
                     <p>
-                      <input class="btn btn-danger" type="submit" name="submit" value="Delete profile" id="sub1" disabled="disabled" />
+                      <div class="form-group">
+                        {{ delete_user_profile_form.submit(class="btn btn-danger", id="sub1", disabled="disabled") }}
+                      </div>
                     </p>
                   </div>
                 </form>
               </div>
             </div>
-          </form>
-        </div>
+          </div>
+        </form>
+      </div>
 
 
 <script type="text/javascript">

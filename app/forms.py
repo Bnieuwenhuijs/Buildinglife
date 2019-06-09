@@ -1,4 +1,5 @@
 from flask_wtf import FlaskForm
+from flask_login import current_user
 from wtforms import StringField, SubmitField, FieldList, FormField, TextAreaField,SelectField, DecimalField, IntegerField, DateField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Email, Length
 
@@ -30,8 +31,26 @@ class EditUserProfileForm(FlaskForm):
 	user_display_name 		= StringField(label='Display user name')
 	user_display_surname	= StringField(label='Display user surname')
 	user_display_username	= StringField(label='Display user username')
+	user_display_email		= StringField(label='email', validators=[Email(message='Invalid email'), Length(max=50)])
 
-class EditUserEmailForm(FlaskForm):
-	user_main_email 			= StringField(label='email', validators=[DataRequired(), Email(message='Invalid email'), Length(max=50)])
-	user_main_email_newsletter 	= SelectField(label='Newsletter options', validators=[DataRequired()], choices=[("Yes", "Yes"), ("No", "No")])
+	submit = SubmitField('Save Changes')
+
+	def validate_username(self, username):
+		if username.data != current_user.username:
+			user = User.query.filter_by(username = username.data).first()
+			if user:
+				raise ValidationError('The selected username is taken. Please choose another one')
+
+	def validate_email(self, email):
+		if email.data != current_user.email:
+			user = User.query.filter_by(email = email.data).first()
+			if user:
+				raise ValidationError('The selected email is taken. Please choose another one')
+
+class DeleteUserProfileForm(FlaskForm):
+	submit = SubmitField('Delete Profile')
+
+
+
+
 
