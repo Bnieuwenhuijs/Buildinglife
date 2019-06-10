@@ -262,9 +262,8 @@ def UserProfile():
 
 	delete_user_profile_form = DeleteUserProfileForm()
 	if delete_user_profile_form.validate_on_submit():
-		the_currently_connected_user = current_user
-		logout_user()
-		db.session.delete(the_currently_connected_user)
+		#the_currently_connected_user = current_user
+		User.query.filter(User.username == current_user.username).delete()
 		db.session.commit()
 		# Something's fishy with this... DO NOT UNCOMMENT
 		# flash('Your account has been updated!', 'success')
