@@ -250,7 +250,7 @@ def UserProfile():
 		db.session.commit()
 		# Something's fishy with this... DO NOT UNCOMMENT
 		# flash('Your account has been updated!', 'success')
-		
+
 		return redirect(url_for('UserProfile'))
 
 	elif request.method == 'GET':
@@ -262,7 +262,6 @@ def UserProfile():
 
 	delete_user_profile_form = DeleteUserProfileForm()
 	if delete_user_profile_form.validate_on_submit():
-		print "YOLLOLOOOO"
 		the_currently_connected_user = current_user
 		logout_user()
 		db.session.delete(the_currently_connected_user)
@@ -272,8 +271,8 @@ def UserProfile():
 		return redirect(url_for('index'))
 
 	user = User.query.filter_by(username=current_user.username).first_or_404()
-	return render_template('userprofile.html', 
-		user = user, 
+	return render_template('userprofile.html',
+		user = user,
 		edit_user_profile_form = edit_user_profile_form,
 		delete_user_profile_form = delete_user_profile_form)
 
@@ -282,20 +281,3 @@ def UserProfile():
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

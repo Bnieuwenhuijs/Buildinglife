@@ -16,7 +16,7 @@ class DashboardInputMaterialsForm(FlaskForm):
 	building_materials = FieldList(FormField(DashboardIndividualInputMaterialForm), min_entries=1)
 
 class RegisterForm(FlaskForm):
-	email 		= StringField(label='email', validators=[DataRequired(), Email(message='Invalid email'), Length(max=50)])
+	email 		= StringField(label='email', validators=[DataRequired(), Length(max=50)])
 	username 	= StringField(label='username', validators=[DataRequired()])
 	name 		= StringField(label='name', validators=[DataRequired()])
 	surname 	= StringField(label='surname', validators=[DataRequired()])
@@ -49,8 +49,3 @@ class EditUserProfileForm(FlaskForm):
 
 class DeleteUserProfileForm(FlaskForm):
 	submit = SubmitField('Delete Profile')
-
-
-
-
-
