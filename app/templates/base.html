@@ -20,8 +20,9 @@
   <!-- <link href= "{{ url_for('static',filename='Front_end/css/style.css') }}" rel= "stylesheet" > -->
 
    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+   <!--<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
 
 
 </head>
@@ -38,13 +39,14 @@
         <a class="sticky-logo" href="dashboard">
           <!-- <h1><span>Building</span><font color="#D8D8D8">Life</font></h1> -->
           <!-- Uncomment below if you prefer to use an image logo -->
-          <img style="width: 55%; height:50%; vertical-align: middle;" class="img-fluid mx-auto d-block" src="static/Front_end/img/Logo.png" alt="" title="">
+          <img style="width: 55%; height:50%; vertical-align: middle;" class="img-fluid mx-auto d-block" src="static/Front_end/img/Logo_Updated.png" alt="" title="">
         </a>
       </div>
 
 	<!-- Sidebar items //-->
 	 <div class="sidebar-wrapper" style="overflow: hidden">
         <ul class="nav">
+          
           {% if url_for(request.endpoint) == "/dashboard" %}
             <li class="active ">
           {% else %}
@@ -52,9 +54,10 @@
           {% endif %}
             <a href="dashboard">
               <i class="nc-icon nc-bank"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">Dashboard</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">Dashboard</p>
             </a>
           </li>
+
           {% if url_for(request.endpoint) == "/history" %}
             <li class="active ">
           {% else %}
@@ -62,13 +65,29 @@
           {% endif %}
             <a href="history">
               <i class="fa fa-history"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem">History</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">History</p>
             </a>
           </li>
+
+          {% if url_for(request.endpoint) == "/BuildingManagement" %}
+          <li class="active ">
+          {% else %}
           <li>
-            <a href="">
+          {% endif %}
+            <a href="BuildingManagement">
+              <i class="fa fa-building"></i>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem;">Building Management</p>
+            </a>
+          </li>
+
+          {% if url_for(request.endpoint) == "/UserProfile" %}
+          <li class="active ">
+          {% else %}
+          <li>
+          {% endif %}
+            <a href="UserProfile">
               <i class="nc-icon nc-single-02"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 0.9rem;">User Profile</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem;">User Profile</p>
             </a>
           </li>
         </ul>
