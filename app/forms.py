@@ -25,3 +25,9 @@ class LoginForm(FlaskForm):
     username = StringField(label='username', validators=[DataRequired()])
     password = PasswordField(label='password', validators=[DataRequired()])
     remember = BooleanField(label='remember me')
+
+class BuildingManagementForm(FlaskForm):
+    streetname  = StringField(label="streetname")
+    postalcode  = StringField(label="postalcode")
+    city  = StringField(label="city")
+    housenumber  = StringField(label="housenumber")
