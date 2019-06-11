@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-panel">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+    <div class="container-fluid">
+      <div class="navbar-wrapper">
+        <div class="navbar-toggle">
+          <button type="button" class="navbar-toggler">
+            <span class="navbar-toggler-bar bar1"></span>
+            <span class="navbar-toggler-bar bar2"></span>
+            <span class="navbar-toggler-bar bar3"></span>
+          </button>
+        </div>
+        <a class="navbar-brand" href="#pablo">Hi <strong>{{ user.name }} {{ user.surname }}</strong></a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navigation">
+        <form action="" method="post">
+          <div class="input-group no-border">
+            <input type="text" value="" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="nc-icon nc-zoom-split"></i>
+              </div>
+            </div>
+          </div>
+        </form>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link btn-rotate">
+              <i class="nc-icon nc-settings-gear-65"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-rotate" href="{{url_for('logout')}}">
+              <i class="fa fa-sign-out"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Edit your profile -->
+  <div class="content">
+    <form action="" method="POST">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card ">
+            <div class="card-header ">
+              <h4 class="card-title mb-0">Edit your profile</h4>
+            </div>
+            <form action="" method="POST">
+              {{ edit_user_profile_form.hidden_tag() }}
+              <div class="col-sm-6 col-sm-offset-0">
+                <div class="input-group input-group-sm mb-2 input-group-xs2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Name</div>
+                  </div>
+                  {{edit_user_profile_form.user_display_name(class ="form-control", placeholder=user.name) }}
+                </div>
+                <div class="input-group input-group-sm mb-2 input-group-xs2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Surname</div>
+                  </div>
+                  {{edit_user_profile_form.user_display_surname(class ="form-control", placeholder=user.surname) }}
+                </div>
+                <div class="input-group input-group-sm mb-2 input-group-xs2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Username   </div>
+                  </div>
+                  {{edit_user_profile_form.user_display_username(class ="form-control", placeholder=user.username) }}
+                </div>
+                <div class="input-group input-group-sm mb-2 input-group-xs2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Email</div>
+                  </div>
+                  {{edit_user_profile_form.user_display_email(class ="form-control", placeholder=user.username) }}
+                </div>
+                <div class="form-group">
+                  {{ edit_user_profile_form.submit(class="btn btn-primary") }}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+  <!-- Delete profile -->
+    <form action="" method="POST">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card ">
+            <div class="card-header ">
+              <h4 class="card-title mb-0">Delete profile</h4>
+            </div>
+            <form action="" method="POST">
+              {{ delete_user_profile_form.hidden_tag() }}
+              <div class="col-sm-8 col-sm-offset-0">
+                <p>
+                  Before confirming that you would like your profile deleted, we'd like to take a moment to explain the implications of deletion:
+                <ul>
+                  <li>
+                    Deletion is irreversible, and you will have no way to regain any of your original content, should this deletion be carried out and you change your mind later on.
+                  </li>
+
+                  <li>
+                    Your evaluations and building data will remain on the site, but will be disassociated and anonymized (the author will be listed as "user{{ user.id }}") and will not indicate your authorship even if you later return to the site.
+                  </li>
+                </ul>
+                  Confirming deletion will only delete this profile on BuildingLife&copy; - it will not affect any of your other profiles on the BuildingLife&copy; network. If you want to delete multiple profiles, you'll need to visit each profile separately and request deletion of those individual profiles.
+                </p>
+                <p style="color: #EF8157; font-weight: bold;">
+                  <input type="checkbox" id="termsChkbx " onchange="isChecked(this, 'sub1')"/>  I have read the information stated above and understand the implications of having my profile deleted. I wish to proceed with the deletion of my profile.
+                </p>
+                <p>
+                  <div class="form-group">
+                    {{ delete_user_profile_form.submit(class="btn btn-danger", id="sub1", disabled="disabled") }}
+                  </div>
+                </p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function isChecked(checkbox, sub1) {
+    document.getElementById(sub1).disabled = !checkbox.checked;
+}
+</script>
+
+{% endblock %}

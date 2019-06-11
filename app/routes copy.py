@@ -3,19 +3,17 @@ from flask import request, flash, redirect, url_for
 from app import app
 from app import db
 from app.models import Building, User
-from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm, EditUserProfileForm, DeleteUserProfileForm
+from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, EditUserProfileForm, EditUserEmailForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import pickle
 from pathlib import Path
 import os
 import datetime
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
-from urllib.request import urlopen
-import requests
-import json
 
 
 login_manager = LoginManager()
@@ -238,59 +236,34 @@ def history():
 
 @app.route('/BuildingManagement')
 def BuildingManagement():
+	return render_template('buildingmanagement.html')
 
-    BMform = BuildingManagementForm()
-
-    headers = {'Content-Type': 'application/json'}
-    response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
-
-    if response.status_code == 200:
-        print (json.loads(response.content.decode('utf-8')) )
-    else:
-        print("Got an error")
-
-    return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
-
-@app.route('/UserProfile', methods=['GET', 'POST'])
-@login_required
+@app.route('/UserProfile')
 def UserProfile():
 	edit_user_profile_form = EditUserProfileForm()
 
-	if edit_user_profile_form.validate_on_submit():
-		current_user.username 	= edit_user_profile_form.user_display_username.data
-		current_user.name 		= edit_user_profile_form.user_display_name.data
-		current_user.surname 	= edit_user_profile_form.user_display_surname.data
-		current_user.email 		= edit_user_profile_form.user_display_email.data
-		db.session.commit()
-		# Something's fishy with this... DO NOT UNCOMMENT
-		# flash('Your account has been updated!', 'success')
-
-		return redirect(url_for('UserProfile'))
-
-	elif request.method == 'GET':
-		edit_user_profile_form.user_display_username.data 	= current_user.username
-		edit_user_profile_form.user_display_name.data 		= current_user.name
-		edit_user_profile_form.user_display_surname.data 	= current_user.surname
-		edit_user_profile_form.user_display_email.data 		= current_user.email
+	user_display_name 		= edit_user_profile_form.user_display_name.data
+	user_display_surname 	= edit_user_profile_form.user_display_surname.data
+	user_display_username 	= edit_user_profile_form.user_display_username.data
 
 
-	delete_user_profile_form = DeleteUserProfileForm()
-	if delete_user_profile_form.validate_on_submit():
-		#the_currently_connected_user = current_user
-		User.query.filter(User.username == current_user.username).delete()
-		db.session.commit()
-		# Something's fishy with this... DO NOT UNCOMMENT
-		# flash('Your account has been updated!', 'success')
-		return redirect(url_for('index'))
+	edit_user_email_form 		= EditUserEmailForm()
+	user_main_email 			= edit_user_email_form.user_main_email.data
+	user_main_email_newsletter 	= edit_user_email_form.user_main_email_newsletter.data
 
 	user = User.query.filter_by(username=current_user.username).first_or_404()
-	return render_template('userprofile.html',
-		user = user,
+	return render_template('userprofile.html', 
+		user = user, 
 		edit_user_profile_form = edit_user_profile_form,
-		delete_user_profile_form = delete_user_profile_form)
+		edit_user_email_form = edit_user_email_form)
+
+@app.route('/UserProfile', methods=['GET', 'POST'])
+def UpdateUserProfile():
+	EditUserForm = EditUserProfileForm()
+	if EditUserForm.validate_on_submit():
+		current_user.display_name = EditUserForm.user_display_name.data
+		print "<h1>" + current_user.display_name + "</h1>"
+		db.session.commit()
+		
 
 
-@app.route('/logout', methods=['GET', 'POST'])
-def logout():
-	logout_user()
-	return redirect(url_for('index'))
