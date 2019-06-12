@@ -3,7 +3,7 @@ from flask import request, flash, redirect, url_for
 from app import app
 from app import db
 from app.models import Building, User
-from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, EditUserProfileForm, DeleteUserProfileForm
+from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm, EditUserProfileForm, DeleteUserProfileForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import pickle
@@ -13,6 +13,9 @@ import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
+from urllib.request import urlopen
+import requests
+import json
 
 
 login_manager = LoginManager()
@@ -235,7 +238,18 @@ def history():
 
 @app.route('/BuildingManagement')
 def BuildingManagement():
-	return render_template('buildingmanagement.html')
+
+    BMform = BuildingManagementForm()
+
+    headers = {'Content-Type': 'application/json'}
+    response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
+
+    if response.status_code == 200:
+        print (json.loads(response.content.decode('utf-8')) )
+    else:
+        print("Got an error")
+
+    return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
 @app.route('/UserProfile', methods=['GET', 'POST'])
 @login_required

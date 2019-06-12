@@ -176,21 +176,6 @@
     </form>
   </div>
 
-  <div class="container" style="margin-top: 10%">
-      <form class="text-center border border-light p-5" method="POST" action="/signup">
-         <h2 class="form-signin-heading">Sign up!</h2>
-         {{ form.hidden_tag() }}
-         {{form.name(class ="form-control", placeholder="Your name") }}
-         {{form.surname(class ="form-control", placeholder="Your surname") }}
-         {{form.username(class ="form-control", placeholder="Username") }}
-         {{form.email(class ="form-control", placeholder="Your email") }}
-         {{form.password(class ="form-control", placeholder="Password") }}
-
-         <!-- Sign in button -->
-        <button class="btn btn-primary btn-lg" type="submit">Submit</button>
-      </form>
-</div>
-
   {%endblock content%}
 
 </body>
