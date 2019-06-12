@@ -58,28 +58,28 @@
             </div>
             <form action="" method="POST">
               {{ edit_user_profile_form.hidden_tag() }}
-              <div class="col-sm-6 col-sm-offset-0">
-                <div class="input-group input-group-sm mb-2 input-group-xs2">
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="input-group input-group-sm mb-2 input-group-xs5">
                   <div class="input-group-prepend">
-                    <div class="input-group-text" id="inputGroup-sizing-sm">Name</div>
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                   </div>
                   {{edit_user_profile_form.user_display_name(class ="form-control", placeholder=user.name) }}
                 </div>
                 <div class="input-group input-group-sm mb-2 input-group-xs2">
                   <div class="input-group-prepend">
-                    <div class="input-group-text" id="inputGroup-sizing-sm">Surname</div>
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Surname&nbsp;&nbsp;</div>
                   </div>
                   {{edit_user_profile_form.user_display_surname(class ="form-control", placeholder=user.surname) }}
                 </div>
                 <div class="input-group input-group-sm mb-2 input-group-xs2">
                   <div class="input-group-prepend">
-                    <div class="input-group-text" id="inputGroup-sizing-sm">Username   </div>
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Username</div>
                   </div>
                   {{edit_user_profile_form.user_display_username(class ="form-control", placeholder=user.username) }}
                 </div>
                 <div class="input-group input-group-sm mb-2 input-group-xs2">
                   <div class="input-group-prepend">
-                    <div class="input-group-text" id="inputGroup-sizing-sm">Email</div>
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Email&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
                   </div>
                   {{edit_user_profile_form.user_display_email(class ="form-control", placeholder=user.username) }}
                 </div>
