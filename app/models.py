@@ -1,6 +1,6 @@
 from app import db
 from flask_login import UserMixin
-
+from datetime import datetime
 
 class Building(db.Model):
     __tablename__ = "Building"
@@ -38,3 +38,21 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
+
+class License(UserMixin, db.Model):
+    __tablename__ = 'license'
+
+    id                      = db.Column(db.String(128), primary_key=True)
+    user_id                 = db.Column(db.Integer)
+    start_date              = db.Column(db.DateTime)
+    end_date                = db.Column(db.DateTime)
+    is_active               = db.Column(db.Boolean, default = False, nullable = False)
+    is_premium              = db.Column(db.Boolean, default = False, nullable = False)
+
+    def __init__(self, user_id, start_date = None, end_date = None):
+        self.user_id = user_id
+        self.start_date = start_date
+        self.end_date = end_date
+
+    def __repr__(self):
+        return '<User %r has bought license %s>' % (self.user_id, self.id) 
