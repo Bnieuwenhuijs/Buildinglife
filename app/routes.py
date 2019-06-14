@@ -294,3 +294,12 @@ def UserProfile():
 def logout():
 	logout_user()
 	return redirect(url_for('index'))
+
+
+@app.route('/suppr', methods=['GET', 'POST'])
+def suppr():
+	idEstimation = request.args.get('idEstimation', None)
+	Building.query.filter(Building.id == idEstimation).delete()
+	db.session.commit()
+	buildings = Building.query.order_by(Building.id.desc())
+	return redirect(url_for('history'))
