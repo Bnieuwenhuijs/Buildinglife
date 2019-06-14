@@ -76,7 +76,7 @@ def login():
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
 
-		flash('Your login/password does not match or exists')
+		flash('Your login/password does not match or exists', 'warning')
 
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
@@ -96,11 +96,11 @@ def signup():
 				new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
 				db.session.add(new_user)
 				db.session.commit()
-				flash('You successfully created your account')
+				flash('You successfully created your account', 'success')
 			else:
-				flash('There is already an account with that email')
+				flash('There is already an account with that email', 'warning')
 		else:
-			flash('There is already an account with that username')
+			flash('There is already an account with that username', 'warning')
 	return render_template('signup.html', form=form)
 
 

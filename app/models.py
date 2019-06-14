@@ -23,6 +23,7 @@ class Building(db.Model):
     glass_Value             = db.Column(db.Integer)
     polystyrene_quantity    = db.Column(db.Integer)
     polystyrene_Value       = db.Column(db.Integer)
+    date_estimation         = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
@@ -55,4 +56,4 @@ class License(UserMixin, db.Model):
         self.end_date = end_date
 
     def __repr__(self):
-        return '<User %r has bought license %s>' % (self.user_id, self.id) 
+        return '<User %r has bought license %s>' % (self.user_id, self.id)
