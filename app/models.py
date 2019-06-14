@@ -58,5 +58,3 @@ class License(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r has bought license %s>' % (self.user_id, self.id) 
-
-
