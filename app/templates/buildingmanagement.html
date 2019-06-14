@@ -50,18 +50,24 @@
       </nav>
 
       <!-- Content -->
-      <div class="content">
+      <div class="content" id="buildingContent">
           <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-7">
                 <!-- Top card in which you provide the building location information -->
-                  <div class="card">                   
+                  <div class="card">
+                      <!-- Card header of the top one -->
+                      <div class="card-header ">
+                          <h5 class="card-title mb-0">Building Address</h5>
+                          <div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
+                        </div>            
+
                     <div class="card-body">
 
                       <!-- First row: Postalcode & House Number -->
-                      <div class="row" style="margin-top:15px">
+                      <div class="row" style="margin-top:0px">
                         <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
-                        {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-5", onchange="postalcodeChanged()" )  }}
-                        <div class="p-2 col-md-2" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
+                        {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
+                        <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
                         {{ BuildingManagementForm.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
                       </div>
 
@@ -78,14 +84,28 @@
                       </div>
                             
                     </div>
+                    <!-- Buttons to get entire street, postal code or add one house.-->
+                    <div class="row col-md-12">
+                      <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 10px; background-color: #51a9da" onclick="addBuilding()"> Add Building</button>
+                      <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addPostalcode()"> Add Postal Code</button>
+                      <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addStreet()"> Add Street</button>                     
+                   </div>
+                   <div class="row col-md-12">
+                      <button type="button" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="">Estimate Values</button>
+                   </div>
 
                   </div>
+              </div>
+              <!-- Google maps -->
+              <div class="col-md-5">
+                  <iframe src="https://www.google.com/maps/embed" width="100%" height="90%" frameborder="0" id="googleMapsTop" style="border:0; margin-bottom: 20px" allowfullscreen></iframe>
               </div>
           </div>
         </div>
     </div>
 
     <script>
+      // Check if the provided postal code is valid
       function isValidPostalCode(postcalCode) {
 
         var postalCode = String(postalCode)
@@ -100,6 +120,7 @@
         }
       }
 
+      // Logic of when postal code field changes
       function postalcodeChanged() {
         postcalCodeField = document.getElementById("postalcode")
 
@@ -131,7 +152,8 @@
           }
         }
       }
-
+      
+      // Logic of when house number field changes
       function housenumberChanged(){
         // Get the value in the street name field
         housenumberField = document.getElementById("housenumber")
@@ -157,11 +179,244 @@
             if (response["numFound"] == 0) {
                 return
             } else {
+                cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
-                document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+                document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
+              
+                document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
+                                                              x_cordinate + ',' + y_cordinate +
+                                                              "&output=embed&iwd=-1";
               }
           }
         }
+      }
+      
+      var i = 0
+      var buildingList = []
+      // Function to easily add building to evaluate to the website and list
+      function addToBuildingList(cordinates, streetname, postalcode, house_number, city) {
+        
+        // Check if there is already an existing variant of the one to be added
+        // If so, return
+        for (var ii of buildingList) {
+          if (ii[2].toLowerCase() == postalcode.toLowerCase() & ii[3] == house_number) {
+            return
+          }
+        }
+          
+          i += 1
+
+          buildingList.push([cordinates, streetname, postalcode, house_number, city])
+
+          var content = document.getElementById("buildingContent")
+
+          // Create the row
+          var row = document.createElement("div")
+          row.className = "row col-md-12"
+          row.id = "rowID" + i
+
+          // Create the card
+          var card = document.createElement("div")
+          card.className = "card col-md-5.5"
+          card.id = "cardID" + i
+
+          // create the cardbody
+          var cardbody = document.createElement("div")
+          cardbody.className = "card-body"
+          
+          // Create the row with postal code and housenumber
+          var postalcode_housenumber_field = document.createElement("div")
+          postalcode_housenumber_field.className = "row"
+          postalcode_housenumber_field.style = "margin-top:0px"
+          postalcode_housenumber_field.innerHTML = '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>' +
+                                             '<input class="p-1 bg-light text-dark rounded col-md-4" type="text" value="' + postalcode + '"readonly>' +
+                                             '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>' +
+                                             '<input class="p-1 bg-light text-dark rounded col-md-2" type="text" value="' + house_number + '"readonly>'
+
+          // Create the row with streetname
+          var streetname_field = document.createElement("div")
+          streetname_field.className = "row"
+          streetname_field.style = "margin-top: 7px"
+          streetname_field.innerHTML = '<div class="p-2 col-md-3 rounded " style="background-color: #e3e3e3; color: #66615B">Street Name</div>' +
+                                       '<input class="p-1 bg-light text-dark rounded col-md-9" type="text" value="' + streetname + '"readonly>'
+
+          // Create the row with city (and remove button)
+          var city_field = document.createElement("div")
+          city_field.className = "row"
+          city_field.style = "margin-top: 7px"
+          city_field.innerHTML = '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">City</div>' + 
+                                  '<input class="p-1 bg-light text-dark rounded col-md-7" id="city" name="city" type="text" value=' + city + ' readonly>' +
+                                  '<button type="button" class="btn btn-primary col-md-0.8" style="margin: 0px 15px" onclick="removeBuildingFromList(\'cardID' + i + '\',\'' + i + '\')"><div style="text-align: center"><i class="fa fa-trash fa-lg"></button></div>'
+          // Create the stacking of the elements         
+          if (i % 2 == 1) {
+            content.appendChild(row)
+            card.style = "margin-right: 7px"
+          } else {
+            row = document.getElementById("rowID" + (i-1))
+            card.style = "margin-left: 7px"
+          }
+          row.appendChild(card)
+          card.appendChild(cardbody)
+          cardbody.append(postalcode_housenumber_field)
+          cardbody.append(streetname_field)
+          cardbody.append(city_field)
+        
+      }
+
+      function removeBuildingFromList(elementid, id) {
+
+        for (var pr = 1; pr <= buildingList.length; pr++) {
+          // Remove all the elements
+          document.getElementById("cardID" + pr).remove()
+
+          if (pr % 2 == 0) {
+            document.getElementById("rowID" + (pr - 1)).remove()
+
+          } else if (pr == buildingList.length) {
+            document.getElementById("rowID" + pr).remove()
+          }
+        }
+        
+        //Remove the item from the list
+        buildingList.splice(id - 1, 1)
+        var temp_buildingList = buildingList
+        buildingList = []
+    
+        i = 0
+        for (var pp of temp_buildingList) {
+          addToBuildingList(pp[0], pp[1], pp[2], pp[3], pp[4])
+        }
+        
+      }
+
+      function addBuilding() {
+        postalcode  = document.getElementById("postalcode").value
+        streetname  = document.getElementById("streetname").value
+        housenumber = document.getElementById("housenumber").value
+        city = document.getElementById("city").value
+
+        if (postalcode == "" | streetname == "" | housenumber == "" | city == "" ){
+          return
+        }
+
+        var request = new XMLHttpRequest()
+        request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber);
+        request.send()
+        request.onload=function(){
+          if(this.readyState == 4 && this.status==200){
+            var data = JSON.parse(this.response);
+
+            var response = data["response"]
+
+            // Get the cordinates
+            if (response["numFound"] == 0) {
+                return
+            } else {
+                var cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+                cordinates = x_cordinate + "," + y_cordinate
+              }            
+          }
+        }
+
+        //for (var ii of buildingList) {
+        //  if (ii[2].toLowerCase() == postalcode.toLowerCase() & ii[3] == housenumber) {
+        //    return
+        //  }
+        //}
+
+        addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
+      }
+      
+      function addStreet() {
+        // Get the values of all input fields
+        postalcode  = document.getElementById("postalcode").value
+        streetname  = document.getElementById("streetname").value
+        housenumber = document.getElementById("housenumber").value
+        city = document.getElementById("city").value
+
+        // If one of the input fields is empty, do nothing.
+        if (postalcode == "" | streetname == "" | housenumber == "" | city == "" ){
+          return
+        }
+        var nrows = 1000
+        var request = new XMLHttpRequest()
+        request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=' + nrows + '&&fq=straatnaam:' + streetname + '&&fq=woonplaatsnaam:' + city + '&&fq=type:adres');
+        request.send()
+        request.onload=function(){
+          if(this.readyState == 4 && this.status==200){
+            var data = JSON.parse(this.response);
+
+            var response = data["response"]
+
+            if (response["numFound"] == 0) {
+                return
+            } else {
+
+              for (var te = 0; te < response["docs"].length; te++)
+              {
+                postalcode = response["docs"][te.toString()]["postcode"]
+                housenumber = response["docs"][te.toString()]["huisnummer"]
+
+                var cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+                cordinates = x_cordinate + "," + y_cordinate
+                 
+                addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
+               }
+
+              }
+
+            }            
+          }
+        } 
+
+      function addPostalcode() {
+        // Get the values of all input fields
+        postalcode  = document.getElementById("postalcode").value
+        streetname  = document.getElementById("streetname").value
+        housenumber = document.getElementById("housenumber").value
+        city = document.getElementById("city").value
+
+        // If one of the input fields is empty, do nothing.
+        if (postalcode == "" | streetname == "" | housenumber == "" | city == "" ){
+          return
+        }
+        var nrows = 1000
+        var request = new XMLHttpRequest()
+        request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=' + nrows + '&&fq=postcode:' + postalcode + '&&fq=type:adres');
+        request.send()
+        request.onload=function(){
+          if(this.readyState == 4 && this.status==200){
+            var data = JSON.parse(this.response);
+
+            var response = data["response"]
+
+            if (response["numFound"] == 0) {
+                return
+            } else {
+
+              for (var te = 0; te < response["docs"].length; te++)
+              {
+                streetname = response["docs"][te.toString()]["straatnaam"]
+                housenumber = response["docs"][te.toString()]["huisnummer"]
+
+                var cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+                cordinates = x_cordinate + "," + y_cordinate
+                 
+                addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
+               }
+
+              }
+
+            }            
+          }
       }
     </script>
 

@@ -2,6 +2,8 @@ from app import db
 from flask_login import UserMixin
 from datetime import datetime
 import enum
+import random
+
 
 class Building(db.Model):
     __tablename__ = "Building"
@@ -24,7 +26,7 @@ class Building(db.Model):
     glass_Value             = db.Column(db.Integer)
     polystyrene_quantity    = db.Column(db.Integer)
     polystyrene_Value       = db.Column(db.Integer)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id                 = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return '<Building {}>'.format(self.building_year)
@@ -63,4 +65,4 @@ class License(UserMixin, db.Model):
 
 
     def __repr__(self):
-        return '<User %r has bought license %s>' % (self.user_id, self.id)
+        return '<User %r has bought license %s>' % (self.user_id, self.id) 
