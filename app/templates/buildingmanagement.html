@@ -52,16 +52,22 @@
       <!-- Content -->
       <div class="content">
           <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-7">
                 <!-- Top card in which you provide the building location information -->
-                  <div class="card">                   
+                  <div class="card">
+                      <!-- Card header of the top one -->
+                      <div class="card-header ">
+                          <h5 class="card-title mb-0">Building Adress</h5>
+                          <div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
+                        </div>            
+
                     <div class="card-body">
 
                       <!-- First row: Postalcode & House Number -->
-                      <div class="row" style="margin-top:15px">
+                      <div class="row" style="margin-top:0px">
                         <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
-                        {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-5", onchange="postalcodeChanged()" )  }}
-                        <div class="p-2 col-md-2" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
+                        {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
+                        <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
                         {{ BuildingManagementForm.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
                       </div>
 
@@ -80,6 +86,10 @@
                     </div>
 
                   </div>
+              </div>
+              <!-- Google maps -->
+              <div class="col-md-5">
+                  <iframe src="https://www.google.com/maps/embed" width="100%" height="90%" frameborder="0" id="googleMapsTop" style="border:0; margin-bottom: 20px" allowfullscreen></iframe>
               </div>
           </div>
         </div>
@@ -157,8 +167,15 @@
             if (response["numFound"] == 0) {
                 return
             } else {
+                cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
-                document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+                document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
+              
+                document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
+                                                              x_cordinate + ',' + y_cordinate +
+                                                              "&z=15&output=embed&iwd=-1";
               }
           }
         }
