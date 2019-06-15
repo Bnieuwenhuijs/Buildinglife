@@ -31,7 +31,7 @@ class Building(db.Model):
 		return '<Building {}>'.format(self.building_year)
 
 class User(UserMixin, db.Model):
-	__tablename__ = "User"
+	__tablename__ = "user"
 
 	id 						= db.Column(db.Integer, primary_key=True)
 	name 					= db.Column(db.String(120))
