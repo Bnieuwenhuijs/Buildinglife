@@ -33,6 +33,7 @@ class LoginForm(FlaskForm):
 
 class BuildingManagementForm(FlaskForm):
     postalcode = StringField(label='postalcode')
+    windowcheck = BooleanField(label="windowcheck", description="If the amount of windows should be taken account. If so, these are automatically calculated")
     city = StringField(label='city')
     housenumber = StringField(label='housenumber')
     streetname = StringField(label='streetname')
