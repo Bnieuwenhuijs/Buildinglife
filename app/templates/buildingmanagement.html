@@ -67,9 +67,9 @@
 
                       <!-- First row: Postalcode & House Number -->
                       <div class="row" style="margin-top:0px">
-                        <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
+                        <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
                         {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
-                        <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
+                        <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
                         {{ BuildingManagementForm.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
                       </div>
 
@@ -81,7 +81,7 @@
 
                       <!-- Third row: City -->
                       <div class="row" style="margin-top:15px">
-                        <div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">City</div>
+                        <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">City</div>
                         {{ BuildingManagementForm.city(class="p-1 bg-light text-dark rounded col-md-9")  }}    
                       </div>
                             
@@ -94,6 +94,11 @@
                    </div>
                    <div class="row col-md-12">
                       <button type="button" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
+                      <div class="custom-control custom-checkbox" style="margin: 5px 20px">
+                          <input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1">
+                          <label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
+                        </div>
+                      
                    </div>
 
                   </div>
@@ -302,35 +307,26 @@
         if (postalcode == "" | streetname == "" | housenumber == "" | city == "" ){
           return
         }
-
         var request = new XMLHttpRequest()
         request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber);
         request.send()
         request.onload=function(){
           if(this.readyState == 4 && this.status==200){
             var data = JSON.parse(this.response);
-
             var response = data["response"]
 
             // Get the cordinates
             if (response["numFound"] == 0) {
                 return
-            } else {
+            } else {          
                 var cordinates = response["docs"]["0"]["centroide_ll"]
                 x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
                 y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 cordinates = x_cordinate + "," + y_cordinate
+                addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
               }            
           }
         }
-
-        //for (var ii of buildingList) {
-        //  if (ii[2].toLowerCase() == postalcode.toLowerCase() & ii[3] == housenumber) {
-        //    return
-        //  }
-        //}
-
-        addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
       }
       
       function addStreet() {
@@ -423,12 +419,13 @@
     
       function testPostJava() {
         var data = buildingList
-
+        var windowchecked = document.getElementById("customCheck1").checked
         if (data.length != 0) {
         $.post( "/postlocationdata", {
           type: 'POST',
           contentType: 'application/json; charset=utf-8',
           javascript_data: JSON.stringify(data),
+          window_checked_data: windowchecked,
           }).done(function(response){
               window.location.href = response
             })

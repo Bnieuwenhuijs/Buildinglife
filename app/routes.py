@@ -374,14 +374,20 @@ def suppr():
 	return redirect(url_for('history'))
 	
 buildingList = []
+windowchecked = False
 @app.route('/postlocationdata', methods = ['POST'])
 def get_post_location_data():
 
 	jsdata = request.form['javascript_data']
+	global windowchecked
+	windowchecked = request.form['window_checked_data']
+
 	global buildingList
 	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
 	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
 	buildingList = json.loads(jsdata)
+
+	
 
 	# Since an AJAX request is used. The routing goes via the Ajax request.
 	return "/parameters"
@@ -393,9 +399,15 @@ def parameters():
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
-										window_count = False)
+										window_count = windowchecked)
 										)
 	print(building_properties_list)
 
 
 	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
+	
+
+@app.route('/building_management_estimation')
+def building_management_estimation():
+
+	return render_template("building_management_estimation.html")
