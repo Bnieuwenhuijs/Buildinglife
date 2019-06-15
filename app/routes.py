@@ -1,7 +1,6 @@
 from flask import render_template
 from flask import request, flash, redirect, url_for, jsonify
-from app import app
-from app import db
+from app import app, db
 from app.models import Building, User, License
 from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm
 from app.forms import EditUserProfileForm, DeleteUserProfileForm, UpdateUserLicenseForm, BuyStarterLicenseForm, BuyProfessionalLicenseForm, BuyBusinessLicenseForm
@@ -16,9 +15,7 @@ from wtforms import StringField
 from wtforms.validators import DataRequired
 #from urllib.request import urlopen
 from urllib import urlopen
-import requests
-import json
-import datetime
+import requests, json, datetime
 
 
 login_manager = LoginManager()
@@ -242,17 +239,17 @@ def history():
 @app.route('/BuildingManagement')
 def BuildingManagement():
 
-    BMform = BuildingManagementForm()
+	BMform = BuildingManagementForm()
 	
-    #headers = {'Content-Type': 'application/json'}
-    #response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
+	#headers = {'Content-Type': 'application/json'}
+	#response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
 
-    #if response.status_code == 200:
-    #    print (json.loads(response.content.decode('utf-8')) )
-    #else:
-    #    print("Got an error")
+	#if response.status_code == 200:
+	#    print (json.loads(response.content.decode('utf-8')) )
+	#else:
+	#    print("Got an error")
 
-    return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
+	return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
 @app.route('/UserProfile', methods=['GET', 'POST'])
 @login_required
@@ -392,3 +389,6 @@ def parameters():
 	print(BuildingList)
 
 	return render_template("parameters.html", buildingList = buildingList)
+
+
+

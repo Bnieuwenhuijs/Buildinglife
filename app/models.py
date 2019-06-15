@@ -31,20 +31,20 @@ class Building(db.Model):
 		return '<Building {}>'.format(self.building_year)
 
 class User(UserMixin, db.Model):
-	id                      = db.Column(db.Integer, primary_key=True)
-	name                    = db.Column(db.String(120))
-	surname                 = db.Column(db.String(120))
-	username                = db.Column(db.String(64), index=True, unique=True)
-	email                   = db.Column(db.String(120), index=True, unique=True)
-	password_hash           = db.Column(db.String(128))
+	id 						= db.Column(db.Integer, primary_key=True)
+	name 					= db.Column(db.String(120))
+	surname 				= db.Column(db.String(120))
+	username 				= db.Column(db.String(64), index=True, unique=True)
+	email 					= db.Column(db.String(120), index=True, unique=True)
+	password_hash 			= db.Column(db.String(128))
 
 	def __repr__(self):
 		return '<User {}>'.format(self.username)
 
 class LicenseType(enum.Enum):
-	STARTER      = "Starter"
+	STARTER		 = "Starter"
 	PROFESSIONAL = "Pro"
-	BUSINESS     = "Business"
+	BUSINESS	 = "Business"
 
 
 class License(UserMixin, db.Model):
@@ -55,14 +55,17 @@ class License(UserMixin, db.Model):
 	user_id 				= db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 	end_date 				= db.Column(db.DateTime)
 	license_type 			= db.Column(db.String(13))
+	isActive				= db.Column(db.Boolean, default = False)
 
 	def __init__(self, user_id, license_type, end_date = None):
-		self.user_id = user_id
-		self.end_date = end_date
-		self.license_type = license_type
+		self.user_id 		= user_id
+		self.end_date 		= end_date
+		self.license_type 	= license_type
+		self.isActive 		= True
+		
 		h = hashlib.new('ripemd160')
 		h.update(str(self.id) + str(datetime.now()) + str(self.license_type) + str(self.user_id))
-		self.license_hash = h.hexdigest()
+		self.license_hash 	= h.hexdigest()
 
 
 	def __repr__(self):
