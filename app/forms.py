@@ -23,19 +23,19 @@ class RegisterForm(FlaskForm):
 	password 	= PasswordField(label='password', validators=[DataRequired()])
 
 class LoginForm(FlaskForm):
-    username = StringField(label='username', validators=[DataRequired()])
-    password = PasswordField(label='password', validators=[DataRequired()])
-    remember = BooleanField(label='remember me')
+	username = StringField(label='username', validators=[DataRequired()])
+	password = PasswordField(label='password', validators=[DataRequired()])
+	remember = BooleanField(label='remember me')
 
 #class BuildingManagementForm(FlaskForm):
 #    postalcode = StringField(label='postalcode')
 #    city = StringField(label='city')
 
 class BuildingManagementForm(FlaskForm):
-    postalcode = StringField(label='postalcode')
-    city = StringField(label='city')
-    housenumber = StringField(label='housenumber')
-    streetname = StringField(label='streetname')
+	postalcode = StringField(label='postalcode')
+	city = StringField(label='city')
+	housenumber = StringField(label='housenumber')
+	streetname = StringField(label='streetname')
 
 class EditUserProfileForm(FlaskForm):
 	user_display_name 		= StringField(label='Display user name')
@@ -57,5 +57,17 @@ class EditUserProfileForm(FlaskForm):
 			if user:
 				raise ValidationError('The selected email is taken. Please choose another one')
 
+class BuyStarterLicenseForm(FlaskForm):
+	submit = SubmitField('Buy Now!')
+
+class BuyProfessionalLicenseForm(FlaskForm):
+	submit = SubmitField('Buy Now!')
+
+class BuyBusinessLicenseForm(FlaskForm):
+	submit = SubmitField('Buy Now!')
+
 class DeleteUserProfileForm(FlaskForm):
 	submit = SubmitField('Delete Profile')
+
+class UpdateUserLicenseForm(FlaskForm):
+	submit = SubmitField('Update License')
