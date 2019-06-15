@@ -26,3 +26,6 @@ pandas==0.24.1
 requests==2.22.0
 sklearn
 flask_login
+json
+requests
+google-cloud-vision

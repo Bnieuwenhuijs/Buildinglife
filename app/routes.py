@@ -18,8 +18,7 @@ import requests
 import json
 from app.Building_information_api import get_building_properties
 #from urllib.request import urlopen
-from urllib import urlopen
-import requests, json, datetime
+from urllib.request import urlopen
 
 
 login_manager = LoginManager()
@@ -337,7 +336,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		print new_license
+		print (new_license)
 		return redirect(url_for('purchase'))
 
 	if buy_business_form.validate_on_submit():
