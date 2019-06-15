@@ -1,5 +1,5 @@
 from flask import render_template
-from flask import request, flash, redirect, url_for
+from flask import request, flash, redirect, url_for, jsonify
 from app import app
 from app import db
 from app.models import Building, User
@@ -240,14 +240,14 @@ def history():
 def BuildingManagement():
 
     BMform = BuildingManagementForm()
+	
+    #headers = {'Content-Type': 'application/json'}
+    #response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
 
-    headers = {'Content-Type': 'application/json'}
-    response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
-
-    if response.status_code == 200:
-        print (json.loads(response.content.decode('utf-8')) )
-    else:
-        print("Got an error")
+    #if response.status_code == 200:
+    #    print (json.loads(response.content.decode('utf-8')) )
+    #else:
+    #    print("Got an error")
 
     return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
@@ -303,3 +303,23 @@ def suppr():
 	db.session.commit()
 	buildings = Building.query.order_by(Building.id.desc())
 	return redirect(url_for('history'))
+	
+buildingList = []
+@app.route('/postlocationdata', methods = ['POST'])
+def get_post_location_data():
+
+	jsdata = request.form['javascript_data']
+	global buildingList
+	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
+	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
+	buildingList = json.loads(jsdata)
+
+	# Since an AJAX request is used. The routing goes via the Ajax request.
+	return "/parameters"
+
+@app.route('/parameters')
+def parameters():
+	
+	print(BuildingList)
+
+	return render_template("parameters.html", buildingList = buildingList)
