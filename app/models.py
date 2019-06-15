@@ -25,12 +25,14 @@ class Building(db.Model):
 	glass_Value             = db.Column(db.Integer)
 	polystyrene_quantity    = db.Column(db.Integer)
 	polystyrene_Value       = db.Column(db.Integer)
-	user_id                 = db.Column(db.Integer, db.ForeignKey('User.id'))
+	user_id                 = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __repr__(self):
 		return '<Building {}>'.format(self.building_year)
 
 class User(UserMixin, db.Model):
+	__tablename__ = "User"
+
 	id 						= db.Column(db.Integer, primary_key=True)
 	name 					= db.Column(db.String(120))
 	surname 				= db.Column(db.String(120))
