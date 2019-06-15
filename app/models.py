@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
 class License(UserMixin, db.Model):
     __tablename__ = 'license'
 
-    id                      = db.Column(db.String(128), primary_key=True)
+    id                      = db.Column(db.Integer, primary_key=True)
     user_id                 = db.Column(db.Integer)
     start_date              = db.Column(db.DateTime)
     end_date                = db.Column(db.DateTime)
