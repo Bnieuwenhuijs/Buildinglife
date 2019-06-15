@@ -2,8 +2,8 @@ import json
 import requests
 from google.cloud import vision
 
-def Building_propperties(postalcode, housenumber, window_count):
-    Building_propperties = {}
+def get_building_properties(postalcode, housenumber, window_count):
+    building_properties = {}
     #BAG API paramers
     url = 'https://bag.basisregistraties.overheid.nl/api/v1/nummeraanduidingen'
     headers = {'X-Api-Key'  : '8d2869b4-2b78-4596-b290-6f2e1e8b4661'}
@@ -36,11 +36,11 @@ def Building_propperties(postalcode, housenumber, window_count):
 #
     #Create dict with information, does select first building now
     temp = gebruiksdoel_Oppervlakte_data.get('features')[0].get('properties')
-    Building_propperties['square_meters']          = temp.get('oppervlakte')
-    Building_propperties['building_functionality'] = temp.get('gebruiksdoel')
-    Building_propperties['Place_name']             = temp.get('woonplaats')
+    building_properties['square_meters']          = temp.get('oppervlakte')
+    building_properties['building_functionality'] = temp.get('gebruiksdoel')
+    building_properties['Place_name']             = temp.get('woonplaats')
     #get buildingyear
-    Building_propperties['Building_year']          = pand_data.get('oorspronkelijkBouwjaar')
+    building_properties['Building_year']          = pand_data.get('oorspronkelijkBouwjaar')
 #
 #
     #get 3d buildingdata from delft 3d bag api wfs
@@ -54,14 +54,14 @@ def Building_propperties(postalcode, housenumber, window_count):
     ).json()
 #
     temp1 = dried_data.get('features')[0].get('properties')
-    Building_propperties['ground-0.50']   = temp1.get('ground-0.50')
-    Building_propperties['roof-0.25']     = temp1.get('roof-0.25')
-    Building_propperties['rmse-0.25']     = temp1.get('rmse-0.25')
-    Building_propperties['roof-0.75']     = temp1.get('roof-0.75')
-    Building_propperties['rmse-0.75']     = temp1.get('rmse-0.75')
-    Building_propperties['roof-0.95']     = temp1.get('roof-0.95')
-    Building_propperties['rmse-0.95']     = temp1.get('rmse-0.95')
-    Building_propperties['roof_flat']     = temp1.get('roof_flat')
+    building_properties['ground-0.50']   = temp1.get('ground-0.50')
+    building_properties['roof-0.25']     = temp1.get('roof-0.25')
+    building_properties['rmse-0.25']     = temp1.get('rmse-0.25')
+    building_properties['roof-0.75']     = temp1.get('roof-0.75')
+    building_properties['rmse-0.75']     = temp1.get('rmse-0.75')
+    building_properties['roof-0.95']     = temp1.get('roof-0.95')
+    building_properties['rmse-0.95']     = temp1.get('rmse-0.95')
+    building_properties['roof_flat']     = temp1.get('roof_flat')
 #
     if window_count == True:
         #Google API key
@@ -91,9 +91,6 @@ def Building_propperties(postalcode, housenumber, window_count):
             if object_.name == 'Window':
                 window +=1
     #
-        Building_propperties['windows'] = window
+        building_properties['windows'] = window
 #
-    return Building_propperties
-
-k = Building_propperties("3452AN", "103", window_count = True)
-print(k)
+    return building_properties

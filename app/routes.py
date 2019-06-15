@@ -16,6 +16,7 @@ from wtforms.validators import DataRequired
 from urllib.request import urlopen
 import requests
 import json
+from app.Building_information_api import get_building_properties
 
 
 login_manager = LoginManager()
@@ -319,7 +320,14 @@ def get_post_location_data():
 
 @app.route('/parameters')
 def parameters():
-	
-	print(BuildingList)
+	building_properties_list = []
+	buildings = len(buildingList)
+	for building in range(buildings):
+		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
+										str(buildingList[building][3]), 
+										window_count = False)
+										)
+	print(building_properties_list)
 
-	return render_template("parameters.html", buildingList = buildingList)
+
+	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
