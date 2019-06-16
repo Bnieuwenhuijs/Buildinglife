@@ -130,9 +130,6 @@ def testing():
 		#calculation total square meters
 		total_square_meters = nr_floors * square_meters
 
-		#list4 = request.args.get('list2')
-		#print(list4)
-
 		if functionality == "Residential":
 			funct = 1
 		elif functionality == "Office":
@@ -380,7 +377,7 @@ def get_post_location_data():
 
 	jsdata = request.form['javascript_data']
 	global windowchecked
-	windowchecked = request.form['window_checked_data']
+	windowchecked = bool(request.form['window_checked_data'])
 
 	global buildingList
 	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
@@ -394,6 +391,7 @@ def get_post_location_data():
 
 @app.route('/parameters')
 def parameters():
+	print(windowchecked)
 	building_properties_list = []
 	buildings = len(buildingList)
 	for building in range(buildings):

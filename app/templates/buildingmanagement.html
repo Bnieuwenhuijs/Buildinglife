@@ -109,8 +109,7 @@
               </div>
           </div>
         </div>
-        <div class="spinner"></div>
-        
+
     </div>
 
     <script>
@@ -420,17 +419,14 @@
       }
     
       function testPostJava() {
+        var data = buildingList
+        var windowchecked = document.getElementById("customCheck1").checked
+        if (data.length != 0) {
         estimateValuesButton = document.getElementById("EstimateValuesButton")
         estimateValuesButton.disabled = true
         estimateValuesButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
 
-        setTimeout(function () {
-          var t = "test"
-        }, 5000);
 
-        var data = buildingList
-        var windowchecked = document.getElementById("customCheck1").checked
-        if (data.length != 0) {
         $.post( "/postlocationdata", {
           type: 'POST',
           contentType: 'application/json; charset=utf-8',

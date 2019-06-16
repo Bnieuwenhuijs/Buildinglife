@@ -9,6 +9,11 @@ class DashboardInputCharacteristicsForm(FlaskForm):
 	square_meters			= DecimalField(label="Square Meters", validators=[DataRequired()], places=3, rounding=None)
 	number_floors			= IntegerField(label="Number of Floors", validators=[DataRequired()])
 
+	postalcode = StringField(label='postalcode')
+	city = StringField(label='city')
+	housenumber = StringField(label='housenumber')
+	streetname = StringField(label='streetname')
+
 class DashboardIndividualInputMaterialForm(FlaskForm):
 	material = DecimalField(places=3, rounding=None)
 

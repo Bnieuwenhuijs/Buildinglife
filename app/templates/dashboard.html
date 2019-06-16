@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-		<div class="main-panel">
-			<!-- Navbar -->
-			<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+<div class="main-panel">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
 				<div class="container-fluid">
 					<div class="navbar-wrapper">
 						<div class="navbar-toggle">
@@ -47,266 +47,76 @@
 						</ul>
 					</div>
 				</div>
-			</nav>
-			<!-- End Navbar -->
-			<!-- <div class="panel-header panel-header-lg">
+</nav>
+<!-- End Navbar -->
+<!-- <div class="panel-header panel-header-lg">
 
-	<canvas id="bigDashboardChart"></canvas>
 
 
 </div> -->
-	<div class="content">
+<div class="content">
 
-		<div class="row" style="display: none" id="valueEstimationResults">
-			<div class="col-md-12">
-				<div class="card ">
-					<div class="card-header ">
-						<h5 class="card-title">Results Value Estimation</h5>
-					</div>
-					<div class="card-body ">
-						<p> <b> Steel </b> - 300 euro </p>
-						<p> <b> Copper </b> - 350 euro </p>
-						<p> <b> Concrete </b> - 80 euro </p>
-						<p> <b> Timber </b> - 110 euro </p>
-						<p> <b> Aluminium </b> - 225 euro </p>
-						<p> <b> Plastic </b> - 130 euro </p>
-						<p> <b> Clay </b> - 100 euro </p>
-						<p> <b> Glass </b> - 75 euro </p>
-						<p> <b> Polystyrene </b> - 180 euro </p>
-						<p> <b> Drywall </b> - 100 euro </p>
-						<p> <b> Rubber </b> - 120 euro </p>
-						<p> <b> Lead </b> - 125 euro </p>
-						<p> <b> Nickel </b> - 140 euro </p>
-						<p> <b> Titanium </b> - 250 euro </p>
-						<p> <b> Bras </b> - 80 euro </p>
-						<p> <b> Iron </b> - 285 euro </p>
-						<p> </p>
-						<h5> <b> Total value </b> - 2650 euro </h5>
-					</div>
-				</div>
-			</div>
-		</div>
+	<form action="" method="POST">
+	{{ form_build_char.hidden_tag() }}
 
-		<form action="" method="POST">
-		{{ form_build_char.hidden_tag() }}
-		<button type="submit" class="btn btn-primary" >Estimate the value</button>
-
+	<!-- Provide the building location information -->
 	<div class="row">
-		<div class="col-md-12">
-			<div class="card ">
-				<div class="card-header ">
-					<h5 class="card-title mb-0">Building Characteristics</h5>
-					<p class="card-category">Provide the characteristics of the building you want to valuate.</p>
-				</div>
-				<div class="card-body ">
-					<div class="row">
-					<!-- Building Year //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<div class="input-group-text" id="inputGroup-sizing-sm">Building Year</div>
-								</div>
-								{{form_build_char.building_year(class ="form-control", placeholder="The year the building was build") }}
-								<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-							</div>
+			<div class="col-md-7">
+			  <!-- Top card in which you provide the building location information -->
+				<div class="card">
+					<!-- Card header of the top one -->
+					<div class="card-header ">
+						<h5 class="card-title mb-0">Building Address</h5>
+						<div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
+					</div>
+					
+					<!-- Card body-->
+					<div class="card-body">
+
+						<!-- First row: Postalcode & House Number -->
+						<div class="row" style="margin-top:0px">
+							<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
+							{{ form_build_char.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
+							<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
+							{{ form_build_char.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
 						</div>
-						<!-- Building Functionality//-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Building Functionality</span>
-								</div>
-								{{form_build_char.building_functionality(class ="form-control", size="1") }}
-							</div>
+
+						<!-- Second row: Street Name -->
+						<div class="row" style="margin-top:15px">
+							<div class="p-2 col-md-3 rounded " style="background-color: #e3e3e3; color: #66615B">Street Name</div>
+							{{ form_build_char.streetname(class="p-1 bg-light text-dark rounded col-md-9") }}
+						</div>
+
+						<!-- Third row: City -->
+                        <div class="row" style="margin-top:15px">
+                        	<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">City</div>
+                        	{{ form_build_char.city(class="p-1 bg-light text-dark rounded col-md-9")  }}    
+						</div>
+						  
+						<!-- Estimate Button -->
+						<div class="row col-md-12">
+							<button type="submit" class="btn btn-primary" >Estimate the value</button>
 						</div>
 					</div>
 
-					<div class="row"> <!-- Row 2 - Number of renovations & last renovation //-->
-						<div class="col-sm-6 col-sm-offset-0"> 		<!-- Brass //-->
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Square Meters</span>
-								</div>
-							{{form_build_char.square_meters(class ="form-control", placeholder="Square meters of the building") }}
-								<!-- <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> //-->
-							</div>
-						</div>
 
-						<!-- Last renovation year //-->
-						<div class="col-sm-6 col-sm-offset-0">
-							<div class="input-group input-group-sm mb-2 input-group-xs2">
-								<div class="input-group-prepend">
-									<span class="input-group-text" id="inputGroup-sizing-sm">Number of Floors</span>
-								</div>
-									{{form_build_char.number_floors(class ="form-control", placeholder="The amount of floors within the building") }}
-							</div>
-						</div>
-					</div>
-
-		<!-- Footer of Building Characteristics //-->
-				</div>
-				<div class="card-footer ">
-					<hr>
-				</div>
+				</div> 
 			</div>
-		</div>
+
+			<div class="col-md-5">
+					<iframe src="https://www.google.com/maps/embed" width="100%" height="90%" frameborder="0" id="googleMapsTop" style="border:0; margin-bottom: 20px" allowfullscreen></iframe>
+			</div>
 	</div>
-
-
-		<script>
-		var number = {{  numberOfMaterialsDisplayed }}
-		var list_elements_div  = []
-		var list_elements_name = []
-
-		function isEven(n) {
-			return n % 2 == 0;
-		}
-
-		function AddMaterial() {
-
-			var select = document.getElementById("MaterialInput");
-			var materialSelected = select.options[select.selectedIndex].text;
-
-		if (!list_elements_name.includes(materialSelected)) {
-
-			number = number + 1
-			if (number % 2 == 1) {
-				var divToAppend = document.getElementById("materialBody");
-
-				var row = document.createElement("div")
-				row.className = "row"
-				row.id = number + "row"
-
-				var Div = document.createElement("div")
-				Div.className = "col-sm-6 col-sm-offset-0"
-				// ID of the entire field
-				Div.id = materialSelected + "_entireField"
-
-				var rowDiv = document.createElement("div")
-				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-
-				var rowDivDiv = document.createElement("div")
-				rowDivDiv.className = "input-group-prepend"
-
-				var rowDivDivSpan = document.createElement("span")
-				rowDivDivSpan.className = "input-group-text"
-				rowDivDivSpan.id = "inputGroup-sizing-sm"
-
-				// The text on the left side
-				rowDivDivSpan.innerText = materialSelected + " (KG)"
-
-				rowDivInput = document.createElement("input")
-				rowDivInput.className = "form-control"
-
-				// Name of the Input field
-				rowDivInput.name = materialSelected + "_input"
-				rowDivInput.nodeType = "text"
-
-				rowDivDiv.appendChild(rowDivDivSpan)
-				rowDiv.appendChild(rowDivDiv)
-				rowDiv.appendChild(rowDivInput)
-				Div.appendChild(rowDiv)
-				row.appendChild(Div)
-				divToAppend.appendChild(row)
-
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
-
-			} else {
-				var divToAppend = document.getElementById((number-1) + "row");
-
-				var Div = document.createElement("div");
-				Div.className = "col-sm-6 col-sm-offset-0";
-				// ID of the entire field
-				Div.id = materialSelected + "_entireField"
-
-				var rowDiv = document.createElement("div")
-				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-
-				var rowDivDiv = document.createElement("div")
-				rowDivDiv.className = "input-group-prepend"
-
-				var rowDivDivSpan = document.createElement("span")
-				rowDivDivSpan.className = "input-group-text"
-				rowDivDivSpan.id = "inputGroup-sizing-sm"
-
-				// The text on the left side
-				rowDivDivSpan.innerText = materialSelected + " (KG)"
-
-				rowDivInput = document.createElement("input")
-				rowDivInput.className = "form-control"
-
-				// Name of the Input field
-				rowDivInput.name = materialSelected + "_input"
-				rowDivInput.nodeType = "text"
-
-				rowDivDiv.appendChild(rowDivDivSpan)
-				rowDiv.appendChild(rowDivDiv)
-				rowDiv.appendChild(rowDivInput)
-				Div.appendChild(rowDiv)
-
-				divToAppend.appendChild(Div)
-
-				list_elements_div.push(Div)
-				list_elements_name.push(materialSelected)
-			}
-			}
-		}
-
-		function RemoveMaterial() {
-			var select = document.getElementById("MaterialInput");
-			var materialSelected = select.options[select.selectedIndex].text;
-
-			if (list_elements_name.includes(materialSelected)) {
-				number = number - 1
-
-				// Remove the variable
-				var index_remove = list_elements_name.indexOf(materialSelected)
-				list_elements_div.splice( index_remove, 1 )
-				list_elements_name.splice( index_remove, 1 )
-
-				document.getElementById(materialSelected + "_entireField").remove()
-
-				for (var prop of list_elements_name) {
-					document.getElementById(prop + "_entireField").remove()
-				}
-
-				for (var i = 0; i <= number; i++) {
-					if ( (i + 1) % 2 == 1) {
-						document.getElementById( (i + 1) + "row").remove()
-
-						var row = document.createElement("div")
-						row.className = "row"
-						row.id = (i + 1) + "row"
-
-						row.appendChild(list_elements_div[i])
-						document.getElementById("materialBody").appendChild(row)
-					} else {
-						document.getElementById(i + "row").appendChild(list_elements_div[i])
-					}
-				}
-
-
-
-
-
-				//document.getElementById(element + "_entireField").remove();
-
-
-			}
-		}
-		
-		</script>
 
 		<div class="row">
 			<div class="col-md-12">
-						<div class="card ">
+				<div class="card ">
 							<div class="card-header ">
 								<h5 class="card-title mb-0">Building Materials</h5>
-								<div class="card-category">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
+								<div class="card-category" style="text-transform:none">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
 							</div>
 
-							<div class="card-body" id="materialBody">
+				  <div class="card-body" id="materialBody">
 					
 					<div class="row">
 						<select class="form-control col-sm-4 col-sm-offset-0" style="margin-left: 15px; margin-bottom: 5px" id="MaterialInput">
@@ -321,68 +131,17 @@
 						<button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
 					</div>
 
+				  </div>
+					<div class="card-footer ">
+						<hr style="margin-top: 2pt; margin-bottom: 2pt">
+					</div>
 				</div>
-							<div class="card-footer ">
-								<hr style="margin-top: 2pt; margin-bottom: 2pt">
-							</div>
-				</div>
-
+			</div>
+		</div>
 			<!-- End of the form //-->
 			</form>
-					</div>
-				</div>
+</div>
 
-
-		</form>
-
-		</div>
-				<!-- <div class="row">
-					<div class="col-md-4">
-						<div class="card ">
-							<div class="card-header ">
-								<h5 class="card-title">Email Statistics</h5>
-								<p class="card-category">Last Campaign Performance</p>
-							</div>
-							<div class="card-body ">
-								<canvas id="chartEmail"></canvas>
-							</div>
-							<div class="card-footer ">
-								<div class="legend">
-									<i class="fa fa-circle text-primary"></i> Opened
-									<i class="fa fa-circle text-warning"></i> Read
-									<i class="fa fa-circle text-danger"></i> Deleted
-									<i class="fa fa-circle text-gray"></i> Unopened
-								</div>
-								<hr style="margin-top: 2pt; margin-bottom: 2pt">
-								<div class="stats">
-									<i class="fa fa-calendar"></i> Number of emails sent
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-8">
-						<div class="card card-chart">
-							<div class="card-header">
-								<h5 class="card-title">NASDAQ: AAPL</h5>
-								<p class="card-category">Line Chart with Points</p>
-							</div>
-							<div class="card-body">
-								<canvas id="speedChart" width="400" height="100"></canvas>
-							</div>
-							<div class="card-footer">
-								<div class="chart-legend">
-									<i class="fa fa-circle text-info"></i> Tesla Model S
-									<i class="fa fa-circle text-warning"></i> BMW 5 Series
-								</div>
-								<hr/>
-								<div class="card-stats">
-									<i class="fa fa-check"></i> Data information certified
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> //-->
 			<footer class="footer footer-black  footer-white ">
 				<div class="container-fluid">
 					<div class="row">
@@ -396,7 +155,238 @@
 					</div>
 				</div>
 			</footer>
-		</div>
-	</div>
+
+
+	<script>
+			var number = {{  numberOfMaterialsDisplayed }}
+			var list_elements_div  = []
+			var list_elements_name = []
+	
+			function isEven(n) {
+				return n % 2 == 0;
+			}
+	
+			function AddMaterial() {
+	
+				var select = document.getElementById("MaterialInput");
+				var materialSelected = select.options[select.selectedIndex].text;
+	
+			if (!list_elements_name.includes(materialSelected)) {
+	
+				number = number + 1
+				if (number % 2 == 1) {
+					var divToAppend = document.getElementById("materialBody");
+	
+					var row = document.createElement("div")
+					row.className = "row"
+					row.id = number + "row"
+	
+					var Div = document.createElement("div")
+					Div.className = "col-sm-6 col-sm-offset-0"
+					// ID of the entire field
+					Div.id = materialSelected + "_entireField"
+	
+					var rowDiv = document.createElement("div")
+					rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+	
+					var rowDivDiv = document.createElement("div")
+					rowDivDiv.className = "input-group-prepend"
+	
+					var rowDivDivSpan = document.createElement("span")
+					rowDivDivSpan.className = "input-group-text"
+					rowDivDivSpan.id = "inputGroup-sizing-sm"
+	
+					// The text on the left side
+					rowDivDivSpan.innerText = materialSelected + " (KG)"
+	
+					rowDivInput = document.createElement("input")
+					rowDivInput.className = "form-control"
+	
+					// Name of the Input field
+					rowDivInput.name = materialSelected + "_input"
+					rowDivInput.nodeType = "text"
+	
+					rowDivDiv.appendChild(rowDivDivSpan)
+					rowDiv.appendChild(rowDivDiv)
+					rowDiv.appendChild(rowDivInput)
+					Div.appendChild(rowDiv)
+					row.appendChild(Div)
+					divToAppend.appendChild(row)
+	
+					list_elements_div.push(Div)
+					list_elements_name.push(materialSelected)
+	
+				} else {
+					var divToAppend = document.getElementById((number-1) + "row");
+	
+					var Div = document.createElement("div");
+					Div.className = "col-sm-6 col-sm-offset-0";
+					// ID of the entire field
+					Div.id = materialSelected + "_entireField"
+	
+					var rowDiv = document.createElement("div")
+					rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+	
+					var rowDivDiv = document.createElement("div")
+					rowDivDiv.className = "input-group-prepend"
+	
+					var rowDivDivSpan = document.createElement("span")
+					rowDivDivSpan.className = "input-group-text"
+					rowDivDivSpan.id = "inputGroup-sizing-sm"
+	
+					// The text on the left side
+					rowDivDivSpan.innerText = materialSelected + " (KG)"
+	
+					rowDivInput = document.createElement("input")
+					rowDivInput.className = "form-control"
+	
+					// Name of the Input field
+					rowDivInput.name = materialSelected + "_input"
+					rowDivInput.nodeType = "text"
+	
+					rowDivDiv.appendChild(rowDivDivSpan)
+					rowDiv.appendChild(rowDivDiv)
+					rowDiv.appendChild(rowDivInput)
+					Div.appendChild(rowDiv)
+	
+					divToAppend.appendChild(Div)
+	
+					list_elements_div.push(Div)
+					list_elements_name.push(materialSelected)
+				}
+				}
+			}
+	
+			function RemoveMaterial() {
+				var select = document.getElementById("MaterialInput");
+				var materialSelected = select.options[select.selectedIndex].text;
+	
+				if (list_elements_name.includes(materialSelected)) {
+					number = number - 1
+	
+					// Remove the variable
+					var index_remove = list_elements_name.indexOf(materialSelected)
+					list_elements_div.splice( index_remove, 1 )
+					list_elements_name.splice( index_remove, 1 )
+	
+					document.getElementById(materialSelected + "_entireField").remove()
+	
+					for (var prop of list_elements_name) {
+						document.getElementById(prop + "_entireField").remove()
+					}
+	
+					for (var i = 0; i <= number; i++) {
+						if ( (i + 1) % 2 == 1) {
+							document.getElementById( (i + 1) + "row").remove()
+	
+							var row = document.createElement("div")
+							row.className = "row"
+							row.id = (i + 1) + "row"
+	
+							row.appendChild(list_elements_div[i])
+							document.getElementById("materialBody").appendChild(row)
+						} else {
+							document.getElementById(i + "row").appendChild(list_elements_div[i])
+						}
+					}
+	
+	
+	
+	
+	
+					//document.getElementById(element + "_entireField").remove();
+	
+	
+				}
+			}
+
+      		// Check if the provided postal code is valid
+      		function isValidPostalCode(postcalCode) {
+
+        		var postalCode = String(postalCode)
+        		// Check if the postalcode is valid.
+        		// Check if length is 6, first 4 characters are numbers and last 2 are digits.
+        		if (postalCode.length == 6 || /^\d+$/.test(postalCode.substring(0,4)) || /^[a-zA-Z]+$/.test(postalCode.substring(4,6)) ) {
+          
+          			return true
+        		}
+        		else {
+         					 return false
+       			 }
+     		}
+
+      		// Logic of when postal code field changes
+      		function postalcodeChanged() {
+       			postcalCodeField = document.getElementById("postalcode")
+
+        		// Check if a valid postal code is provided
+        		if (! isValidPostalCode(postcalCodeField.value) ) {
+            	// Show that it is an invalid postal code
+
+            	// break out of function
+            	return
+        		}
+
+        	var request = new XMLHttpRequest()
+
+        	request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value);
+        	request.send()
+
+        	request.onload=function(){
+          		if(this.readyState == 4 && this.status==200){
+            		var data = JSON.parse(this.response);
+
+            		var response = data["response"]
+
+            		// Check if this postalcode actually does exist.
+            		if (response["numFound"] == 0) {
+                		return
+            		} else {
+                		document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+              		}
+          		}
+        	  }
+      		}		
+      
+      		// Logic of when house number field changes
+      		function housenumberChanged(){
+        	// Get the value in the street name field
+        	housenumberField = document.getElementById("housenumber")
+
+        	// Get the value of the postal code field
+        	postcalCodeField = document.getElementById("postalcode")
+
+        	// Check if a postal code has been provided by the user.
+        	if (postcalCodeField.value == "") {
+          		return
+        	}
+        	var request = new XMLHttpRequest()
+
+        	request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value + '&&fq=huisnummer:' + housenumberField.value);
+        	request.send()
+        	request.onload=function(){
+          	if(this.readyState == 4 && this.status==200){
+            	var data = JSON.parse(this.response);
+
+            	var response = data["response"]
+
+            	// Check if this postalcode actually does exist.
+            	if (response["numFound"] == 0) {
+                	return
+            	} else {
+                	cordinates = response["docs"]["0"]["centroide_ll"]
+                	x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                	y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+                	document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
+                	document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
+              
+                	document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
+                                                              	x_cordinate + ',' + y_cordinate +
+                                                              	"&output=embed&iwd=-1";
+              		}
+          		}
+        	  }
+      		}
+			</script>
 
 {% endblock %}
