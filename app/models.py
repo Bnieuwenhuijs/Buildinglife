@@ -65,9 +65,8 @@ class License(UserMixin, db.Model):
 		self.license_type 	= license_type
 		self.isActive 		= True
 		
-		h = hashlib.new('ripemd160')
-		h.update(str(self.id) + str(datetime.now()) + str(self.license_type) + str(self.user_id))
-		self.license_hash 	= h.hexdigest()
+		text = str(self.id) + str(datetime.now()) + str(self.license_type) + str(self.user_id)
+		self.license_hash 	= hashlib.md5(text.encode("utf-8")).hexdigest()
 
 
 	def __repr__(self):
