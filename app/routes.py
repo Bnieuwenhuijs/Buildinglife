@@ -399,7 +399,7 @@ def parameters():
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
-										window_count = True)
+										window_count = windowchecked)
 										)
 	print(building_properties_list)
 	#building_properties_list is a list with dictionaries. example: 
