@@ -1,6 +1,39 @@
 {% extends "base.html" %}
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/static/Front_end/Dashboard/assets/js/plugins/chartjs.min.js"></script>
 {% block content %}
+
+<script src="/static/Front_end/Dashboard/assets/js/plugins/chartjs.min.js"></script>
+<script >
+        // Script that creates graph automatically
+        function createGraph(dataList, elementName, labelList) {
+            var ctxP = document.getElementById(elementName).getContext('2d');
+            var myChart = new Chart(ctxP, {
+                type: 'pie',
+                data: {
+                    labels: labelList,
+                    datasets: [{
+                        data: dataList, 
+                        backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360", "#38b72f"],
+                        hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774", "#3fcc35"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    legend: {
+                        labels: {
+                            boxWidth: 20,
+                            fontSize: 9
+                        }
+                    }
+                }
+            })
+
+          console.log(myChart)
+        }
+</script>
+
     <div class="main-panel">
       <!-- Navbar -->
       <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
@@ -53,11 +86,251 @@
       <div class="content">
         <!-- Complete estimation. I.e. all materials and value accumulated -->
         <div class="row">
+           <div class="col-md-6">
+                <div class="card">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <h6 class="card-title mb-0" style="font-weight: 535; text-transform: none; font-size: 1.3em">Combined Estimation</h6>             
+                    </div>
+                    <!-- Card body-->
+                    <div class="card-body">
+                      <!-- Total Value estimation-->
 
+                      <div class="row">
+                        <div class="p-2 col-md-6 rounded" style="background-color: #e3e3e3; ; color: #66615B">Total Value</div>
+                        <div class="p-2 bg-light text-dark rounded col-md-6"> TestTotalValue </div>
+                      </div>
+
+                      <div class="row" style="margin-top:15px">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-4" style="padding-left: 5px">
+                                <h7> Quantity Estimation </h7>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4" style="padding-left: 5px">
+                                <h7>  Value Estimation</h7>
+                            </div>
+                      </div>
+
+                      <!-- Steel -->
+                      <div class="row">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Steel</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+
+                      <!-- Copper -->
+                      <div class="row" style="margin-top: 5px">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Copper</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+
+                      <!-- Concrete -->
+                      <div class="row" style="margin-top: 5px">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Concrete</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+
+                      <!-- Timber -->
+                      <div class="row" style="margin-top: 5px">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Timber</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+
+                      <!-- Glass -->
+                      <div class="row" style="margin-top: 5px">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Glass</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+
+                      <!-- Polystyrene -->
+                      <div class="row" style="margin-top: 5px">
+                            <!-- Steel Material Quantity Estimation -->
+                            <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Polystyrene</div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Overview-->
+            <div class="col-md-6">
+             <div class="card">
+                <div class="card-header">
+                  <h6 class="card-title mb-0" style="font-weight: 535; text-transform: none; font-size: 1.3em"> Visual Overview</h6>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-6">
+                            <h6 class="card-title mb-0 text-center" style="font-weight: 500; text-transform: none; font-size: 1.1em">Quantity Estimation</h6>
+                      </div>
+                      <div class="col-md-6">
+                            <h6 class="card-title mb-0 text-center" style="font-weight: 500; text-transform: none; font-size: 1.1em">Value Estimation</h6>
+                        </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
+                            <canvas id="CombinedMaterial" width="80%" height="67%" style='height: 100%; width: 100%'></canvas>
+                            <script>createGraph([1,2,3], "CombinedMaterial", ["1","2","3"])</script>
+                    </div>
+                    <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
+                            <canvas id="CombinedValue" width="80%" height="67%" style='height: 100%; width: 100%'></canvas>
+                            <script>createGraph([3,4,5], "CombinedValue", ["3","4","5"])</script>
+                    </div>
+                  </div>
+                </div>
+             </div>
+            </div>
         </div>
         
+        <!-- If statement for each building -->
+      <div class="row">
+            <div class="col-md-12">
+                <div class="card" style="margin-bottom: 6px">
+                        <div class="card-body">
+                            <!-- Building Information -->
+                                <!-- Postal Code and City-->
+                                <div class="row">
+                                  <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">Postal Code</div>
+                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> 5126EX </div>
+                                  <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">City</div>
+                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> Gilze </div>
+                                </div>
+                                <!-- Street Name and House Number-->
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">Street Name</div>
+                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> Kalverstraatje </div>
+                                    <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">House Number</div>
+                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> 3 </div>
+                                </div>
+
+                                <!-- Button for More Info -->
+                                <div class="row" style="margin-top:8px;">
+                                    <div style="margin-left: 10px; margin-bottom: 3px">
+                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="#collapse">
+                                           Show Estimations
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                        </div>
+                </div>
+            </div>
+
+        <!-- Part that expands / collapses -->
+        <div class="collapse col-md-12" id="collapse">
+          <div class="card">
+               <!-- Steel -->
+             <div class="col-md-12">
+                <div class="row" style="margin-top: 15px">
+                        <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Steel</div>
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+
+                </div>
+             </div> 
+
+             <!-- Copper -->
+             <div class="col-md-12">
+                    <div class="row" style="margin-top: 10px">
+                            <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Copper</div>
+                            <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+    
+                            <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+    
+                    </div>
+             </div> 
+
+             <!-- Concrete -->
+             <div class="col-md-12">
+                <div class="row" style="margin-top: 10px">
+                    <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Concrete</div>
+                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                
+                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                
+                </div>
+             </div>
+
+             <!-- Timber -->
+            <div class="col-md-12">
+                <div class="row" style="margin-top: 10px">
+                    <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Timber</div>
+                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                
+                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                
+                </div>
+            </div>
+
+            <!-- Glass -->
+            <div class="col-md-12">
+                    <div class="row" style="margin-top: 10px">
+                        <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Glass</div>
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                    
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                    
+                    </div>
+            </div>
+
+            <!-- Polystyrene -->
+            <div class="col-md-12">
+                    <div class="row" style="margin-top: 10px; margin-bottom: 15px">
+                        <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Polystyrene</div>
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                                
+                        <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                                                
+                    </div>
+            </div>
+
+          
+             
+          </div>
+        </div>
+
+      </div>
+
       </div>
 
     </div>
+
+<!-- Scripts -->
 
 {% endblock %}

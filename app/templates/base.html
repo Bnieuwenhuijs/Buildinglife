@@ -69,7 +69,7 @@
             </a>
           </li>
 
-          {% if url_for(request.endpoint) == "/BuildingManagement" %}
+          {% if url_for(request.endpoint) == "/BuildingManagement" or url_for(request.endpoint) == "/parameters" or url_for(request.endpoint) == "/building_management_estimation" %}
           <li class="active ">
           {% else %}
           <li>
