@@ -93,7 +93,7 @@
                       <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addStreet()"> Add Street</button>                     
                    </div>
                    <div class="row col-md-12">
-                      <button type="button" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
+                      <button type="button" id="EstimateValuesButton" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
                       <div class="custom-control custom-checkbox" style="margin: 5px 20px">
                           <input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1">
                           <label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
@@ -109,6 +109,8 @@
               </div>
           </div>
         </div>
+        <div class="spinner"></div>
+        
     </div>
 
     <script>
@@ -418,6 +420,14 @@
       }
     
       function testPostJava() {
+        estimateValuesButton = document.getElementById("EstimateValuesButton")
+        estimateValuesButton.disabled = true
+        estimateValuesButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+
+        setTimeout(function () {
+          var t = "test"
+        }, 5000);
+
         var data = buildingList
         var windowchecked = document.getElementById("customCheck1").checked
         if (data.length != 0) {
@@ -431,6 +441,8 @@
             })
           } else {}
       }
+
+      
     </script>
 
       {% endblock %}
