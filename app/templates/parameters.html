@@ -52,6 +52,77 @@
       <!-- Content -->
       <div class="content">
 
+      <button type="submit" class="btn btn-primary" >Estimate the value</button>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+            <div class="card-header ">
+                <h5 class="card-title mb-0">Please validate the building information</h5>
+                <p class="card-category">We proved you will all the information about your building! Can you just check it?</p>
+              </div>
+            </div>
+          </div>
+            {% for building in building_properties_list %}
+          <div class="col-md-12">
+            <div class="card ">
+                <div class="card-header ">
+                    {% set value = loop.index - 1 %}
+                    <h5 class="card-title mb-0">The {{ buildingList[value][1] }} {{ buildingList[value][3] }} in {{ buildingList[value][4] }} </h5>
+
+                  </div>
+              <div class="card-body ">
+                <div class="row" style="margin-top:10px">
+                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
+
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.Building_year }}</div>
+
+                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">building functionality</div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
+                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
+
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
+
+                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Ground height</div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.ground_0_50 }}</div>
+                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Lowest point roof</div>
+  
+                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_25 }}</div>
+  
+                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Highest point roof</div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_95 }}</div>
+                        <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+
+                <div class="row" style="margin-top:10px">
+                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Lowest point roof</div>
+  
+                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_25 }}</div>
+  
+                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Type of roof</div>
+                    {% if building.roof_flat == True %}
+                      {% set roof = 'Flat' %}
+                    {% elif building.roof_flat == False %}
+                      {% set roof = 'Pitched' %}
+                    {% endif %}
+                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ roof }}</div>
+                        <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
+                </div>
+
+			</div>
+		</div>
+  </div>
+  {% endfor %}
+	</div>
+
       </div>
 
     </div>

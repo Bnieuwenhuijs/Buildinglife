@@ -1,9 +1,9 @@
 from flask import render_template
 from flask import request, flash, redirect, url_for, jsonify
-from app import app
-from app import db
-from app.models import Building, User
-from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm, EditUserProfileForm, DeleteUserProfileForm
+from app import app, db
+from app.models import Building, User, License
+from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm
+from app.forms import EditUserProfileForm, DeleteUserProfileForm, UpdateUserLicenseForm, BuyStarterLicenseForm, BuyProfessionalLicenseForm, BuyBusinessLicenseForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import pickle
@@ -16,6 +16,9 @@ from wtforms.validators import DataRequired
 from urllib.request import urlopen
 import requests
 import json
+from app.Building_information_api import get_building_properties
+#from urllib.request import urlopen
+from urllib.request import urlopen
 
 
 login_manager = LoginManager()
@@ -76,7 +79,7 @@ def login():
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
 
-		flash('Your login/password does not match or exists')
+		flash('Your login/password does not match or exists', 'warning')
 
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
@@ -96,11 +99,11 @@ def signup():
 				new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
 				db.session.add(new_user)
 				db.session.commit()
-				flash('You successfully created your account')
+				flash('You successfully created your account', 'success')
 			else:
-				flash('There is already an account with that email')
+				flash('There is already an account with that email', 'warning')
 		else:
-			flash('There is already an account with that username')
+			flash('There is already an account with that username', 'warning')
 	return render_template('signup.html', form=form)
 
 
@@ -239,21 +242,33 @@ def history():
 @app.route('/BuildingManagement')
 def BuildingManagement():
 
-    BMform = BuildingManagementForm()
+	BMform = BuildingManagementForm()
 	
-    #headers = {'Content-Type': 'application/json'}
-    #response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
+	#headers = {'Content-Type': 'application/json'}
+	#response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
 
-    #if response.status_code == 200:
-    #    print (json.loads(response.content.decode('utf-8')) )
-    #else:
-    #    print("Got an error")
+	#if response.status_code == 200:
+	#    print (json.loads(response.content.decode('utf-8')) )
+	#else:
+	#    print("Got an error")
 
-    return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
+	return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
 @app.route('/UserProfile', methods=['GET', 'POST'])
 @login_required
 def UserProfile():
+	update_user_license_form = UpdateUserLicenseForm()
+	license = License.query.filter(License.user_id == User.id).first()
+	
+	'''
+	if update_user_license_form.validate_on_submit():
+		license = License.query.filter(License.user_id == User.id).first()
+	elif request.method == 'GET':
+		update_user_license_form.bought_at.data 		= license.start_date
+		update_user_license_form.expires.data 			= license.end_date
+		update_user_license_form.id 					= license.id
+	'''
+
 	edit_user_profile_form = EditUserProfileForm()
 
 	if edit_user_profile_form.validate_on_submit():
@@ -287,7 +302,61 @@ def UserProfile():
 	return render_template('userprofile.html',
 		user = user,
 		edit_user_profile_form = edit_user_profile_form,
-		delete_user_profile_form = delete_user_profile_form)
+		delete_user_profile_form = delete_user_profile_form,
+		license = license,
+		update_user_license_form = update_user_license_form)
+
+
+@app.route('/purchase', methods=['GET', 'POST'])
+@login_required
+def purchase():
+	buy_starter_form 		= BuyStarterLicenseForm()
+	buy_professional_form 	= BuyProfessionalLicenseForm()
+	buy_business_form 		= BuyBusinessLicenseForm()
+
+	new_license = None
+
+	if buy_starter_form.validate_on_submit():
+		new_license = License(user_id = current_user.id, 
+					  license_type = 'Starter',
+					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  )
+
+		db.session.add(new_license)
+		db.session.commit()
+
+		return redirect(url_for('purchase'))
+
+	if buy_professional_form.validate_on_submit():
+		new_license = License(user_id = current_user.id, 
+					  license_type = 'Professional',
+					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  )
+
+		db.session.add(new_license)
+		db.session.commit()
+
+		print (new_license)
+		return redirect(url_for('purchase'))
+
+	if buy_business_form.validate_on_submit():
+		new_license = License(user_id = current_user.id, 
+					  license_type = 'Business',
+					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  )
+
+		db.session.add(new_license)
+		db.session.commit()
+
+		return redirect(url_for('purchase'))
+
+	return render_template('purchase.html',
+		license = new_license,
+		buy_starter_form = buy_starter_form, 
+		buy_professional_form = buy_professional_form, 
+		buy_business_form = buy_business_form)
+
+
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -295,6 +364,15 @@ def logout():
 	logout_user()
 	return redirect(url_for('index'))
 
+
+@app.route('/suppr', methods=['GET', 'POST'])
+def suppr():
+	idEstimation = request.args.get('idEstimation', None)
+	Building.query.filter(Building.id == idEstimation).delete()
+	db.session.commit()
+	buildings = Building.query.order_by(Building.id.desc())
+	return redirect(url_for('history'))
+	
 buildingList = []
 windowchecked = False
 @app.route('/postlocationdata', methods = ['POST'])
@@ -316,9 +394,24 @@ def get_post_location_data():
 
 @app.route('/parameters')
 def parameters():
-	
-	# Use the variable 'windowchecked' to get the boolean value of the combobox
-	return render_template("parameters.html", buildingList = buildingList)
+	building_properties_list = []
+	buildings = len(buildingList)
+	for building in range(buildings):
+		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
+										str(buildingList[building][3]), 
+										window_count = True)
+										)
+	print(building_properties_list)
+	#building_properties_list is a list with dictionaries. example: 
+	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
+	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
+	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
+	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
+	# 'rmse-0.95': 1.22, 'roof_flat': False}]
+
+
+	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
+
 
 @app.route('/building_management_estimation')
 def building_management_estimation():

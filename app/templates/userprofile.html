@@ -54,6 +54,59 @@
         <div class="col-md-12">
           <div class="card ">
             <div class="card-header ">
+              <h4 class="card-title mb-0">Your License details</h4>
+            </div>
+            <form action="" method="POST">
+              {% if license %}
+              {{ update_user_license_form.hidden_tag() }}
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="input-group input-group-sm mb-2 input-group-xs5">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Bought at:&nbsp;</div>
+                  </div>
+                  {{update_user_license_form.bought_at(class ="form-control", placeholder=license.start_date) }}
+                </div>
+
+                <div class="input-group input-group-sm mb-2 input-group-xs2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">Expires at:</div>
+                  </div>
+                  {{update_user_license_form.expires(class ="form-control", placeholder=license.end_date) }}
+                </div>
+                <div class="input-group input-group-sm mb-2 input-group-xs5">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" id="inputGroup-sizing-sm">License:&nbsp;&nbsp;&nbsp;</div>
+                  </div>
+                  {{update_user_license_form.id(class ="form-control", placeholder=license.id) }}
+                </div>
+                <div class="form-group">
+                  {{ update_user_license_form.submit(class="btn btn-primary") }}
+                </div>
+              </div>
+              {% else %}
+              <section class="jumbotron text-center">
+                <div class="container">
+                  <h1 class="jumbotron-heading">Your license has expired :(</h1>
+                  <p class="lead text-muted">You seem to not have an active license! <br>
+                  No worries! Everyone can be forgetful! But do not faulter! You can still access your previous evaluations but you need a working license to make new ones. So what are you waiting for?</p>
+                  <p>
+                    <a href="{{url_for('purchase')}}" class="btn btn-primary">Buy now!</a>
+                  </p>
+                </div>
+              </section>
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+    <form action="" method="POST">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card ">
+            <div class="card-header ">
               <h4 class="card-title mb-0">Edit your profile</h4>
             </div>
             <form action="" method="POST">
