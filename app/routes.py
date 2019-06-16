@@ -399,13 +399,19 @@ def parameters():
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
-										window_count = windowchecked)
+										window_count = True)
 										)
 	print(building_properties_list)
+	#building_properties_list is a list with dictionaries. example: 
+	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
+	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
+	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
+	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
+	# 'rmse-0.95': 1.22, 'roof_flat': False}]
 
 
 	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
-	
+
 
 @app.route('/building_management_estimation')
 def building_management_estimation():

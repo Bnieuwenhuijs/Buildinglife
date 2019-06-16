@@ -54,13 +54,13 @@ def get_building_properties(postalcode, housenumber, window_count):
     ).json()
 #
     temp1 = dried_data.get('features')[0].get('properties')
-    building_properties['ground-0.50']   = temp1.get('ground-0.50')
-    building_properties['roof-0.25']     = temp1.get('roof-0.25')
-    building_properties['rmse-0.25']     = temp1.get('rmse-0.25')
-    building_properties['roof-0.75']     = temp1.get('roof-0.75')
-    building_properties['rmse-0.75']     = temp1.get('rmse-0.75')
-    building_properties['roof-0.95']     = temp1.get('roof-0.95')
-    building_properties['rmse-0.95']     = temp1.get('rmse-0.95')
+    building_properties['ground_0_50']   = temp1.get('ground-0.50')
+    building_properties['roof_0_25']     = temp1.get('roof-0.25')
+    building_properties['rmse_0_25']     = temp1.get('rmse-0.25')
+    building_properties['roof_0_75']     = temp1.get('roof-0.75')
+    building_properties['rmse_0_75']     = temp1.get('rmse-0.75')
+    building_properties['roof_0_95']     = temp1.get('roof-0.95')
+    building_properties['rmse_0_95']     = temp1.get('rmse-0.95')
     building_properties['roof_flat']     = temp1.get('roof_flat')
 #
     if window_count == True:
