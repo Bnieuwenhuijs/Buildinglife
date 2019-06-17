@@ -260,14 +260,8 @@ def UserProfile():
 	update_user_license_form = UpdateUserLicenseForm()
 	license = License.query.filter(License.user_id == User.id).first()
 	
-	'''
-	if update_user_license_form.validate_on_submit():
-		license = License.query.filter(License.user_id == User.id).first()
-	elif request.method == 'GET':
-		update_user_license_form.bought_at.data 		= license.start_date
-		update_user_license_form.expires.data 			= license.end_date
-		update_user_license_form.id 					= license.id
-	'''
+	update_user_license_form.expiration_date.data 		= license.end_date
+	update_user_license_form.license_hash.data 			= license.license_hash
 
 	edit_user_profile_form = EditUserProfileForm()
 

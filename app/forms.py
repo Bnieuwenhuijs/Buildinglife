@@ -70,4 +70,6 @@ class DeleteUserProfileForm(FlaskForm):
 	submit = SubmitField('Delete Profile')
 
 class UpdateUserLicenseForm(FlaskForm):
-	submit = SubmitField('Update License')
+	expiration_date = StringField(label = '')
+	license_hash 	= StringField(label = '')
+	submit 			= SubmitField('Update License')
