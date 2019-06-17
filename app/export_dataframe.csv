@@ -1,0 +1,16 @@
+Building_year,Place_name,building_functionality,ground_0_50,rmse_0_25,rmse_0_75,rmse_0_95,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters,windows
+2019,Emmen,woonfunctie,16.5,,,,16.48,16.54,16.59,True,138,5
+2019,Emmen,woonfunctie,16.54,,,,16.49,16.57,16.63,True,138,5
+2019,Emmen,woonfunctie,16.55,,,,16.53,16.59,16.62,True,138,5
+2019,Emmen,woonfunctie,16.59,,,,16.57,16.62,16.64,True,138,5
+2019,Emmen,woonfunctie,16.6,0.18,0.18,0.18,16.63,16.68,16.68,True,138,5
+2019,Emmen,woonfunctie,16.61,,,,16.58,16.63,16.67,True,138,5
+2019,Emmen,woonfunctie,16.6,,,,16.57,16.63,16.68,True,138,5
+2019,Maasbracht,woonfunctie,27.34,,,,27.32,27.36,27.39,True,125,5
+2019,Maasbracht,woonfunctie,27.29,,,,27.26,27.31,27.34,True,125,5
+2019,Maasbracht,woonfunctie,27.22,,,,27.2,27.25,27.29,True,125,5
+2019,Maasbracht,woonfunctie,27.18,,,,27.16,27.19,27.22,True,125,5
+2019,Maasbracht,woonfunctie,27.15,,,,27.13,27.17,27.2,True,125,5
+2019,Maasbracht,woonfunctie,27.46,,,,27.44,27.48,27.5,True,125,5
+2019,Maasbracht,woonfunctie,27.44,,,,27.39,27.45,27.47,True,125,5
+2019,Maasbracht,woonfunctie,27.43,,,,27.39,27.45,27.47,True,125,5
