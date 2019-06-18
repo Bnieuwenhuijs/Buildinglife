@@ -1,5 +1,6 @@
 from flask import Flask
 from config import Config
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 
@@ -12,5 +13,7 @@ migrate = Migrate(app, db)
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
+
+mail = Mail(app)
 
 from app import routes, models

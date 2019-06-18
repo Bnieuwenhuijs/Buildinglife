@@ -31,3 +31,5 @@ urllib3
 python-dateutil==2.8.0
 python-editor==1.0.4
 Flask-Script
+Flask-Mail==0.9.1
+ItsDangerous==1.1.0
