@@ -119,11 +119,11 @@ def signup():
 				
 				# Send the confirmation email
 				# Generate a confirmation token
-				#email = form.email.data
 				token = s.dumps(form.email.data, salt = 'email-confirm')
 				print (token)
-				#msg = Message('Confirm Email with BuildingLife', sender = 'hello@buildinglife.nl', recipients = [form.email.data])
-				#link = url_for('confirm_email', token = token, _external = True)
+				
+				msg = Message('Confirm Email with BuildingLife', sender = 'hello@buildinglife.nl', recipients = [form.email.data])
+				link = url_for('confirm_email', token = token, _external = True)
 
 				#msg.body = 'Your link is %s' % (link)
 				#mail.send(msg)
