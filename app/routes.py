@@ -18,6 +18,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 from urllib.request import urlopen
+from app.Building_information_api import get_building_properties
 
 import os, pickle, requests, json, datetime
 
@@ -154,9 +155,7 @@ def confirm_email(token):
 
 @app.route('/dashboard')
 def dashboard():
-	# WTform for the building characteristics input
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
-
 	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -167,26 +166,61 @@ def testing():
 		# WTform for the building characteristics input
 		form_building_charachteristics = DashboardInputCharacteristicsForm()
 
-		building_year = form_building_charachteristics.building_year.data.year
-		functionality = form_building_charachteristics.building_functionality.data
-		square_meters = form_building_charachteristics.square_meters.data
-		nr_floors     = form_building_charachteristics.number_floors.data
+		# Get the location information
+		postalcode = form_building_charachteristics.postalcode.data
+		city = form_building_charachteristics.city.data
+		housenumber = form_building_charachteristics.housenumber.data
+		streetname = form_building_charachteristics.streetname.data
+		windowcount = request.form.get("windowcount") != None
 
-		#calculation total square meters
-		total_square_meters = nr_floors * square_meters
+		# Get the cordinates
+		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
+    	).json()
 
-		#list4 = request.args.get('list2')
-		#print(list4)
+		# get a response
+		response = gebruiksdoel_Oppervlakte_data["response"]
 
-		if functionality == "Residential":
-			funct = 1
-		elif functionality == "Office":
-			funct = 2
-		elif functionality == "Other":
-			funct = 3
+		# Check if a valid building has been provided
+		if (response["numFound"] == 0):
+			return ('', 204)
+		
+		# Get the cordinates in the format (Point(Y-cordinate, X-cordinate))
+		cordinates = response['docs'][0]['centroide_ll']
+
+		x_cordinate = cordinates[int(cordinates.index(' ')) + 1 : int(cordinates.index(')'))]
+		y_cordinate = cordinates[int(cordinates.index('(')) + 1 : int(cordinates.index(' '))]
+		cordinates = x_cordinate + "," + y_cordinate
+
+		# Create the list with building location information
+		buildingList = [[cordinates, streetname, postalcode, housenumber, city]]
+		
+		# Create the list with characteristics
+		building_properties_list = []
+		building_properties_list.append(get_building_properties(postalcode, 
+										housenumber, 
+										window_count = windowchecked))
+
+		# {'square_meters': 143, 
+		# 'building_functionality': 'woonfunctie', 
+		# 'Place_name': 'Gilze', 
+		# 'Building_year': 1920, 
+		# 'ground_0_50': 16.63, 
+		# 'roof_0_25': 20.71, 
+		# 'rmse_0_25': 1.09, 
+		# 'roof_0_75': 22.65, 
+		# 'rmse_0_75': 1, 
+		# 'roof_0_95': 23.7, 
+		# 'rmse_0_95': 0.98, 
+		# 'roof_flat': False}
 
 		# Extract the values of the materials.
 		# If not provided, returns null
+		global Steel
+		global Copper
+		global Concrete
+		global Timber
+		global Glass
+		global Polystyrene
 		Steel       = request.form.get("Steel_input")
 		Copper      = request.form.get("Copper_input")
 		Concrete    = request.form.get("Concrete_input")
@@ -194,89 +228,9 @@ def testing():
 		Glass       = request.form.get("Glass_input")
 		Polystyrene = request.form.get("Polystyrene_input")
 
-		# For later functionality
-		#if Steel != None or Steel != "None" or Steel != "":
-		#    try:
-		#        float(Steel)
-		#        float(Copper)
-		#        float(Concrete)
-		#        float(Timber)
-		#        float(Glass)
-		#        float(Polystyrene)
-		#    except (ValueError, AttributeError, TypeError):
-		#        print("ERROR WTF")
-		#        flash("Check the flashing mate")
-		#        return redirect(url_for('dashboard'))
-
-		# Predictions of material quantity if not provided
-		#regression_model_path =  os.path.dirname(os.path.abspath(__file__)) + "\\regression_models"
-		regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
-
-		if Steel == None or Steel == "None" or Steel == "":
-			steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
-			Steel = steel_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		if Concrete==None or Concrete == "None" or Concrete == "":
-			concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
-			Concrete = concrete_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		if Copper==None or Concrete == "None" or Copper == "":
-			copper_model = pickle.load(open(os.path.join(regression_model_path, "copper_model.sav") , 'rb'))
-			Copper = copper_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		if Glass==None or Glass == "None" or Glass == "":
-			glass_model = pickle.load(open(os.path.join(regression_model_path, "glass_model.sav"), 'rb'))
-			Glass = glass_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		if Polystyrene==None or Polystyrene == "None" or Polystyrene == "":
-			polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
-			Polystyrene = polystyrene_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		if Timber==None or Timber == "None" or Timber == "":
-			timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
-			Timber = timber_model.predict([[total_square_meters,funct,building_year]])[0]
-
-		#Value_estimations
-		steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-		copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-		concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-		timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-		glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-		polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
-
-		total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
-		total_value = sum(total_list)
-
-		#Put in DB
-		building = Building(building_year= building_year, building_functionality= functionality, square_meters= square_meters,
-							number_floors= nr_floors,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
-							steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
-							copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
-							concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
-							timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2),
-							glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),
-							polystyrene_Value=    round(float(polystyrene_value),2))
-
-		db.session.add(building)
-		db.session.commit()
-
-		material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
-								{ "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
-								{ "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
-								{ "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
-								{ "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
-								{ "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
-
-		return render_template('estimation.html',
-							   form_build_char=form_building_charachteristics ,
-							   numberOfMaterialsDisplayed = 0,
-							   total_value = total_value,
-							   material_value_dict = material_value_dict,
-							   building_year = building_year,
-							   functionality = functionality,
-							   square_meters = square_meters,
-							   number_floors = nr_floors
-							   )
+		print(buildingList)
+		print(building_properties_list)
+		return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
 
 @app.route('/history')
 def history():
@@ -406,9 +360,54 @@ def logout():
 	return redirect(url_for('index'))
 
 
+@app.route('/suppr', methods=['GET', 'POST'])
+def suppr():
+	idEstimation = request.args.get('idEstimation', None)
+	Building.query.filter(Building.id == idEstimation).delete()
+	db.session.commit()
+	buildings = Building.query.order_by(Building.id.desc())
+	return redirect(url_for('history'))
+	
+buildingList = []
+windowchecked = False
+@app.route('/postlocationdata', methods = ['POST'])
+def get_post_location_data():
+
+	jsdata = request.form['javascript_data']
+	global windowchecked
+	windowchecked = request.form['window_checked_data'][0] == "t"
+
+	global buildingList
+	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
+	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
+	buildingList = json.loads(jsdata)
+
+	return "/parameters"
 
 
+@app.route('/parameters')
+def parameters():
 
+	print(windowchecked)
+	building_properties_list = []
+	buildings = len(buildingList)
+	for building in range(buildings):
+		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
+										str(buildingList[building][3]), 
+										window_count = windowchecked)
+										)
+	#building_properties_list is a list with dictionaries. example: 
+	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
+	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
+	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
+	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
+	# 'rmse-0.95': 1.22, 'roof_flat': False}]
+
+	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
+
+@app.route('/building_management_estimation')
+def building_management_estimation():
+	return render_template("building_management_estimation.html")
 
 
 
