@@ -128,14 +128,9 @@ def signup():
 				context = ssl.create_default_context()
 
 				server = smtplib.SMTP_SSL(MAIL_SERVER, MAIL_PORT)
-				#server.ehlo() # Can be omitted
-				#server.starttls(context=context) # Secure the connection
-				#server.ehlo() # Can be omitted
 				server.login(MAIL_USERNAME, MAIL_PASSWORD)
-				server.sendmail(MAIL_USERNAME, form.email.data, 'Your link is ' + link)
+				server.sendmail(MAIL_USERNAME, form.email.data, '\r\nYour link is ' + link)
 				server.quit() 
-				#msg.body = 'Your link is %s' % (link)
-				#mail.send(msg)
 
 				db.session.add(new_user)
 				db.session.commit()
