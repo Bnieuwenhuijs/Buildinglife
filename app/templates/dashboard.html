@@ -4,53 +4,52 @@
 <div class="main-panel">
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-				<div class="container-fluid">
-					<div class="navbar-wrapper">
-						<div class="navbar-toggle">
-							<button type="button" class="navbar-toggler">
-								<span class="navbar-toggler-bar bar1"></span>
-								<span class="navbar-toggler-bar bar2"></span>
-								<span class="navbar-toggler-bar bar3"></span>
-							</button>
-						</div>
-						<a class="navbar-brand" href="#pablo">Value estimation Dashboard</a>
-					</div>
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-bar navbar-kebab"></span>
-						<span class="navbar-toggler-bar navbar-kebab"></span>
-						<span class="navbar-toggler-bar navbar-kebab"></span>
-					</button>
-					<div class="collapse navbar-collapse justify-content-end" id="navigation">
-						<form action="" method="post">
+	<div class="container-fluid">
+		<div class="navbar-wrapper">
+			<div class="navbar-toggle">
+				<button type="button" class="navbar-toggler">
+					<span class="navbar-toggler-bar bar1"></span>
+					<span class="navbar-toggler-bar bar2"></span>
+					<span class="navbar-toggler-bar bar3"></span>
+				</button>
+			</div>
+			<a class="navbar-brand" href="#pablo">Value estimation Dashboard</a>
+		</div>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-bar navbar-kebab"></span>
+			<span class="navbar-toggler-bar navbar-kebab"></span>
+			<span class="navbar-toggler-bar navbar-kebab"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-end" id="navigation">
+			<form action="" method="post">
 
-							<div class="input-group no-border">
-								<input type="text" value="" class="form-control" placeholder="Search...">
-								<div class="input-group-append">
-									<div class="input-group-text">
-										<i class="nc-icon nc-zoom-split"></i>
-									</div>
-			
-								</div>
-							</div>
-						</form>
-						<ul class="navbar-nav">
-							<li class="nav-item">
-								<a class="nav-link btn-rotate">
-									<i class="nc-icon nc-settings-gear-65"></i>
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link btn-rotate" href="{{url_for('logout')}}">
-									<i class="fa fa-sign-out"></i>
-								</a>
-							</li>
-						</ul>
+				<div class="input-group no-border">
+					<input type="text" value="" class="form-control" placeholder="Search...">
+					<div class="input-group-append">
+						<div class="input-group-text">
+							<i class="nc-icon nc-zoom-split"></i>
+						</div>
+
 					</div>
 				</div>
+			</form>
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<a class="nav-link btn-rotate">
+						<i class="nc-icon nc-settings-gear-65"></i>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link btn-rotate" href="{{url_for('logout')}}">
+						<i class="fa fa-sign-out"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>
 <!-- End Navbar -->
 <!-- <div class="panel-header panel-header-lg">
-
 
 
 </div> -->
@@ -61,337 +60,323 @@
 
 	<!-- Provide the building location information -->
 	<div class="row">
-			<div class="col-md-7">
-			  <!-- Top card in which you provide the building location information -->
-				<div class="card">
-					<!-- Card header of the top one -->
-					<div class="card-header ">
-						<h5 class="card-title mb-0">Building Address</h5>
-						<div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
-					</div>
-					
-					<!-- Card body-->
-					<div class="card-body">
+		<div class="col-md-7">
+			<!-- Top card in which you provide the building location information -->
+			<div class="card">
+				<!-- Card header of the top one -->
+				<div class="card-header ">
+					<h5 class="card-title mb-0">Building Address</h5>
+					<div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
+				</div>
+				
+				<!-- Card body-->
+				<div class="card-body">
 
-						<!-- First row: Postalcode & House Number -->
-						<div class="row" style="margin-top:0px">
-							<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
-							{{ form_build_char.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
-							<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
-							{{ form_build_char.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
-						</div>
-
-						<!-- Second row: Street Name -->
-						<div class="row" style="margin-top:15px">
-							<div class="p-2 col-md-3 rounded " style="background-color: #e3e3e3; color: #66615B">Street Name</div>
-							{{ form_build_char.streetname(class="p-1 bg-light text-dark rounded col-md-9") }}
-						</div>
-
-						<!-- Third row: City -->
-                        <div class="row" style="margin-top:15px">
-                        	<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">City</div>
-                        	{{ form_build_char.city(class="p-1 bg-light text-dark rounded col-md-9")  }}    
-						</div>
-						  
-						<!-- Estimate Button -->
-						<div class="row col-md-12">
-							<button type="submit" class="btn btn-primary" >Estimate the value</button>
-							<!-- Checkbox -->
-							<div class="custom-control custom-checkbox" style="margin: 5px 20px">
-									<input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1" name="windowcount">
-									<label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
-							</div>
-						</div>
+					<!-- First row: Postalcode & House Number -->
+					<div class="row" style="margin-top:0px">
+						<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
+						{{ form_build_char.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
+						<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
+						{{ form_build_char.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
 					</div>
 
+					<!-- Second row: Street Name -->
+					<div class="row" style="margin-top:15px">
+						<div class="p-2 col-md-3 rounded " style="background-color: #e3e3e3; color: #66615B">Street Name</div>
+						{{ form_build_char.streetname(class="p-1 bg-light text-dark rounded col-md-9") }}
+					</div>
 
-				</div> 
-			</div>
+					<!-- Third row: City -->
+					<div class="row" style="margin-top:15px">
+						<div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">City</div>
+						{{ form_build_char.city(class="p-1 bg-light text-dark rounded col-md-9")  }}    
+					</div>
+					  
+					<!-- Estimate Button -->
+					<div class="row col-md-12">
+						<button type="submit" class="btn btn-primary" >Estimate the value</button>
+						<!-- Checkbox -->
+						<div class="custom-control custom-checkbox" style="margin: 5px 20px">
+								<input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1" name="windowcount">
+								<label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
+						</div>
+					</div>
+				</div>
+			</div> 
+		</div>
 
-			<div class="col-md-5">
-					<iframe src="https://www.google.com/maps/embed" width="100%" height="90%" frameborder="0" id="googleMapsTop" style="border:0; margin-bottom: 20px" allowfullscreen></iframe>
-			</div>
+		<div class="col-md-5">
+			<iframe src="https://www.google.com/maps/embed" width="100%" height="90%" frameborder="0" id="googleMapsTop" style="border:0; margin-bottom: 20px" allowfullscreen></iframe>
+		</div>
 	</div>
 
 		<div class="row">
 			<div class="col-md-12">
 				<div class="card ">
-							<div class="card-header ">
-								<h5 class="card-title mb-0">Building Materials</h5>
-								<div class="card-category" style="text-transform:none">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
-							</div>
+					<div class="card-header ">
+						<h5 class="card-title mb-0">Building Materials</h5>
+						<div class="card-category" style="text-transform:none">Provide the materials within the building you want to valuate. If not provided, an estimation will be made</div>
+					</div>
 
-				  <div class="card-body" id="materialBody">
-					
-					<div class="row">
-						<select class="form-control col-sm-4 col-sm-offset-0" style="margin-left: 15px; margin-bottom: 5px" id="MaterialInput">
+					<div class="card-body" id="materialBody">
+						<div class="row">
+							<select class="form-control col-sm-4 col-sm-offset-0" style="margin-left: 15px; margin-bottom: 5px" id="MaterialInput">
 							<option value="Steel">Steel</option>
 							<option value="Copper">Copper</option>
 							<option value="Concrete">Concrete</option>
 							<option value="Timber">Timber</option>
 							<option value="Glass">Glass</option>
 							<option value="volvo">Polystyrene</option>
-						</select>
-						<button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="AddMaterial()"><i class="fa fa-plus"></i></button>
-						<button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
+							</select>
+							<button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="AddMaterial()"><i class="fa fa-plus"></i></button>
+							<button type="button" class="btn btn-primary" style="margin: 0px 5px 10px 5px; height: calc(2.25rem + 2px);" onclick="RemoveMaterial()"><i class="fa fa-minus"></i></button>
+						</div>
 					</div>
-
-				  </div>
 					<div class="card-footer ">
 						<hr style="margin-top: 2pt; margin-bottom: 2pt">
 					</div>
 				</div>
 			</div>
 		</div>
-			<!-- End of the form //-->
-			</form>
+	<!-- End of the form //-->
+	</form>
 </div>
 
-			<footer class="footer footer-black  footer-white ">
-				<div class="container-fluid">
-					<div class="row">
-						<nav class="footer-nav">
-							<ul>
-								<li>
-									<a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</footer>
+<footer class="footer footer-black  footer-white ">
+	<div class="container-fluid">
+		<div class="row">
+			<nav class="footer-nav">
+				<ul>
+					<li>
+						<a href="https://www.creative-tim.com/license" target="_blank">Licenses</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</footer>
 
 
-	<script>
-			var number = {{  numberOfMaterialsDisplayed }}
-			var list_elements_div  = []
-			var list_elements_name = []
-	
-			function isEven(n) {
-				return n % 2 == 0;
+<script>
+		var number = {{  numberOfMaterialsDisplayed }}
+		var list_elements_div  = []
+		var list_elements_name = []
+
+		function isEven(n) {
+			return n % 2 == 0;
+		}
+
+		function AddMaterial() {
+
+			var select = document.getElementById("MaterialInput");
+			var materialSelected = select.options[select.selectedIndex].text;
+
+		if (!list_elements_name.includes(materialSelected)) {
+
+			number = number + 1
+			if (number % 2 == 1) {
+				var divToAppend = document.getElementById("materialBody");
+
+				var row = document.createElement("div")
+				row.className = "row"
+				row.id = number + "row"
+
+				var Div = document.createElement("div")
+				Div.className = "col-sm-6 col-sm-offset-0"
+				// ID of the entire field
+				Div.id = materialSelected + "_entireField"
+
+				var rowDiv = document.createElement("div")
+				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+
+				var rowDivDiv = document.createElement("div")
+				rowDivDiv.className = "input-group-prepend"
+
+				var rowDivDivSpan = document.createElement("span")
+				rowDivDivSpan.className = "input-group-text"
+				rowDivDivSpan.id = "inputGroup-sizing-sm"
+
+				// The text on the left side
+				rowDivDivSpan.innerText = materialSelected + " (KG)"
+
+				rowDivInput = document.createElement("input")
+				rowDivInput.className = "form-control"
+
+				// Name of the Input field
+				rowDivInput.name = materialSelected + "_input"
+				rowDivInput.nodeType = "text"
+
+				rowDivDiv.appendChild(rowDivDivSpan)
+				rowDiv.appendChild(rowDivDiv)
+				rowDiv.appendChild(rowDivInput)
+				Div.appendChild(rowDiv)
+				row.appendChild(Div)
+				divToAppend.appendChild(row)
+
+				list_elements_div.push(Div)
+				list_elements_name.push(materialSelected)
+
+			} else {
+				var divToAppend = document.getElementById((number-1) + "row");
+
+				var Div = document.createElement("div");
+				Div.className = "col-sm-6 col-sm-offset-0";
+				// ID of the entire field
+				Div.id = materialSelected + "_entireField"
+
+				var rowDiv = document.createElement("div")
+				rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
+
+				var rowDivDiv = document.createElement("div")
+				rowDivDiv.className = "input-group-prepend"
+
+				var rowDivDivSpan = document.createElement("span")
+				rowDivDivSpan.className = "input-group-text"
+				rowDivDivSpan.id = "inputGroup-sizing-sm"
+
+				// The text on the left side
+				rowDivDivSpan.innerText = materialSelected + " (KG)"
+
+				rowDivInput = document.createElement("input")
+				rowDivInput.className = "form-control"
+
+				// Name of the Input field
+				rowDivInput.name = materialSelected + "_input"
+				rowDivInput.nodeType = "text"
+
+				rowDivDiv.appendChild(rowDivDivSpan)
+				rowDiv.appendChild(rowDivDiv)
+				rowDiv.appendChild(rowDivInput)
+				Div.appendChild(rowDiv)
+
+				divToAppend.appendChild(Div)
+
+				list_elements_div.push(Div)
+				list_elements_name.push(materialSelected)
 			}
-	
-			function AddMaterial() {
-	
-				var select = document.getElementById("MaterialInput");
-				var materialSelected = select.options[select.selectedIndex].text;
-	
-			if (!list_elements_name.includes(materialSelected)) {
-	
-				number = number + 1
-				if (number % 2 == 1) {
-					var divToAppend = document.getElementById("materialBody");
-	
-					var row = document.createElement("div")
-					row.className = "row"
-					row.id = number + "row"
-	
-					var Div = document.createElement("div")
-					Div.className = "col-sm-6 col-sm-offset-0"
-					// ID of the entire field
-					Div.id = materialSelected + "_entireField"
-	
-					var rowDiv = document.createElement("div")
-					rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-	
-					var rowDivDiv = document.createElement("div")
-					rowDivDiv.className = "input-group-prepend"
-	
-					var rowDivDivSpan = document.createElement("span")
-					rowDivDivSpan.className = "input-group-text"
-					rowDivDivSpan.id = "inputGroup-sizing-sm"
-	
-					// The text on the left side
-					rowDivDivSpan.innerText = materialSelected + " (KG)"
-	
-					rowDivInput = document.createElement("input")
-					rowDivInput.className = "form-control"
-	
-					// Name of the Input field
-					rowDivInput.name = materialSelected + "_input"
-					rowDivInput.nodeType = "text"
-	
-					rowDivDiv.appendChild(rowDivDivSpan)
-					rowDiv.appendChild(rowDivDiv)
-					rowDiv.appendChild(rowDivInput)
-					Div.appendChild(rowDiv)
-					row.appendChild(Div)
-					divToAppend.appendChild(row)
-	
-					list_elements_div.push(Div)
-					list_elements_name.push(materialSelected)
-	
-				} else {
-					var divToAppend = document.getElementById((number-1) + "row");
-	
-					var Div = document.createElement("div");
-					Div.className = "col-sm-6 col-sm-offset-0";
-					// ID of the entire field
-					Div.id = materialSelected + "_entireField"
-	
-					var rowDiv = document.createElement("div")
-					rowDiv.className = "input-group input-group-sm mb-2 input-group-xs2"
-	
-					var rowDivDiv = document.createElement("div")
-					rowDivDiv.className = "input-group-prepend"
-	
-					var rowDivDivSpan = document.createElement("span")
-					rowDivDivSpan.className = "input-group-text"
-					rowDivDivSpan.id = "inputGroup-sizing-sm"
-	
-					// The text on the left side
-					rowDivDivSpan.innerText = materialSelected + " (KG)"
-	
-					rowDivInput = document.createElement("input")
-					rowDivInput.className = "form-control"
-	
-					// Name of the Input field
-					rowDivInput.name = materialSelected + "_input"
-					rowDivInput.nodeType = "text"
-	
-					rowDivDiv.appendChild(rowDivDivSpan)
-					rowDiv.appendChild(rowDivDiv)
-					rowDiv.appendChild(rowDivInput)
-					Div.appendChild(rowDiv)
-	
-					divToAppend.appendChild(Div)
-	
-					list_elements_div.push(Div)
-					list_elements_name.push(materialSelected)
-				}
-				}
 			}
-	
-			function RemoveMaterial() {
-				var select = document.getElementById("MaterialInput");
-				var materialSelected = select.options[select.selectedIndex].text;
-	
-				if (list_elements_name.includes(materialSelected)) {
-					number = number - 1
-	
-					// Remove the variable
-					var index_remove = list_elements_name.indexOf(materialSelected)
-					list_elements_div.splice( index_remove, 1 )
-					list_elements_name.splice( index_remove, 1 )
-	
-					document.getElementById(materialSelected + "_entireField").remove()
-	
-					for (var prop of list_elements_name) {
-						document.getElementById(prop + "_entireField").remove()
+		}
+
+		function RemoveMaterial() {
+			var select = document.getElementById("MaterialInput");
+			var materialSelected = select.options[select.selectedIndex].text;
+
+			if (list_elements_name.includes(materialSelected)) {
+				number = number - 1
+
+				// Remove the variable
+				var index_remove = list_elements_name.indexOf(materialSelected)
+				list_elements_div.splice( index_remove, 1 )
+				list_elements_name.splice( index_remove, 1 )
+
+				document.getElementById(materialSelected + "_entireField").remove()
+
+				for (var prop of list_elements_name) {
+					document.getElementById(prop + "_entireField").remove()
+				}
+
+				for (var i = 0; i <= number; i++) {
+					if ( (i + 1) % 2 == 1) {
+						document.getElementById( (i + 1) + "row").remove()
+
+						var row = document.createElement("div")
+						row.className = "row"
+						row.id = (i + 1) + "row"
+
+						row.appendChild(list_elements_div[i])
+						document.getElementById("materialBody").appendChild(row)
+					} else {
+						document.getElementById(i + "row").appendChild(list_elements_div[i])
 					}
-	
-					for (var i = 0; i <= number; i++) {
-						if ( (i + 1) % 2 == 1) {
-							document.getElementById( (i + 1) + "row").remove()
-	
-							var row = document.createElement("div")
-							row.className = "row"
-							row.id = (i + 1) + "row"
-	
-							row.appendChild(list_elements_div[i])
-							document.getElementById("materialBody").appendChild(row)
-						} else {
-							document.getElementById(i + "row").appendChild(list_elements_div[i])
-						}
-					}
-	
-	
-	
-	
-	
-					//document.getElementById(element + "_entireField").remove();
-	
-	
 				}
 			}
+		}
 
-      		// Check if the provided postal code is valid
-      		function isValidPostalCode(postcalCode) {
+		// Check if the provided postal code is valid
+ 		function isValidPostalCode(postcalCode) {
 
-        		var postalCode = String(postalCode)
-        		// Check if the postalcode is valid.
-        		// Check if length is 6, first 4 characters are numbers and last 2 are digits.
-        		if (postalCode.length == 6 || /^\d+$/.test(postalCode.substring(0,4)) || /^[a-zA-Z]+$/.test(postalCode.substring(4,6)) ) {
-          
-          			return true
-        		}
-        		else {
-         					 return false
-       			 }
-     		}
+			var postalCode = String(postalCode)
+			// Check if the postalcode is valid.
+			// Check if length is 6, first 4 characters are numbers and last 2 are digits.
+			if (postalCode.length == 6 || /^\d+$/.test(postalCode.substring(0,4)) || /^[a-zA-Z]+$/.test(postalCode.substring(4,6)) ) {
+				return true
+			}
+			else {
+				return false
+			}
+		}
 
-      		// Logic of when postal code field changes
-      		function postalcodeChanged() {
-       			postcalCodeField = document.getElementById("postalcode")
+		// Logic of when postal code field changes
+		function postalcodeChanged() {
+			postcalCodeField = document.getElementById("postalcode")
 
-        		// Check if a valid postal code is provided
-        		if (! isValidPostalCode(postcalCodeField.value) ) {
-            	// Show that it is an invalid postal code
+			// Check if a valid postal code is provided
+			if (! isValidPostalCode(postcalCodeField.value) ) {
+				// Show that it is an invalid postal code
+				// break out of function
+				return
+			}
 
-            	// break out of function
-            	return
-        		}
+			var request = new XMLHttpRequest()
 
-        	var request = new XMLHttpRequest()
+			request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value);
+			request.send()
 
-        	request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value);
-        	request.send()
+			request.onload=function(){
+				if(this.readyState == 4 && this.status==200){
+					var data = JSON.parse(this.response);
 
-        	request.onload=function(){
-          		if(this.readyState == 4 && this.status==200){
-            		var data = JSON.parse(this.response);
+					var response = data["response"]
 
-            		var response = data["response"]
+					// Check if this postalcode actually does exist.
+					if (response["numFound"] == 0) {
+						return
+					} else {
+						document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+					}
+				}
+			}
+		}
 
-            		// Check if this postalcode actually does exist.
-            		if (response["numFound"] == 0) {
-                		return
-            		} else {
-                		document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
-              		}
-          		}
-        	  }
-      		}		
-      
-      		// Logic of when house number field changes
-      		function housenumberChanged(){
-        	// Get the value in the street name field
-        	housenumberField = document.getElementById("housenumber")
+			// Logic of when house number field changes
+		function housenumberChanged(){
+			// Get the value in the street name field
+			housenumberField = document.getElementById("housenumber")
 
-        	// Get the value of the postal code field
-        	postcalCodeField = document.getElementById("postalcode")
+			// Get the value of the postal code field
+			postcalCodeField = document.getElementById("postalcode")
 
-        	// Check if a postal code has been provided by the user.
-        	if (postcalCodeField.value == "") {
-          		return
-        	}
-        	var request = new XMLHttpRequest()
+			// Check if a postal code has been provided by the user.
+			if (postcalCodeField.value == "") {
+				return
+			}
+			var request = new XMLHttpRequest()
 
-        	request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value + '&&fq=huisnummer:' + housenumberField.value);
-        	request.send()
-        	request.onload=function(){
-          	if(this.readyState == 4 && this.status==200){
-            	var data = JSON.parse(this.response);
+			request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value + '&&fq=huisnummer:' + housenumberField.value);
+			request.send()
+			request.onload=function(){
+				if(this.readyState == 4 && this.status==200){
+					var data = JSON.parse(this.response);
 
-            	var response = data["response"]
+					var response = data["response"]
 
-            	// Check if this postalcode actually does exist.
-            	if (response["numFound"] == 0) {
-                	return
-            	} else {
-                	cordinates = response["docs"]["0"]["centroide_ll"]
-                	x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
-                	y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
-                	document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
-                	document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
-              
-                	document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
-                                                              	x_cordinate + ',' + y_cordinate +
-                                                              	"&output=embed&iwd=-1";
-              		}
-          		}
-        	  }
-      		}
-			</script>
+					// Check if this postalcode actually does exist.
+					if (response["numFound"] == 0) {
+						return
+					} else {
+						cordinates = response["docs"]["0"]["centroide_ll"]
+						x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+						y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+						document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
+						document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
+
+						document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
+							x_cordinate + ',' + y_cordinate +
+							"&output=embed&iwd=-1";
+					}
+				}
+			}
+		}
+</script>
 
 {% endblock %}
