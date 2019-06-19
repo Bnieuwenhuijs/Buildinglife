@@ -158,6 +158,7 @@ def dashboard():
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
 	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
+windowchecked = False
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
@@ -171,7 +172,9 @@ def testing():
 		city = form_building_charachteristics.city.data
 		housenumber = form_building_charachteristics.housenumber.data
 		streetname = form_building_charachteristics.streetname.data
-		windowcount = request.form.get("windowcount") != None
+
+		global windowchecked
+		windowchecked = request.form.get("windowcount") != None
 
 		# Get the cordinates
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
@@ -228,8 +231,6 @@ def testing():
 		Glass       = request.form.get("Glass_input")
 		Polystyrene = request.form.get("Polystyrene_input")
 
-		print(buildingList)
-		print(building_properties_list)
 		return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
 
 @app.route('/history')
@@ -369,7 +370,6 @@ def suppr():
 	return redirect(url_for('history'))
 	
 buildingList = []
-windowchecked = False
 @app.route('/postlocationdata', methods = ['POST'])
 def get_post_location_data():
 
@@ -384,11 +384,12 @@ def get_post_location_data():
 
 	return "/parameters"
 
-
+building_properties_list = []
 @app.route('/parameters')
 def parameters():
 
-	print(windowchecked)
+	global building_properties_list
+
 	building_properties_list = []
 	buildings = len(buildingList)
 	for building in range(buildings):
@@ -407,6 +408,65 @@ def parameters():
 
 @app.route('/building_management_estimation')
 def building_management_estimation():
+	regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
+
+	# Models when window is available
+	steel_window_model = pickle.load(open(os.path.join(regression_model_path, "steel_window_model.sav"), 'rb'))
+	copper_window_model = pickle.load(open(os.path.join(regression_model_path, "copper_window_model.sav"), 'rb'))
+	wood_window_model = pickle.load(open(os.path.join(regression_model_path, "wood_window_model.sav"), 'rb'))
+	concrete_window_model = pickle.load(open(os.path.join(regression_model_path, "concrete_window_model.sav"), 'rb'))
+	glass_window_model = pickle.load(open(os.path.join(regression_model_path, "glass_window_model.sav"), 'rb'))
+	concrete_window_model = pickle.load(open(os.path.join(regression_model_path, "copper_window_model.sav"), 'rb'))
+	polystyrene_window_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_window_model.sav"), 'rb'))
+
+	# Models when window is not available
+	steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
+	copper_model = pickle.load(open(os.path.join(regression_model_path, "copper_model.sav"), 'rb'))
+	wood_model = pickle.load(open(os.path.join(regression_model_path, "wood_model.sav"), 'rb'))
+	concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
+	glass_model = pickle.load(open(os.path.join(regression_model_path, "glass_model.sav"), 'rb'))
+	polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
+
+	# Loop over all the building characteristics of each building that is taken into consideration
+	for building in range(buildings):
+		square_ meters = building['square_meters']
+		city = building['Place_name']
+		building_year = building['Building_year']
+		ground_050 = building['ground-0.50']
+		roof_025 = building['roof-0.25']
+		roof_075 = building['roof-0.75']
+		roof_095 = building['roof-0.95']
+		functionality = building['building_functionality'].lower()
+
+		
+
+		if building['roof_flat'] = False :
+			roof_flat = 0
+		else:
+			roof_flat = 1
+
+		if functionality == "woonfunctie":
+			building_func = 1
+		elif functionality == "winkelfunctie":
+			building_func = 2
+		elif functionality == "industriefunctie":
+			building_func = 3
+		else:
+			building_func = 4
+
+		if windowchecked == True:
+			windows = building['windows']
+
+			Steel = steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_ meters, windows]])[0]
+			Copper = copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_ meters, windows]])[0]
+			
+		# Note: Houd rekening dat output per vierkante meter is.
+
+		elif windowchecked == False:
+			print("Just for test purposes")
+		
+
+
 	return render_template("building_management_estimation.html")
 
 

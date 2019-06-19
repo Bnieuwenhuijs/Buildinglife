@@ -6,9 +6,17 @@ import pickle
 import requests
 import json
 
-dataset = pd.read_csv('ImputedData.csv', sep=';')
-y = dataset.iloc[:, 10].values
-X = dataset.iloc[:, 0:3].values
+# Woonfunctie = 1
+# Winkelfunctie = 2
+# Industriefunctie = 3
+# anders = 4
+
+
+
+dataset = pd.read_csv('D:\ImputedData.csv')
+    # Steel = 10
+y = dataset.iloc[:, 15].values
+X = dataset.iloc[:, 1:8].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
