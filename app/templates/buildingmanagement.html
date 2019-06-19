@@ -421,6 +421,9 @@
       function testPostJava() {
         var data = buildingList
         var windowchecked = document.getElementById("customCheck1").checked
+
+        console.log(windowchecked)
+
         if (data.length != 0) {
         estimateValuesButton = document.getElementById("EstimateValuesButton")
         estimateValuesButton.disabled = true

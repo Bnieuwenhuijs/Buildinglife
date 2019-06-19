@@ -18,6 +18,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 from urllib.request import urlopen
+from app.Building_information_api import get_building_properties
 
 import os, pickle, requests, json, datetime
 
@@ -154,16 +155,9 @@ def confirm_email(token):
 
 @app.route('/dashboard')
 def dashboard():
-	# WTform for the building characteristics input
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
-
 	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
-Steel = 0
-Copper = 0
-Concrete = 0
-Timber = 0
-Glass = 0
-Polystyrene = 0
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
@@ -381,18 +375,20 @@ def get_post_location_data():
 
 	jsdata = request.form['javascript_data']
 	global windowchecked
-	windowchecked = bool(request.form['window_checked_data'])
+	windowchecked = request.form['window_checked_data'][0] == "t"
 
 	global buildingList
 	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
 	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
 	buildingList = json.loads(jsdata)
 
+	return "/parameters"
 
 
 @app.route('/parameters')
 def parameters():
 
+	print(windowchecked)
 	building_properties_list = []
 	buildings = len(buildingList)
 	for building in range(buildings):
@@ -400,13 +396,18 @@ def parameters():
 										str(buildingList[building][3]), 
 										window_count = windowchecked)
 										)
-	print(building_properties_list)
 	#building_properties_list is a list with dictionaries. example: 
 	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
 	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
 	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
 	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
 	# 'rmse-0.95': 1.22, 'roof_flat': False}]
+
+	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
+
+@app.route('/building_management_estimation')
+def building_management_estimation():
+	return render_template("building_management_estimation.html")
 
 
 
