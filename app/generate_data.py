@@ -1,4 +1,4 @@
-from app.Building_information_api import get_building_properties
+from Building_information_api import get_building_properties
 import pandas as pd 
 import csv
 
