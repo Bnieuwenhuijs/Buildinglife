@@ -65,7 +65,7 @@ def get_building_properties(postalcode, housenumber, window_count):
 #
     if window_count == True:
         #Google API key
-        Google_api_key = "AIzaSyDEh5n1Migci53aqLhtOh2Tc_e1FHqMMNU"
+        Google_api_key = "AIzaSyBl6NXQWRZzq0Of5dehbKhyb2tmpKsYLgU"
         # Get google streetview image
         Streetview_image = 'https://maps.googleapis.com/maps/api/streetview?' \
                             'size=400x640&' \

@@ -1,29 +1,41 @@
+#!flask/bin/python
+
 from flask import render_template
-from flask import request, flash, redirect, url_for, jsonify
-from app import app, db
+from flask import request, flash, redirect, url_for
+
+from flask_mail import Mail, Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadTimeSignature
+
+from app import app
+from app import db
 from app.models import Building, User, License
-from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm
+from app.forms import DashboardInputCharacteristicsForm, DashboardIndividualInputMaterialForm, DashboardInputMaterialsForm, RegisterForm, LoginForm, BuildingManagementForm, EditUserProfileForm, DeleteUserProfileForm, UpdateUserLicenseForm, BuyStarterLicenseForm, BuyProfessionalLicenseForm, BuyBusinessLicenseForm
 from app.forms import EditUserProfileForm, DeleteUserProfileForm, UpdateUserLicenseForm, BuyStarterLicenseForm, BuyProfessionalLicenseForm, BuyBusinessLicenseForm
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-import pickle
 from pathlib import Path
-import os
-import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.validators import DataRequired
 from urllib.request import urlopen
-import requests
-import json
-from app.Building_information_api import get_building_properties
-#from urllib.request import urlopen
-from urllib.request import urlopen
+
+import os, pickle, requests, json, datetime
 
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
+s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
+
+mail = Mail(app)
+mail.MAIL_SERVER='smtp.gmail.com'
+mail.MAIL_PORT= 465
+mail.MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
+mail.MAIL_PASSWORD= 'r2ItgT62'
+mail.MAIL_USE_TLS= False
+mail.MAIL_USE_SSL= True
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -75,11 +87,18 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user:
+			if not user.isConfirmed:
+				flash('User is not confirmed. Please check your email.')
+				return redirect(url_for('login'))
+
 			if check_password_hash(user.password_hash, form.password.data):
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
-
-		flash('Your login/password does not match or exists', 'warning')
+		else:
+			if not user:
+				flash('Your login/password does not match or exists')
+			elif not user.isConfirmed:
+				flash('Your account is not confirmed yet. Check your email')
 
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
@@ -97,15 +116,41 @@ def signup():
 			if not user1:
 				hashed_password = generate_password_hash(form.password.data, method='sha256')
 				new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password, name=form.name.data, surname=form.surname.data)
+				
+				# Send the confirmation email
+				# Generate a confirmation token
+				token = s.dumps(form.email.data, salt = 'email-confirm')
+				print (token)
+				
+				msg = Message('Confirm Email with BuildingLife', sender = 'hello@buildinglife.nl', recipients = [form.email.data])
+				link = url_for('confirm_email', token = token, _external = True)
+
+				#msg.body = 'Your link is %s' % (link)
+				#mail.send(msg)
+
 				db.session.add(new_user)
 				db.session.commit()
-				flash('You successfully created your account', 'success')
+				flash('You successfully created your account. Check your email to confirm it.')
 			else:
-				flash('There is already an account with that email', 'warning')
+				flash('There is already an account with that email')
 		else:
-			flash('There is already an account with that username', 'warning')
+			flash('There is already an account with that username')
 	return render_template('signup.html', form=form)
 
+@app.route('/confirm_email/<token>')
+def confirm_email(token):
+	try:
+		# 60*15, the link is active for 15 minutes
+		email = s.loads(token, salt = 'email-confirm', max_age=900)
+		user = User.query.filter_by(email=email).first()
+		user.isConfirmed = True
+		db.session.add(user)
+		db.session.commit()
+		return '<h1>User %s is now confirmed!</h1>' % (user.username)
+	except SignatureExpired:
+		return '<h1>Token expired </h1>'
+	except BadTimeSignature:
+		return '<h1>Such token doesn\' exist! </h1>'
 
 @app.route('/dashboard')
 def dashboard():
@@ -243,14 +288,14 @@ def history():
 def BuildingManagement():
 
 	BMform = BuildingManagementForm()
-	
-	#headers = {'Content-Type': 'application/json'}
-	#response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
 
-	#if response.status_code == 200:
-	#    print (json.loads(response.content.decode('utf-8')) )
-	#else:
-	#    print("Got an error")
+	headers = {'Content-Type': 'application/json'}
+	response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
+
+	if response.status_code == 200:
+		print (json.loads(response.content.decode('utf-8')) )
+	else:
+		print("Got an error")
 
 	return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
@@ -319,7 +364,7 @@ def purchase():
 	if buy_starter_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
 					  license_type = 'Starter',
-					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  end_date = datetime.datetime.now() + timedelta(days=365),
 					  )
 
 		db.session.add(new_license)
@@ -330,19 +375,18 @@ def purchase():
 	if buy_professional_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
 					  license_type = 'Professional',
-					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  end_date = datetime.datetime.now() + timedelta(days=365),
 					  )
 
 		db.session.add(new_license)
 		db.session.commit()
 
-		print (new_license)
 		return redirect(url_for('purchase'))
 
 	if buy_business_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
 					  license_type = 'Business',
-					  end_date = datetime.datetime.now() + datetime.timedelta(days=365),
+					  end_date = datetime.datetime.now() + timedelta(days=365),
 					  )
 
 		db.session.add(new_license)
@@ -351,13 +395,10 @@ def purchase():
 		return redirect(url_for('purchase'))
 
 	return render_template('purchase.html',
-		license = new_license,
+		license = license,
 		buy_starter_form = buy_starter_form, 
 		buy_professional_form = buy_professional_form, 
 		buy_business_form = buy_business_form)
-
-
-
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
@@ -365,55 +406,11 @@ def logout():
 	return redirect(url_for('index'))
 
 
-@app.route('/suppr', methods=['GET', 'POST'])
-def suppr():
-	idEstimation = request.args.get('idEstimation', None)
-	Building.query.filter(Building.id == idEstimation).delete()
-	db.session.commit()
-	buildings = Building.query.order_by(Building.id.desc())
-	return redirect(url_for('history'))
-	
-buildingList = []
-windowchecked = False
-@app.route('/postlocationdata', methods = ['POST'])
-def get_post_location_data():
-
-	jsdata = request.form['javascript_data']
-	global windowchecked
-	windowchecked = request.form['window_checked_data']
-
-	global buildingList
-	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
-	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
-	buildingList = json.loads(jsdata)
-
-	
-
-	# Since an AJAX request is used. The routing goes via the Ajax request.
-	return "/parameters"
-
-@app.route('/parameters')
-def parameters():
-	building_properties_list = []
-	buildings = len(buildingList)
-	for building in range(buildings):
-		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
-										str(buildingList[building][3]), 
-										window_count = True)
-										)
-	print(building_properties_list)
-	#building_properties_list is a list with dictionaries. example: 
-	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
-	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
-	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
-	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
-	# 'rmse-0.95': 1.22, 'roof_flat': False}]
 
 
-	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
 
 
-@app.route('/building_management_estimation')
-def building_management_estimation():
 
-	return render_template("building_management_estimation.html")
+
+
+
