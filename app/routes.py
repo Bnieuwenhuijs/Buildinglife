@@ -20,7 +20,7 @@ from wtforms.validators import DataRequired
 from urllib.request import urlopen
 from app.Building_information_api import get_building_properties
 
-import os, pickle, requests, json, datetime
+import os, pickle, requests, json, datetime, smtplib, ssl
 
 
 login_manager = LoginManager()
@@ -29,13 +29,12 @@ login_manager.login_view = 'login'
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-mail = Mail(app)
-mail.MAIL_SERVER='smtp.gmail.com'
-mail.MAIL_PORT= 465
-mail.MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
-mail.MAIL_PASSWORD= 'r2ItgT62'
-mail.MAIL_USE_TLS= False
-mail.MAIL_USE_SSL= True
+MAIL_SERVER='smtp.gmail.com'
+MAIL_PORT= 465
+MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
+MAIL_PASSWORD= 'r2ItgT62'
+MAIL_USE_TLS= False
+MAIL_USE_SSL= True
 
 
 @login_manager.user_loader
@@ -123,9 +122,18 @@ def signup():
 				token = s.dumps(form.email.data, salt = 'email-confirm')
 				print (token)
 				
-				msg = Message('Confirm Email with BuildingLife', sender = 'hello@buildinglife.nl', recipients = [form.email.data])
 				link = url_for('confirm_email', token = token, _external = True)
+				
+				# Create a secure SSL context
+				context = ssl.create_default_context()
 
+				server = smtplib.SMTP_SSL(MAIL_SERVER, MAIL_PORT)
+				#server.ehlo() # Can be omitted
+				#server.starttls(context=context) # Secure the connection
+				#server.ehlo() # Can be omitted
+				server.login(MAIL_USERNAME, MAIL_PASSWORD)
+				server.sendmail(MAIL_USERNAME, form.email.data, 'Your link is ' + link)
+				server.quit() 
 				#msg.body = 'Your link is %s' % (link)
 				#mail.send(msg)
 
@@ -175,7 +183,7 @@ def testing():
 
 		# Get the cordinates
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
-    	).json()
+		).json()
 
 		# get a response
 		response = gebruiksdoel_Oppervlakte_data["response"]
