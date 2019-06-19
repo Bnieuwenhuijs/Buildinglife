@@ -174,7 +174,7 @@ def testing():
 		city = form_building_charachteristics.city.data
 		housenumber = form_building_charachteristics.housenumber.data
 		streetname = form_building_charachteristics.streetname.data
-		windowcount = request.form.get("windowcount") != None
+		windowchecked = request.form.get("windowcount") != None
 
 		# Get the cordinates
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'

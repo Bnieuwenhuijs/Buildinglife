@@ -1,6 +1,9 @@
 import json
 import requests
 from google.cloud import vision
+import os
+from google.oauth2 import service_account
+
 
 def get_building_properties(postalcode, housenumber, window_count):
     building_properties = {}
@@ -66,6 +69,10 @@ def get_building_properties(postalcode, housenumber, window_count):
     if window_count == True:
         #Google API key
         Google_api_key = "AIzaSyBl6NXQWRZzq0Of5dehbKhyb2tmpKsYLgU"
+        credentials_raw = os.environ.get('Buildinglife_key')
+        service_account_info = json.loads(credentials_raw)
+        credentials = service_account.Credentials.from_service_account_info(
+            service_account_info)
         # Get google streetview image
         Streetview_image = 'https://maps.googleapis.com/maps/api/streetview?' \
                             'size=400x640&' \
@@ -74,7 +81,7 @@ def get_building_properties(postalcode, housenumber, window_count):
                             'pitch=0&' \
                             'key=' + str(Google_api_key) + ' '
     #
-        client = vision.ImageAnnotatorClient()
+        client = vision.ImageAnnotatorClient(credentials=credentials)
     #
         # Convert streetview
         data = requests.get(Streetview_image)
