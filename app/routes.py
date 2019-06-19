@@ -20,6 +20,7 @@ from wtforms.validators import DataRequired
 from urllib.request import urlopen
 from app.Building_information_api import get_building_properties
 
+from datetime import timedelta
 import os, pickle, requests, json, datetime, smtplib, ssl
 
 
@@ -339,7 +340,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	if buy_professional_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
@@ -350,7 +351,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	if buy_business_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
@@ -361,7 +362,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	return render_template('purchase.html',
 		license = license,
