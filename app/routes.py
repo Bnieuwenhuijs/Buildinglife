@@ -87,10 +87,6 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user:
-			if not user.isConfirmed:
-				flash('User is not confirmed. Please check your email.')
-				return redirect(url_for('login'))
-
 			if check_password_hash(user.password_hash, form.password.data):
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
@@ -103,6 +99,24 @@ def login():
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
 	return render_template('login.html', form=form)
+
+def create_user_welcome_email(name, surname, to, link):
+	gmail_password = MAIL_PASSWORD
+
+	user_full_name = name + " " + surname
+
+	email_body = "\r\nCongratulations " + user_full_name + "!\n" +\
+				"We've successfully created your account!\n" +\
+				"Click this link: " + link + "\nto confirm your email with BuildingLife.\n\n"""+\
+				"Thanks,\nBuildingLife Team."
+
+	composed = 	'From: ' + MAIL_USERNAME + '\n' + \
+				'To: '+ to +'\n' +\
+				'Subject: Welcome to BuildingLife' +\
+				email_body + '\n'
+
+	return composed
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -120,16 +134,14 @@ def signup():
 				# Send the confirmation email
 				# Generate a confirmation token
 				token = s.dumps(form.email.data, salt = 'email-confirm')
-				print (token)
-				
+
 				link = url_for('confirm_email', token = token, _external = True)
-				
-				# Create a secure SSL context
-				context = ssl.create_default_context()
 
 				server = smtplib.SMTP_SSL(MAIL_SERVER, MAIL_PORT)
 				server.login(MAIL_USERNAME, MAIL_PASSWORD)
-				server.sendmail(MAIL_USERNAME, form.email.data, '\r\nYour link is ' + link)
+
+				email = create_user_welcome_email(form.name.data, form.surname.data, form.email.data, link)
+				server.sendmail(MAIL_USERNAME, form.email.data, email)
 				server.quit() 
 
 				db.session.add(new_user)
