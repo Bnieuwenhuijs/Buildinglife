@@ -68,7 +68,7 @@ def get_building_properties(postalcode, housenumber, window_count):
 #
     if window_count == True:
         #Google API key
-        Google_api_key = "AIzaSyBl6NXQWRZzq0Of5dehbKhyb2tmpKsYLgU"
+        Google_api_key = os.environ.get('Google_maps_api_key')
         credentials_raw = os.environ.get('Buildinglife_key')
         service_account_info = json.loads(credentials_raw)
         credentials = service_account.Credentials.from_service_account_info(
