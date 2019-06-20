@@ -20,6 +20,7 @@ from wtforms.validators import DataRequired
 from urllib.request import urlopen
 from app.Building_information_api import get_building_properties
 from validate_email import validate_email
+from app.email_templates import generate_html_mail, welcome_email_body
 
 from datetime import timedelta
 import os, pickle, requests, json, datetime, smtplib, ssl
@@ -35,8 +36,6 @@ MAIL_SERVER='smtp.gmail.com'
 MAIL_PORT= 465
 MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
 MAIL_PASSWORD= 'r2ItgT62'
-MAIL_USE_TLS= False
-MAIL_USE_SSL= True
 
 
 @login_manager.user_loader
@@ -102,23 +101,6 @@ def login():
 
 	return render_template('login.html', form=form)
 
-def create_user_welcome_email(name, surname, to, link):
-	gmail_password = MAIL_PASSWORD
-
-	user_full_name = name + " " + surname
-
-	email_body = "\r\nCongratulations " + user_full_name + "!\n" +\
-				"We've successfully created your account!\n" +\
-				"Click this link: " + link + "\nto confirm your email with BuildingLife.\n\n"""+\
-				"Thanks,\nBuildingLife Team."
-
-	composed = 	'From: ' + MAIL_USERNAME + '\n' + \
-				'To: '+ to +'\n' +\
-				'Subject: Welcome to BuildingLife' +\
-				email_body + '\n'
-
-	return composed
-
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -142,7 +124,12 @@ def signup():
 				server = smtplib.SMTP_SSL(MAIL_SERVER, MAIL_PORT)
 				server.login(MAIL_USERNAME, MAIL_PASSWORD)
 
-				email = create_user_welcome_email(form.name.data, form.surname.data, form.email.data, link)
+				user_full_name = form.name.data + " " + form.surname.data
+
+				email = generate_html_mail("Welcome to BuildingLife!", 
+					welcome_email_body(user_full_name, link),
+					form.email.data,
+					MAIL_USERNAME)
 
 				if not validate_email(form.email.data, verify = True):
 					flash('Please use a valid email', 'error')
