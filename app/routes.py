@@ -19,6 +19,7 @@ from wtforms import StringField
 from wtforms.validators import DataRequired
 from urllib.request import urlopen
 from app.Building_information_api import get_building_properties
+from validate_email import validate_email
 
 from datetime import timedelta
 import os, pickle, requests, json, datetime, smtplib, ssl
@@ -142,6 +143,11 @@ def signup():
 				server.login(MAIL_USERNAME, MAIL_PASSWORD)
 
 				email = create_user_welcome_email(form.name.data, form.surname.data, form.email.data, link)
+
+				if not validate_email(form.email.data, verify = True):
+					flash('Please use a valid email', 'error')
+					return render_template('signup.html', form = form)
+
 				server.sendmail(MAIL_USERNAME, form.email.data, email)
 				server.quit() 
 
