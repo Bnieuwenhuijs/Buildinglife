@@ -412,12 +412,14 @@ def parameters():
 
 	print(windowchecked)
 	building_properties_list = []
-	buildings = len(buildingList)
+	buildings = len(buildings)
+	print(windowchecked)
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
 										window_count = windowchecked)
 										)
+	print(building_properties_list)
 	#building_properties_list is a list with dictionaries. example: 
 	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
 	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
