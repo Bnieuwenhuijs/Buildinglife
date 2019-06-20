@@ -409,7 +409,7 @@ def get_post_location_data():
 
 @app.route('/parameters')
 def parameters():
-
+	print(buildingList)
 	print(windowchecked)
 	building_properties_list = []
 	buildings = len(buildingList)
