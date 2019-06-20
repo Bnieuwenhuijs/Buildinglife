@@ -53,9 +53,18 @@
   <!-- Content -->
   <div class="content">
 
-    
+
 
     <div class="row">
+      <div class="col-md-7">
+  			<div class="MultiProgress">
+  					<ul id="multiStep">
+  						<li class="active">Building Adress</li>
+  						<li class="active">Building Validation</li>
+  						<li>Step 3</li>
+  					</ul>
+  			</div>
+  		</div>
       <div class="col-md-12">
         <div class="card ">
           <div class="card-header ">
@@ -101,7 +110,7 @@
 
                     </tr>
                     <tr>
-                      <th scope="row">Ground Height 
+                      <th scope="row">Ground Height
                       </th>
                       <td colspan="2">{{ building.ground_0_50 | round }}</td>
 
@@ -151,7 +160,7 @@
 
             </div>
           </div>
-          
+
     </div>
     {% endfor %}
     <button type="submit" class="btn btn-primary">Continue to estimation</button>
