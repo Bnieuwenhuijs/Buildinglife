@@ -412,7 +412,7 @@ def parameters():
 
 	print(windowchecked)
 	building_properties_list = []
-	buildings = len(buildings)
+	buildings = len(buildingList)
 	print(windowchecked)
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
