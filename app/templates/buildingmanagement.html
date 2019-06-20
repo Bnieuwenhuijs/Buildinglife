@@ -29,7 +29,7 @@
                   <div class="input-group-text">
                     <i class="nc-icon nc-zoom-split"></i>
                   </div>
-      
+
                 </div>
               </div>
             </form>
@@ -52,6 +52,15 @@
       <!-- Content -->
       <div class="content" id="buildingContent">
           <div class="row">
+            <div class="col-md-7">
+        			<div class="MultiProgress">
+        					<ul id="multiStep">
+        						<li class="active">Building adress</li>
+        						<li>Building validation</li>
+        						<li>Your estimation</li>
+        					</ul>
+        			</div>
+        		</div>
               <div class="col-md-7">
                 <!-- Top card in which you provide the building location information -->
                   <div class="card">
@@ -59,7 +68,7 @@
                       <div class="card-header ">
                           <h5 class="card-title mb-0">Building Address</h5>
                           <div class="card-category" style="text-transform:none">Provide the address of the location you want to estimate</div>
-                        </div>            
+                        </div>
 
                     <div class="card-body">
                       <!-- Create the form -->
@@ -70,7 +79,7 @@
                         <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>
                         {{ BuildingManagementForm.postalcode(class="p-1 bg-light text-dark rounded col-md-4", onchange="postalcodeChanged()" )  }}
                         <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>
-                        {{ BuildingManagementForm.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}       
+                        {{ BuildingManagementForm.housenumber(class="p-1 bg-light text-dark rounded col-md-2", onchange="housenumberChanged()")  }}
                       </div>
 
                       <!-- Second row: Street Name -->
@@ -82,15 +91,15 @@
                       <!-- Third row: City -->
                       <div class="row" style="margin-top:15px">
                         <div class="p-2 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">City</div>
-                        {{ BuildingManagementForm.city(class="p-1 bg-light text-dark rounded col-md-9")  }}    
+                        {{ BuildingManagementForm.city(class="p-1 bg-light text-dark rounded col-md-9")  }}
                       </div>
-                            
+
                     </div>
                     <!-- Buttons to get entire street, postal code or add one house.-->
                     <div class="row col-md-12">
                       <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 10px; background-color: #51a9da" onclick="addBuilding()"> Add Building</button>
                       <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addPostalcode()"> Add Postal Code</button>
-                      <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addStreet()"> Add Street</button>                     
+                      <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addStreet()"> Add Street</button>
                    </div>
                    <div class="row col-md-12">
                       <button type="button" id="EstimateValuesButton" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
@@ -98,7 +107,7 @@
                           <input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1">
                           <label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
                         </div>
-                      
+
                    </div>
 
                   </div>
@@ -120,7 +129,7 @@
         // Check if the postalcode is valid.
         // Check if length is 6, first 4 characters are numbers and last 2 are digits.
         if (postalCode.length == 6 || /^\d+$/.test(postalCode.substring(0,4)) || /^[a-zA-Z]+$/.test(postalCode.substring(4,6)) ) {
-          
+
           return true
         }
         else {
@@ -160,7 +169,7 @@
           }
         }
       }
-      
+
       // Logic of when house number field changes
       function housenumberChanged(){
         // Get the value in the street name field
@@ -192,20 +201,20 @@
                 y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
                 document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
-              
-                document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" + 
+
+                document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" +
                                                               x_cordinate + ',' + y_cordinate +
                                                               "&output=embed&iwd=-1";
               }
           }
         }
       }
-      
+
       var i = 0
       var buildingList = []
       // Function to easily add building to evaluate to the website and list
       function addToBuildingList(cordinates, streetname, postalcode, house_number, city) {
-        
+
         // Check if there is already an existing variant of the one to be added
         // If so, return
         for (var ii of buildingList) {
@@ -213,7 +222,7 @@
             return
           }
         }
-          
+
           i += 1
 
           buildingList.push([cordinates, streetname, postalcode, house_number, city])
@@ -233,7 +242,7 @@
           // create the cardbody
           var cardbody = document.createElement("div")
           cardbody.className = "card-body"
-          
+
           // Create the row with postal code and housenumber
           var postalcode_housenumber_field = document.createElement("div")
           postalcode_housenumber_field.className = "row"
@@ -254,10 +263,10 @@
           var city_field = document.createElement("div")
           city_field.className = "row"
           city_field.style = "margin-top: 7px"
-          city_field.innerHTML = '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">City</div>' + 
+          city_field.innerHTML = '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">City</div>' +
                                   '<input class="p-1 bg-light text-dark rounded col-md-7" id="city" name="city" type="text" value=' + city + ' readonly>' +
                                   '<button type="button" class="btn btn-primary col-md-0.8" style="margin: 0px 15px" onclick="removeBuildingFromList(\'cardID' + i + '\',\'' + i + '\')"><div style="text-align: center"><i class="fa fa-trash fa-lg"></button></div>'
-          // Create the stacking of the elements         
+          // Create the stacking of the elements
           if (i % 2 == 1) {
             content.appendChild(row)
             card.style = "margin-right: 7px"
@@ -270,7 +279,7 @@
           cardbody.append(postalcode_housenumber_field)
           cardbody.append(streetname_field)
           cardbody.append(city_field)
-        
+
       }
 
       function removeBuildingFromList(elementid, id) {
@@ -286,17 +295,17 @@
             document.getElementById("rowID" + pr).remove()
           }
         }
-        
+
         //Remove the item from the list
         buildingList.splice(id - 1, 1)
         var temp_buildingList = buildingList
         buildingList = []
-    
+
         i = 0
         for (var pp of temp_buildingList) {
           addToBuildingList(pp[0], pp[1], pp[2], pp[3], pp[4])
         }
-        
+
       }
 
       function addBuilding() {
@@ -319,17 +328,17 @@
             // Get the cordinates
             if (response["numFound"] == 0) {
                 return
-            } else {          
+            } else {
                 var cordinates = response["docs"]["0"]["centroide_ll"]
                 x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
                 y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 cordinates = x_cordinate + "," + y_cordinate
                 addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
-              }            
+              }
           }
         }
       }
-      
+
       function addStreet() {
         // Get the values of all input fields
         postalcode  = document.getElementById("postalcode").value
@@ -364,15 +373,15 @@
                 x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
                 y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 cordinates = x_cordinate + "," + y_cordinate
-                 
+
                 addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
                }
 
               }
 
-            }            
+            }
           }
-        } 
+        }
 
       function addPostalcode() {
         // Get the values of all input fields
@@ -408,16 +417,16 @@
                 x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
                 y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
                 cordinates = x_cordinate + "," + y_cordinate
-                 
+
                 addToBuildingList(cordinates, streetname, postalcode, housenumber, city)
                }
 
               }
 
-            }            
+            }
           }
       }
-    
+
       function testPostJava() {
         var data = buildingList
         var windowchecked = document.getElementById("customCheck1").checked
@@ -441,7 +450,7 @@
           } else {}
       }
 
-      
+
     </script>
 
       {% endblock %}
