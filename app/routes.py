@@ -604,7 +604,8 @@ def building_management_estimation():
                                building_year = building_year,
                                functionality = building_func,
                                square_meters = square_meters,
-                               number_floors = nr_floor
+                               number_floors = nr_floor,
+							   normal_dashboard = True
                                )
 
 
