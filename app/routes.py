@@ -88,6 +88,8 @@ def login():
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user:
+			if not user.isConfirmed:
+				return render_template('unconfirmed_user.html', name=user.name)
 			if check_password_hash(user.password_hash, form.password.data):
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
@@ -100,6 +102,7 @@ def login():
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
 	return render_template('login.html', form=form)
+
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -147,20 +150,39 @@ def signup():
 			flash('There is already an account with that username')
 	return render_template('signup.html', form=form)
 
-@app.route('/confirm_email/<token>')
+@app.route('/confirm_email')
+@app.route('/confirm_email/<token>', methods=['GET', 'POST'])
 def confirm_email(token):
 	try:
 		# 60*15, the link is active for 15 minutes
-		email = s.loads(token, salt = 'email-confirm', max_age=900)
+		email = s.loads(token, salt = 'email-confirm')
 		user = User.query.filter_by(email=email).first()
 		user.isConfirmed = True
 		db.session.add(user)
 		db.session.commit()
-		return '<h1>User %s is now confirmed!</h1>' % (user.username)
+
+		return render_template('confirmed_user.html', name = user.name)
 	except SignatureExpired:
 		return '<h1>Token expired </h1>'
 	except BadTimeSignature:
-		return '<h1>Such token doesn\' exist! </h1>'
+		return render_template('token_non_existing.html')
+
+@app.route('/confirmed_user', methods=['GET', 'POST'])
+def confirmed_user():
+	return render_template('confirmed_user.html', name = None)
+
+@app.route('/unconfirmed_user', methods=['GET', 'POST'])
+def unconfirmed_user():
+	return render_template('unconfirmed_user.html', name = None)
+
+@app.route('/token_expired', methods=['GET', 'POST'])
+def token_expired():
+	return render_template('token_expired.html', user = None)
+
+@app.route('/token_non_existing', methods=['GET', 'POST'])
+def token_non_existing():
+	return render_template('token_non_existing.html')
+
 
 @app.route('/dashboard')
 def dashboard():
