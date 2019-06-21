@@ -73,35 +73,36 @@ def get_building_properties(postalcode, housenumber, window_count):
     if window_count == True:
         #Google API key
         Google_api_key = os.environ.get('Google_maps_api_key')
-        credentials_raw = os.environ.get('Buildinglife_key')
-        service_account_info = json.loads(credentials_raw)
-        credentials = service_account.Credentials.from_service_account_info(
-            service_account_info)
+        #credentials_raw = os.environ.get('Buildinglife_key')
+        #service_account_info = json.loads(credentials_raw)
+        #credentials = service_account.Credentials.from_service_account_info(
+        #    service_account_info)
         # Get google streetview image
-        Streetview_image = 'https://maps.googleapis.com/maps/api/streetview?' \
-                            'size=400x640&' \
-                            "location=" + str(object_location[1]) + ',' + str(object_location[0]) +'&' \
-                            'fov=40&' \
-                            'pitch=0&' \
-                            'key=' + str(Google_api_key) + ' '
+        #Streetview_image = 'https://maps.googleapis.com/maps/api/streetview?' \
+        #                    'size=400x640&' \
+         #                   "location=" + str(object_location[1]) + ',' + str(object_location[0]) +'&' \
+         #                   'fov=40&' \
+        #                    'pitch=0&' \
+        #                    'key=' + str(Google_api_key) + ' '
     #
-        client = vision.ImageAnnotatorClient(credentials=credentials)
+        #client = vision.ImageAnnotatorClient(credentials=credentials)
     #
         # Convert streetview
-        data = requests.get(Streetview_image)
-        content = data.content
-        image = vision.types.Image(content=content)
+        #data = requests.get(Streetview_image)
+        #content = data.content
+        #image = vision.types.Image(content=content)
     #
         #define objects
-        objects = client.object_localization(
-            image=image).localized_object_annotations
+        #objects = client.object_localization(
+        #    image=image).localized_object_annotations
     #
         # Count windows
-        window = 0
-        for object_ in objects:
-            if object_.name == 'Window':
-                window +=1
+        #window = 0
+        #for object_ in objects:
+        #    if object_.name == 'Window':
+        #        window +=1
     #
+        window = 5
         building_properties['windows'] = window
 #
     return building_properties
