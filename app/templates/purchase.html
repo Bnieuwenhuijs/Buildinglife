@@ -2,120 +2,123 @@
 
 {% block content %}
 <div class="main-panel">
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-    <div class="container-fluid">
-      <div class="navbar-wrapper">
-        <div class="navbar-toggle">
-          <button type="button" class="navbar-toggler">
-            <span class="navbar-toggler-bar bar1"></span>
-            <span class="navbar-toggler-bar bar2"></span>
-            <span class="navbar-toggler-bar bar3"></span>
-          </button>
-        </div>
-        <a class="navbar-brand" href="#pablo">Buy new license</strong></a>
-      </div>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-        <span class="navbar-toggler-bar navbar-kebab"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navigation">
-        <form action="" method="post">
-          <div class="input-group no-border">
-            <input type="text" value="" class="form-control" placeholder="Search...">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <i class="nc-icon nc-zoom-split"></i>
-              </div>
-            </div>
-          </div>
-        </form>
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link btn-rotate">
-              <i class="nc-icon nc-settings-gear-65"></i>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link btn-rotate" href="{{url_for('logout')}}">
-              <i class="fa fa-sign-out"></i>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+	<!-- Navbar -->
+	<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+		<div class="container-fluid">
+			<div class="navbar-wrapper">
+				<div class="navbar-toggle">
+					<button type="button" class="navbar-toggler">
+						<span class="navbar-toggler-bar bar1"></span>
+						<span class="navbar-toggler-bar bar2"></span>
+						<span class="navbar-toggler-bar bar3"></span>
+					</button>
+				</div>
+				<a class="navbar-brand" href="#pablo">Buy new license</strong></a>
+			</div>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-bar navbar-kebab"></span>
+				<span class="navbar-toggler-bar navbar-kebab"></span>
+				<span class="navbar-toggler-bar navbar-kebab"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-end" id="navigation">
+				<form action="" method="post">
+					<div class="input-group no-border">
+						<input type="text" value="" class="form-control" placeholder="Search...">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<i class="nc-icon nc-zoom-split"></i>
+							</div>
+						</div>
+					</div>
+				</form>
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link btn-rotate">
+							<i class="nc-icon nc-settings-gear-65"></i>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link btn-rotate" href="{{url_for('logout')}}">
+							<i class="fa fa-sign-out"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
 
 <div class="content">
-  <div class="header ">
-    <h2 class="title mb-0"><small>Get more evaluations and maximize your circularity!</small></h2>
-    <p class="title mb-0"><small>By purchasing a BuildingLife&copy; plan, you agree to the BuildingLife&copy; Terms of Service. Note: The BuildingLife&copy; Privacy Policy describes how data is handled in this service.</small></p>
-  </div>
+	<div class="header ">
+		<h2 class="title mb-0"><small>Get more evaluations and maximize your circularity!</small></h2>
+		<p class="title mb-0"><small>By purchasing a BuildingLife&copy; plan, you agree to the BuildingLife&copy; Terms of Service. Note: The BuildingLife&copy; Privacy Policy describes how data is handled in this service.</small></p>
+	</div>
 
-  <!-- Which package will the user buy -->
-  <div class="container mb-5 mt-5">
-      <div class="pricing card-deck flex-column flex-md-row mb-3">
-        <div class="card card-pricing text-center px-3 mb-4">
-          <form action="" method="POST">
-          {{ buy_starter_form.hidden_tag() }}
-            <span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Starter</span>
-            <div class="bg-transparent card-header pt-4 border-0">
-                <h1 class="h1 font-weight-normal text-primary text-center mb-0" data-pricing-value="15">&euro;<span class="price">750</span><span class="p text-muted ml-1">/ per year</span></h1>
-            </div>
-            <hr/>
-            <div class="card-body pt-0">
-                <ul class="list-unstyled mb-4">
-                    <li>Up to 5 users</li>
-                    <li>Basic support on Github</li>
-                    <li>Monthly updates</li>
-                    <li>Free cancelation</li>
-                </ul>
-                {{ buy_starter_form.submit(class="btn btn-outline-secondary mb-3") }}
-            </div>
-          </form>
-        </div>
-        <div class="card card-pricing popular shadow text-center px-3 mb-4">
-          <form action="" method="POST">
-          {{ buy_professional_form.hidden_tag() }}
-            <span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Professional</span>
-            <div class="bg-transparent card-header pt-4 border-0">
-                <h1 class="h1 font-weight-normal text-primary text-center mb-0" data-pricing-value="15">&euro;<span class="price">1250</span><span class="p text-muted ml-1">/ per year</span></h1>
-            </div>
-            <hr/>
-            <div class="card-body pt-0">
-                <ul class="list-unstyled mb-4">
-                    <li>Up to 5 users</li>
-                    <li>Basic support on Github</li>
-                    <li>Monthly updates</li>
-                    <li>Free cancelation</li>
-                </ul>
-                {{ buy_professional_form.submit(class="btn btn-primary mb-3") }}
-            </div>
-          </form>
-        </div>
-        <div class="card card-pricing text-center px-3 mb-4">
-          <form action="" method="POST">
-          {{ buy_business_form.hidden_tag() }}
-            <span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Business</span>
-            <div class="bg-transparent card-header pt-4 border-0">
-                <h1 class="h1 font-weight-normal text-primary text-center mb-0" data-pricing-value="15">&euro;<span class="price">2000</span><span class="p text-muted ml-1">/ per year</span></h1>
-            </div>
-            <hr/>
-            <div class="card-body pt-0">
-                <ul class="list-unstyled mb-4">
-                    <li>Up to 5 users</li>
-                    <li>Basic support on Github</li>
-                    <li>Monthly updates</li>
-                    <li>Free cancelation</li>
-                </ul>
-                {{ buy_business_form.submit(class="btn btn-outline-secondary mb-3") }}</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+	<!-- Which package will the user buy -->
+	<div class="container mb-5 mt-5">
+			<div class="pricing card-deck flex-column flex-md-row mb-3">
+				<div class="card card-pricing text-center px-3 mb-4">
+					<form action="" method="POST">
+					{{ buy_starter_form.hidden_tag() }}
+						<span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Starter</span>
+						<div class="bg-transparent card-header pt-4 border-0">
+								<h1 class="h1 font-weight-normal text-primary text-center mb-0">&euro;<span class="price">65</span><p class="p small text-muted ml-1"> per month</p></h1>
+								<h5 class="h5 font-weight-normal text-primary text-center mb-0" data-pricing-value="15"><span class="price"></span><span class="p text-muted ml-1">780&euro; per year</span></h5>
+						</div>
+						<hr/>
+						<div class="card-body pt-0">
+								<ul class="list-unstyled mb-4">
+										<li>Up to 5 users</li>
+										<li>Basic support on Github</li>
+										<li>Monthly updates</li>
+										<li>Free cancelation</li>
+								</ul>
+								{{ buy_starter_form.submit(class="btn btn-outline-secondary mb-3") }}
+						</div>
+					</form>
+				</div>
+				<div class="card card-pricing popular shadow text-center px-3 mb-4">
+					<form action="" method="POST">
+					{{ buy_professional_form.hidden_tag() }}
+						<span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Professional</span>
+						<div class="bg-transparent card-header pt-4 border-0">
+								<h1 class="h1 font-weight-normal text-primary text-center mb-0">&euro;<span class="price">110</span><p class="p small text-muted ml-1"> per month</p></h1>
+								<h5 class="h5 font-weight-normal text-primary text-center mb-0" data-pricing-value="15"><span class="price"></span><span class="p text-muted ml-1">1320&euro; per year</span></h5>
+						</div>
+						<hr/>
+						<div class="card-body pt-0">
+								<ul class="list-unstyled mb-4">
+										<li>Up to 5 users</li>
+										<li>Basic support on Github</li>
+										<li>Monthly updates</li>
+										<li>Free cancelation</li>
+								</ul>
+								{{ buy_professional_form.submit(class="btn btn-primary mb-3") }}
+						</div>
+					</form>
+				</div>
+				<div class="card card-pricing text-center px-3 mb-4">
+					<form action="" method="POST">
+					{{ buy_business_form.hidden_tag() }}
+						<span class="h6 w-60 mx-auto px-4 py-1 rounded-bottom bg-primary text-white shadow-sm">Business</span>
+						<div class="bg-transparent card-header pt-4 border-0">
+								<h1 class="h1 font-weight-normal text-primary text-center mb-0">€<span class="price">170</span><p class="p small text-muted ml-1"> per month</p></h1>
+								<h5 class="h5 font-weight-normal text-primary text-center mb-0" data-pricing-value="15"><span class="price"></span><span class="p text-muted ml-1">2040&euro; per year</span></h5>
+						</div>
+						<hr/>
+						<div class="card-body pt-0">
+								<ul class="list-unstyled mb-4">
+										<li>Up to 5 users</li>
+										<li>Basic support on Github</li>
+										<li>Monthly updates</li>
+										<li>Free cancelation</li>
+								</ul>
+								{{ buy_business_form.submit(class="btn btn-outline-secondary mb-3") }}</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

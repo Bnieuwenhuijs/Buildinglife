@@ -4,6 +4,15 @@ import csv
 
 building = []
 
+n = 21
+while n < 56:
+    building_properties = get_building_properties('8603EW', str(n), False)
+    building_properties['windows'] = 5
+    building.append(building_properties)
+    n = n + 1
+
+
+
 n = 42
 while n < 49:
     building_properties = get_building_properties('7813AA', str(n), False)
@@ -27,4 +36,4 @@ while n < 25:
     n = n + 2
 
 df = pd.DataFrame(building) 
-export_csv = df.to_csv (r'C:\Users\Bart Nieuwenhuijs\Documents\GitHub\Buildinglife\app\export_dataframe.csv', index = None, header=True)
+export_csv = df.to_csv (r'C:\Users\Bart Nieuwenhuijs\Documents\export_dataframe.csv', index = None, header=True)

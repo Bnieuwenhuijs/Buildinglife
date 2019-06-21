@@ -19,8 +19,11 @@ from wtforms import StringField
 from wtforms.validators import DataRequired
 from urllib.request import urlopen
 from app.Building_information_api import get_building_properties
+from validate_email import validate_email
+from app.email_templates import generate_html_mail, welcome_email_body
 
-import os, pickle, requests, json, datetime
+from datetime import timedelta
+import os, pickle, requests, json, datetime, smtplib, ssl
 
 
 login_manager = LoginManager()
@@ -29,13 +32,10 @@ login_manager.login_view = 'login'
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-mail = Mail(app)
-mail.MAIL_SERVER='smtp.gmail.com'
-mail.MAIL_PORT= 465
-mail.MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
-mail.MAIL_PASSWORD= 'r2ItgT62'
-mail.MAIL_USE_TLS= False
-mail.MAIL_USE_SSL= True
+MAIL_SERVER='smtp.gmail.com'
+MAIL_PORT= 465
+MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
+MAIL_PASSWORD= 'r2ItgT62'
 
 
 @login_manager.user_loader
@@ -89,9 +89,7 @@ def login():
 		user = User.query.filter_by(username=form.username.data).first()
 		if user:
 			if not user.isConfirmed:
-				flash('User is not confirmed. Please check your email.')
-				return redirect(url_for('login'))
-
+				return render_template('unconfirmed_user.html', name=user.name)
 			if check_password_hash(user.password_hash, form.password.data):
 				login_user(user, remember=form.remember.data)
 				return redirect(url_for('dashboard'))
@@ -104,6 +102,8 @@ def login():
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
 	return render_template('login.html', form=form)
+
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -121,13 +121,25 @@ def signup():
 				# Send the confirmation email
 				# Generate a confirmation token
 				token = s.dumps(form.email.data, salt = 'email-confirm')
-				print (token)
-				
-				msg = Message('Confirm Email with BuildingLife', sender = 'hello@buildinglife.nl', recipients = [form.email.data])
+
 				link = url_for('confirm_email', token = token, _external = True)
 
-				#msg.body = 'Your link is %s' % (link)
-				#mail.send(msg)
+				server = smtplib.SMTP_SSL(MAIL_SERVER, MAIL_PORT)
+				server.login(MAIL_USERNAME, MAIL_PASSWORD)
+
+				user_full_name = form.name.data + " " + form.surname.data
+
+				email = generate_html_mail("Welcome to BuildingLife!", 
+					welcome_email_body(user_full_name, link),
+					form.email.data,
+					MAIL_USERNAME)
+
+				if not validate_email(form.email.data, verify = True):
+					flash('Please use a valid email', 'error')
+					return render_template('signup.html', form = form)
+
+				server.sendmail(MAIL_USERNAME, form.email.data, email)
+				server.quit() 
 
 				db.session.add(new_user)
 				db.session.commit()
@@ -138,20 +150,39 @@ def signup():
 			flash('There is already an account with that username')
 	return render_template('signup.html', form=form)
 
-@app.route('/confirm_email/<token>')
+@app.route('/confirm_email')
+@app.route('/confirm_email/<token>', methods=['GET', 'POST'])
 def confirm_email(token):
 	try:
 		# 60*15, the link is active for 15 minutes
-		email = s.loads(token, salt = 'email-confirm', max_age=900)
+		email = s.loads(token, salt = 'email-confirm')
 		user = User.query.filter_by(email=email).first()
 		user.isConfirmed = True
 		db.session.add(user)
 		db.session.commit()
-		return '<h1>User %s is now confirmed!</h1>' % (user.username)
+
+		return render_template('confirmed_user.html', name = user.name)
 	except SignatureExpired:
 		return '<h1>Token expired </h1>'
 	except BadTimeSignature:
-		return '<h1>Such token doesn\' exist! </h1>'
+		return render_template('token_non_existing.html')
+
+@app.route('/confirmed_user', methods=['GET', 'POST'])
+def confirmed_user():
+	return render_template('confirmed_user.html', name = None)
+
+@app.route('/unconfirmed_user', methods=['GET', 'POST'])
+def unconfirmed_user():
+	return render_template('unconfirmed_user.html', name = None)
+
+@app.route('/token_expired', methods=['GET', 'POST'])
+def token_expired():
+	return render_template('token_expired.html', user = None)
+
+@app.route('/token_non_existing', methods=['GET', 'POST'])
+def token_non_existing():
+	return render_template('token_non_existing.html')
+
 
 @app.route('/dashboard')
 def dashboard():
@@ -183,7 +214,7 @@ def testing():
 
 		# Get the cordinates
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
-    	).json()
+		).json()
 
 		# get a response
 		response = gebruiksdoel_Oppervlakte_data["response"]
@@ -317,7 +348,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	if buy_professional_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
@@ -328,7 +359,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	if buy_business_form.validate_on_submit():
 		new_license = License(user_id = current_user.id, 
@@ -339,7 +370,7 @@ def purchase():
 		db.session.add(new_license)
 		db.session.commit()
 
-		return redirect(url_for('purchase'))
+		return redirect(url_for('UserProfile'))
 
 	return render_template('purchase.html',
 		license = license,
@@ -387,11 +418,13 @@ def parameters():
 
 	building_properties_list = []
 	buildings = len(buildingList)
+	print(windowchecked)
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
 										window_count = windowchecked)
 										)
+	print(building_properties_list)
 	#building_properties_list is a list with dictionaries. example: 
 	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
 	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
