@@ -32,10 +32,10 @@ login_manager.login_view = 'login'
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-MAIL_SERVER='smtp.gmail.com'
+MAIL_SERVER='mail.buildinglife.nl'
 MAIL_PORT= 465
-MAIL_USERNAME= 'buildinglife.hello@gmail.com'
-MAIL_PASSWORD= 'r2ItgT62'
+MAIL_USERNAME= 'no-reply@buildinglife.nl'
+MAIL_PASSWORD= 'test'
 
 
 @login_manager.user_loader
@@ -134,9 +134,11 @@ def signup():
 					form.email.data,
 					MAIL_USERNAME)
 
+				'''
 				if not validate_email(form.email.data, verify = True):
 					flash('Please use a valid email', 'error')
 					return render_template('signup.html', form = form)
+				'''
 
 				server.sendmail(MAIL_USERNAME, form.email.data, email)
 				server.quit() 
