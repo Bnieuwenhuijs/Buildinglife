@@ -216,7 +216,10 @@ def testing():
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
 		).json()
 
-		# get a response
+		if list(gebruiksdoel_Oppervlakte_data)[0] == 'error':
+			# Flask message here.
+			return ('', 204)
+
 		response = gebruiksdoel_Oppervlakte_data["response"]
 
 		# Check if a valid building has been provided
@@ -235,6 +238,7 @@ def testing():
 		
 		# Create the list with characteristics
 		global building_properties_list
+		building_properties_list = []
 		building_properties_list.append(get_building_properties(postalcode, 
 										housenumber, 
 										window_count = windowchecked))	
@@ -418,13 +422,12 @@ def parameters():
 
 	building_properties_list = []
 	buildings = len(buildingList)
-	print(windowchecked)
+
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
 										window_count = windowchecked)
 										)
-	print(building_properties_list)
 	#building_properties_list is a list with dictionaries. example: 
 	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
 	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
@@ -478,8 +481,6 @@ def building_management_estimation():
 	total_polystyrene_quantity = 0
 
 	global buildingManagementUsed 
-
-	print(building_properties_list)
 
 	if buildingManagementUsed == False:
 		# Declare building characteristic variables
