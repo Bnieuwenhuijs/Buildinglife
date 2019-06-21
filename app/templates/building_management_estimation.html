@@ -98,7 +98,7 @@
 
                       <div class="row">
                         <div class="p-2 col-md-6 rounded" style="background-color: #e3e3e3; ; color: #66615B">Total Value</div>
-                        <div class="p-2 bg-light text-dark rounded col-md-6"> TestTotalValue </div>
+                        <div class="p-2 bg-light text-dark rounded col-md-6"> {{ total_value }}</div>
                       </div>
 
                       <div class="row" style="margin-top:15px">
@@ -116,9 +116,9 @@
                       <div class="row">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Steel</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_steel_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_steel_value }} €</div>
 
                       </div>
 
@@ -126,9 +126,9 @@
                       <div class="row" style="margin-top: 5px">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Copper</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_copper_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_copper_value }} €</div>
 
                       </div>
 
@@ -136,9 +136,9 @@
                       <div class="row" style="margin-top: 5px">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Concrete</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_concrete_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_concrete_value }} €</div>
 
                       </div>
 
@@ -146,9 +146,9 @@
                       <div class="row" style="margin-top: 5px">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Timber</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_timber_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_timber_value}} €</div>
 
                       </div>
 
@@ -156,9 +156,9 @@
                       <div class="row" style="margin-top: 5px">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Glass</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_glass_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_glass_value }} €</div>
 
                       </div>
 
@@ -166,9 +166,9 @@
                       <div class="row" style="margin-top: 5px">
                             <!-- Steel Material Quantity Estimation -->
                             <div class="p-1 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B">Polystyrene</div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelQuantity </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_polystyrene_quantity }} kg/m<sup>2</sup> </div>
                             <div class="col-md-1" style="background-color: #e3e3e3; ; color: #66615B"></div>
-                            <div class="p-1 bg-light text-dark rounded col-md-4"> TestSteelValue </div>
+                            <div class="p-1 bg-light text-dark rounded col-md-4"> {{ total_polystyrene_value }} €</div>
 
                       </div>
                     </div>
@@ -193,11 +193,13 @@
                   <div class="row">
                     <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
                             <canvas id="CombinedMaterial" width="80%" height="67%" style='height: 100%; width: 100%'></canvas>
-                            <script>createGraph([1,2,3], "CombinedMaterial", ["1","2","3"])</script>
+                            <script>createGraph([{{ total_steel_quantity }}, {{total_copper_quantity }}, {{total_concrete_quantity}} , {{total_timber_quantity}}, {{total_glass_quantity}}, {{total_polystyrene_quantity }}],
+                             "CombinedMaterial", ["Staal","Coper","Concrete", "Timber", "Glass, Polystyrene"])</script>
                     </div>
                     <div class="col-md-6" style="padding-left: 0px; padding-right: 0px">
                             <canvas id="CombinedValue" width="80%" height="67%" style='height: 100%; width: 100%'></canvas>
-                            <script>createGraph([3,4,5], "CombinedValue", ["3","4","5"])</script>
+                            <script>createGraph([ {{total_steel_value}}, {{total_copper_value}}, {{total_concrete_value}}, {{total_timber_value}}, {{total_glass_value}}, {{total_polystyrene_value}} ],
+                             "CombinedValue", ["Staal","Coper","Concrete", "Timber", "Glass, Polystyrene"])</script>
                     </div>
                   </div>
                 </div>
@@ -206,6 +208,8 @@
         </div>
         
         <!-- If statement for each building -->
+
+      {% for building in material_value_dict %}
       <div class="row">
             <div class="col-md-12">
                 <div class="card" style="margin-bottom: 6px">
@@ -214,22 +218,22 @@
                                 <!-- Postal Code and City-->
                                 <div class="row">
                                   <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">Postal Code</div>
-                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> 5126EX </div>
+                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> {{ buildingList[loop.index - 1][2]}} </div>
                                   <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">City</div>
-                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> Gilze </div>
+                                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> {{ buildingList[loop.index - 1][4]}} </div>
                                 </div>
                                 <!-- Street Name and House Number-->
                                 <div class="row" style="margin-top: 10px">
                                     <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">Street Name</div>
-                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> Kalverstraatje </div>
+                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> {{ buildingList[loop.index- 1][1]}} </div>
                                     <div class="p-3 col-md-3 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.5em!important">House Number</div>
-                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> 3 </div>
+                                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.5em!important"> {{ buildingList[loop.index - 1][3]}} </div>
                                 </div>
 
                                 <!-- Button for More Info -->
                                 <div class="row" style="margin-top:8px;">
                                     <div style="margin-left: 10px; margin-bottom: 3px">
-                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse" aria-expanded="false" aria-controls="#collapse">
+                                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapse{{loop.index}}"  aria-expanded="false" aria-controls="#collapse{{loop.index}}">
                                            Show Estimations
                                         </button>
                                     </div>
@@ -240,17 +244,17 @@
             </div>
 
         <!-- Part that expands / collapses -->
-        <div class="collapse col-md-12" id="collapse">
+        <div class="collapse col-md-12" id="collapse{{loop.index}}">
           <div class="card">
                <!-- Steel -->
              <div class="col-md-12">
                 <div class="row" style="margin-top: 15px">
                         <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Steel</div>
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][0]["Quantity"] }} kg/m<sup>2</sup> </div>
 
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][0]["Value"] }} €</div>
 
                 </div>
              </div> 
@@ -260,10 +264,10 @@
                     <div class="row" style="margin-top: 10px">
                             <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Copper</div>
                             <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][1]["Quantity"] }} kg/m<sup>2</sup> </div>
     
                             <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                            <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][1]["Value"] }} € </div>
     
                     </div>
              </div> 
@@ -273,10 +277,10 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Concrete</div>
                     <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][2]["Quantity"] }} kg/m<sup>2</sup> </div>
                 
                     <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][2]["Value"] }} € </div>
                 
                 </div>
              </div>
@@ -286,10 +290,10 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Timber</div>
                     <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][3]["Quantity"] }} kg/m<sup>2</sup> </div>
                                 
-                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                    <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500"> Estimated Value </div>
+                    <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][3]["Value"] }} € </div>
                                 
                 </div>
             </div>
@@ -299,10 +303,10 @@
                     <div class="row" style="margin-top: 10px">
                         <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Glass</div>
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][4]["Quantity"] }} kg/m<sup>2</sup> </div>
                                     
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][4]["Value"] }} € </div>
                                     
                     </div>
             </div>
@@ -312,10 +316,10 @@
                     <div class="row" style="margin-top: 10px; margin-bottom: 15px">
                         <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Polystyrene</div>
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][5]["Quantity"] }} kg/m<sup>2</sup> </div>
                                                 
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> Test </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ material_value_dict[loop.index - 1][5]["Value"] }} € </div>
                                                 
                     </div>
             </div>
@@ -326,6 +330,7 @@
         </div>
 
       </div>
+      {% endfor %}
 
       </div>
 

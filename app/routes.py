@@ -159,6 +159,8 @@ def dashboard():
 	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
 windowchecked = False
+buildingManagementUsed = False
+building_properties_list = []
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
@@ -175,6 +177,9 @@ def testing():
 
 		global windowchecked
 		windowchecked = request.form.get("windowcount") != None
+
+		global buildingManagementUsed
+		buildingManagementUsed = False
 
 		# Get the cordinates
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
@@ -198,23 +203,10 @@ def testing():
 		buildingList = [[cordinates, streetname, postalcode, housenumber, city]]
 		
 		# Create the list with characteristics
-		building_properties_list = []
+		global building_properties_list
 		building_properties_list.append(get_building_properties(postalcode, 
 										housenumber, 
-										window_count = windowchecked))
-
-		# {'square_meters': 143, 
-		# 'building_functionality': 'woonfunctie', 
-		# 'Place_name': 'Gilze', 
-		# 'Building_year': 1920, 
-		# 'ground_0_50': 16.63, 
-		# 'roof_0_25': 20.71, 
-		# 'rmse_0_25': 1.09, 
-		# 'roof_0_75': 22.65, 
-		# 'rmse_0_75': 1, 
-		# 'roof_0_95': 23.7, 
-		# 'rmse_0_95': 0.98, 
-		# 'roof_flat': False}
+										window_count = windowchecked))	
 
 		# Extract the values of the materials.
 		# If not provided, returns null
@@ -236,7 +228,7 @@ def testing():
 @app.route('/history')
 def history():
 	buildings = Building.query.order_by(Building.id.desc())
-	print(buildings)
+
 	return render_template('history.html', buildings=buildings)
 
 @app.route('/BuildingManagement')
@@ -373,6 +365,9 @@ buildingList = []
 @app.route('/postlocationdata', methods = ['POST'])
 def get_post_location_data():
 
+	global buildingManagementUsed 
+	buildingManagementUsed = True
+
 	jsdata = request.form['javascript_data']
 	global windowchecked
 	windowchecked = request.form['window_checked_data'][0] == "t"
@@ -408,12 +403,16 @@ def parameters():
 
 @app.route('/building_management_estimation')
 def building_management_estimation():
+
 	regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
+
+	# Create list to store values in
+	material_value_dict = []
 
 	# Models when window is available
 	steel_window_model = pickle.load(open(os.path.join(regression_model_path, "steel_window_model.sav"), 'rb'))
 	copper_window_model = pickle.load(open(os.path.join(regression_model_path, "copper_window_model.sav"), 'rb'))
-	wood_window_model = pickle.load(open(os.path.join(regression_model_path, "wood_window_model.sav"), 'rb'))
+	wood_window_model = pickle.load(open(os.path.join(regression_model_path, "timber_window_model.sav"), 'rb'))
 	concrete_window_model = pickle.load(open(os.path.join(regression_model_path, "concrete_window_model.sav"), 'rb'))
 	glass_window_model = pickle.load(open(os.path.join(regression_model_path, "glass_window_model.sav"), 'rb'))
 	concrete_window_model = pickle.load(open(os.path.join(regression_model_path, "copper_window_model.sav"), 'rb'))
@@ -422,25 +421,45 @@ def building_management_estimation():
 	# Models when window is not available
 	steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
 	copper_model = pickle.load(open(os.path.join(regression_model_path, "copper_model.sav"), 'rb'))
-	wood_model = pickle.load(open(os.path.join(regression_model_path, "wood_model.sav"), 'rb'))
+	timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
 	concrete_model = pickle.load(open(os.path.join(regression_model_path, "concrete_model.sav"), 'rb'))
 	glass_model = pickle.load(open(os.path.join(regression_model_path, "glass_model.sav"), 'rb'))
 	polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
 
 	# Loop over all the building characteristics of each building that is taken into consideration
-	for building in range(buildings):
-		square_ meters = building['square_meters']
-		city = building['Place_name']
-		building_year = building['Building_year']
-		ground_050 = building['ground-0.50']
-		roof_025 = building['roof-0.25']
-		roof_075 = building['roof-0.75']
-		roof_095 = building['roof-0.95']
-		functionality = building['building_functionality'].lower()
+	global building_properties_list
 
-		
+	total_value = 0
+	total_steel_value = 0
+	total_copper_value = 0
+	total_timber_value = 0
+	total_concrete_value = 0
+	total_glass_value = 0
+	total_polystyrene_value = 0
 
-		if building['roof_flat'] = False :
+	total_steel_quantity = 0
+	total_copper_quantity = 0
+	total_timber_quantity = 0
+	total_concrete_quantity = 0
+	total_glass_quantity = 0
+	total_polystyrene_quantity = 0
+
+	global buildingManagementUsed 
+
+	print(building_properties_list)
+
+	if buildingManagementUsed == False:
+		# Declare building characteristic variables
+		square_meters = building_properties_list[0]['square_meters']
+		city = building_properties_list[0]['Place_name']
+		building_year = building_properties_list[0]['Building_year']
+		ground_050 = building_properties_list[0]['ground_0_50']
+		roof_025 = building_properties_list[0]['roof_0_25']
+		roof_075 = building_properties_list[0]['roof_0_75']
+		roof_095 = building_properties_list[0]['roof_0_95']
+		functionality = building_properties_list[0]['building_functionality'].lower()
+
+		if building_properties_list[0]['roof_flat'] == False :
 			roof_flat = 0
 		else:
 			roof_flat = 1
@@ -454,20 +473,202 @@ def building_management_estimation():
 		else:
 			building_func = 4
 
-		if windowchecked == True:
-			windows = building['windows']
+		# Get the global variables
+		global Steel
+		global Copper
+		global Concrete
+		global Timber
+		global Glass
+		global Polystyrene
 
-			Steel = steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_ meters, windows]])[0]
-			Copper = copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_ meters, windows]])[0]
-			
-		# Note: Houd rekening dat output per vierkante meter is.
+		# Get the global windowchecked variable
+		global windowchecked
+
+		if windowchecked == True and building['windows'] > 0:
+				windows = building['windows']
+
+				if Steel == None or Steel == "None" or Steel == "":
+					Steel = abs(steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				if Concrete==None or Concrete == "None" or Concrete == "":
+					Concrete = abs(concrete_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				if Copper==None or Copper == "None" or Copper == "":
+					Copper = abs(copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				if Glass==None or Glass == "None" or Glass == "":
+					Glass = abs(glass_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				if Polystyrene==None or Polystyrene == "None" or Polystyrene == "":
+					Polystyrene = abs(polystyrene_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				if Timber==None or Timber == "None" or Timber == "":
+				 	Timber = abs(timber_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])			
 
 		elif windowchecked == False:
-			print("Just for test purposes")
+				if Steel == None or Steel == "None" or Steel == "":
+					Steel = abs(steel_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				if Concrete==None or Concrete == "None" or Concrete == "":
+					Concrete = abs(concrete_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				if Copper==None or Copper == "None" or Copper == "":
+					Copper = abs(copper_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				if Glass==None or Glass == "None" or Glass == "":
+					Glass = abs(glass_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				if Polystyrene==None or Polystyrene == "None" or Polystyrene == "":
+					Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				if Timber==None or Timber == "None" or Timber == "":
+				 	Timber = abs(timber_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])			
+
+		#Value_estimations
+		steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+		copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+		concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+		timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+		glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+		polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+		
+		total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
+		total_value = sum(total_list)
+
+		material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
+                                { "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
+                                { "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
+                                { "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
+                                { "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
+                                { "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
+								
+		return render_template('estimation.html',
+                               total_value = total_value,
+                               material_value_dict = material_value_dict,
+                               building_year = building_year,
+                               functionality = building_func,
+                               square_meters = square_meters,
+                               number_floors = 2
+                               )
+
+
 		
 
+	elif buildingManagementUsed  == True:
+		for building in building_properties_list:
 
-	return render_template("building_management_estimation.html")
+			square_meters = building['square_meters']
+			city = building['Place_name']
+			building_year = building['Building_year']
+			ground_050 = building['ground_0_50']
+			roof_025 = building['roof_0_25']
+			roof_075 = building['roof_0_75']
+			roof_095 = building['roof_0_95']
+			functionality = building['building_functionality'].lower()
+
+		
+
+			if building['roof_flat'] == False :
+				roof_flat = 0
+			else:
+				roof_flat = 1
+
+			if functionality == "woonfunctie":
+				building_func = 1
+			elif functionality == "winkelfunctie":
+				building_func = 2
+			elif functionality == "industriefunctie":
+				building_func = 3
+			else:
+				building_func = 4
+
+
+			if windowchecked == True and building['windows'] > 0:
+				windows = building['windows']
+
+				Steel = abs(steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				Copper = abs(copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				Concrete = abs(concrete_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				Timber = abs(timber_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				Glass = abs(Glass_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				Polystyrene = abs(polystyrene_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+				
+			elif windowchecked == False:
+				Steel = abs(steel_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat, square_meters]])[0])
+				Copper = abs(copper_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				Concrete = abs(concrete_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				Timber = abs(timber_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				Glass = abs(glass_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
+				Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])			
+
+			# Convert materials per squared meters to total.
+			Steel *= square_meters
+			Copper *= square_meters
+			Concrete *= square_meters
+			Timber *= square_meters
+			Glass *= square_meters
+			Polystyrene *= square_meters
+
+			## Calculate the values of the materials
+			# Calculate the amount of years that have passed between the building year and current year
+			time_passed = datetime.datetime.now().year - building_year
+
+			steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, time_passed)
+			copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, time_passed )
+			concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, time_passed )
+			timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, time_passed )
+			glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, time_passed )
+			polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, time_passed )
+		
+			material_value_dict.append([{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
+                                		{ "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
+                                		{ "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
+                                		{ "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
+                                		{ "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
+                                		{ "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
+										)
+
+			total_house_value = steel_value + copper_value + concrete_value + timber_value + glass_value + polystyrene_value
+
+			#Put in DB
+			building = Building(building_year= building_year, building_functionality= building_func, square_meters= square_meters,
+                           	 number_floors= 2,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
+                         	 steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
+                             copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
+                             concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
+                             timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2),
+                             glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),
+                             polystyrene_Value=    round(float(polystyrene_value),2))
+							
+			db.session.add(building)
+			db.session.commit()
+
+		global buildingList
+
+		# Some important calculations
+		total_steel_value += steel_value
+		total_copper_value += copper_value
+		total_timber_value += timber_value
+		total_concrete_value += concrete_value
+		total_glass_value += glass_value
+		total_polystyrene_value += polystyrene_value
+
+		total_steel_quantity += Steel
+		total_copper_quantity += Copper
+		total_timber_quantity += Timber
+		total_concrete_quantity += Concrete
+		total_glass_quantity += Glass
+		total_polystyrene_quantity += Polystyrene
+
+		total_value += (steel_value + copper_value + concrete_value + timber_value + glass_value + polystyrene_value)
+
+		return render_template("building_management_estimation.html", 
+								buildingList = buildingList, 
+								material_value_dict = material_value_dict, 
+								total_value = total_value, 
+								total_steel_value = total_steel_value,
+								total_copper_value = total_copper_value,
+								total_timber_value = total_timber_value,
+								total_concrete_value = total_concrete_value,
+								total_glass_value = total_glass_value,
+								total_polystyrene_value = total_polystyrene_value,
+								total_steel_quantity = total_steel_quantity,
+								total_copper_quantity = total_copper_quantity,
+								total_timber_quantity = total_timber_quantity,
+								total_concrete_quantity = total_concrete_quantity,
+								total_glass_quantity = total_glass_quantity, 
+								total_polystyrene_quantity = total_polystyrene_quantity
+							)
 
 
 
