@@ -52,7 +52,7 @@
 	 <div class="sidebar-wrapper" style="overflow: hidden">
         <ul class="nav">
 
-          {% if url_for(request.endpoint) == "/dashboard" %}
+          {% if url_for(request.endpoint) == "/dashboard" or dashboard_used == True %}
             <li class="active ">
           {% else %}
             <li>
@@ -74,7 +74,7 @@
             </a>
           </li>
 
-          {% if url_for(request.endpoint) == "/BuildingManagement" or url_for(request.endpoint) == "/parameters" or url_for(request.endpoint) == "/building_management_estimation" %}
+          {% if url_for(request.endpoint) == "/BuildingManagement" or url_for(request.endpoint) == "/parameters" or (url_for(request.endpoint) == "/building_management_estimation" and dashboard_used != True) %}
           <li class="active ">
           {% else %}
           <li>
