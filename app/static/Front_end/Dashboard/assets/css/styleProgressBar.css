@@ -1,0 +1,62 @@
+
+.MultiProgress{
+  width: 100%;
+  z-index: 1;
+}
+
+#multiStep li{
+  float: left;
+  width: 30%;
+  position: relative;
+  text-align: center;
+}
+
+#multiStep li {
+    list-style-type: none;
+}
+
+#multiStep {
+  counter-reset: step;
+}
+
+#multiStep li:before{
+  content:counter(step);
+  counter-increment: step;
+  width: 30px;
+  height: 30px;
+  border: 2px solid #bebebe;
+  display: block;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  line-height: 27px;
+  background: white;
+  color: #bebebe;
+  text-align: center;
+  font-weight: bold;
+}
+
+#multiStep li:after{
+  content: '';
+  position: absolute;
+  width:85%;
+  height: 3px;
+  background: #979797;
+  top: 15px;
+  left: -43%;
+}
+
+#multiStep li:first-child:after{
+content: none;
+}
+
+#multiStep li.active:before{
+border-color: #51a9da;
+background: #51a9da;
+color: white;
+}
+
+#multiStep li.active:after{
+border-color: #51a9da;
+background: #51a9da;
+color: white;
+}

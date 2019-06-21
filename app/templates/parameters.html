@@ -1,130 +1,171 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="main-panel">
-      <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
-        <div class="container-fluid">
-          <div class="navbar-wrapper">
-            <div class="navbar-toggle">
-              <button type="button" class="navbar-toggler">
-                <span class="navbar-toggler-bar bar1"></span>
-                <span class="navbar-toggler-bar bar2"></span>
-                <span class="navbar-toggler-bar bar3"></span>
-              </button>
-            </div>
-            <a class="navbar-brand" href="#pablo">Estimation Parameters</a>
-          </div>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
-            <span class="navbar-toggler-bar navbar-kebab"></span>
+<div class="main-panel">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+    <div class="container-fluid">
+      <div class="navbar-wrapper">
+        <div class="navbar-toggle">
+          <button type="button" class="navbar-toggler">
+            <span class="navbar-toggler-bar bar1"></span>
+            <span class="navbar-toggler-bar bar2"></span>
+            <span class="navbar-toggler-bar bar3"></span>
           </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navigation">
-            <form action="" method="post">
+        </div>
+        <a class="navbar-brand" href="#pablo">Estimation Parameters</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+        aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+        <span class="navbar-toggler-bar navbar-kebab"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navigation">
+        <form action="" method="post">
 
-              <div class="input-group no-border">
-                <input type="text" value="" class="form-control" placeholder="Search...">
-                <div class="input-group-append">
-                  <div class="input-group-text">
-                    <i class="nc-icon nc-zoom-split"></i>
-                  </div>
-      
-                </div>
+          <div class="input-group no-border">
+            <input type="text" value="" class="form-control" placeholder="Search...">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <i class="nc-icon nc-zoom-split"></i>
               </div>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link btn-rotate">
-                  <i class="nc-icon nc-settings-gear-65"></i>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link btn-rotate" href="{{url_for('logout')}}">
-                  <i class="fa fa-sign-out"></i>
-                </a>
-              </li>
-            </ul>
+
+            </div>
+          </div>
+        </form>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link btn-rotate">
+              <i class="nc-icon nc-settings-gear-65"></i>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-rotate" href="{{url_for('logout')}}">
+              <i class="fa fa-sign-out"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="content">
+
+
+
+    <div class="row">
+      <div class="col-md-7">
+  			<div class="MultiProgress">
+  					<ul id="multiStep">
+  						<li class="active">Building Adress</li>
+  						<li class="active">Building Validation</li>
+  						<li>Step 3</li>
+  					</ul>
+  			</div>
+  		</div>
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            <h5 class="card-title mb-0">Please validate the building information</h5>
+            <p class="card-category">We proved you will all the information about your building! Can you just check it?
+            </p>
           </div>
         </div>
-      </nav>
+      </div>
+      {% for building in building_properties_list %}
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header ">
+            {% set value = loop.index - 1 %}
+            <h5 class="card-title mb-0">The {{ buildingList[value][1] }} {{ buildingList[value][3] }} in
+              {{ buildingList[value][4] }} </h5>
 
-      <!-- Content -->
-      <div class="content">
+          </div>
+          <div class="card-body ">
+            <div class="row">
+              <div class="col-6">
+                <table class="table table-hover">
 
-      <button type="submit" class="btn btn-primary" >Estimate the value</button>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Building Year</th>
+                      <td> {{ building.Building_year }} </td>
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card ">
-            <div class="card-header ">
-                <h5 class="card-title mb-0">Please validate the building information</h5>
-                <p class="card-category">We proved you will all the information about your building! Can you just check it?</p>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Building functionality
+
+                      </th>
+                      <td>{{ building.building_functionality }}</td>
+
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Square Meters
+                      </th>
+                      <td colspan="2">{{ building.square_meters }}</td>
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Ground Height
+                      </th>
+                      <td colspan="2">{{ building.ground_0_50 | round }}</td>
+
+                    </tr>
+                  </tbody>
+                </table>
               </div>
+              <div class="col-6">
+                <table class="table table-hover">
+
+                  <tbody>
+                    <tr>
+                      <th scope="row">Roof lowest point</th>
+                      <td>{{ building.roof_0_25 - building.ground_0_50 | round }}</td>
+
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Roof highest point
+
+                      </th>
+                      <td>{{ building.roof_0_95 - building.ground_0_50 | round }}</td>
+
+
+                    </tr>
+                    <tr>
+                      <th scope="row">Type of roof
+                      </th>
+                        {% if building.roof_flat == True %}
+                        {% set roof = 'Flat' %}
+                        {% elif building.roof_flat == False %}
+                        {% set roof = 'Pitched' %}
+                        {% endif %}
+                      <td colspan="2">{{ roof }}</td>
+
+                    </tr>
+                    {% if building.windows is defined %}
+                    <tr>
+                      <th scope="row">windows
+                      </th>
+                      <td colspan="2"> {{ building.windows }} </td>
+                    {% endif %}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
             </div>
           </div>
-            {% for building in building_properties_list %}
-          <div class="col-md-12">
-            <div class="card ">
-                <div class="card-header ">
-                    {% set value = loop.index - 1 %}
-                    <h5 class="card-title mb-0">The {{ buildingList[value][1] }} {{ buildingList[value][3] }} in {{ buildingList[value][4] }} </h5>
-
-                  </div>
-              <div class="card-body ">
-                <div class="row" style="margin-top:10px">
-                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Building-year</div>
-
-                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.Building_year }}</div>
-
-                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">building functionality</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.building_functionality }}</div>
-                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-                </div>
-
-                <div class="row" style="margin-top:10px">
-                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Square Meters</div>
-
-                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.square_meters }}</div>
-
-                  <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Ground height</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.ground_0_50 }}</div>
-                      <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-                </div>
-
-                <div class="row" style="margin-top:10px">
-                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Lowest point roof</div>
-  
-                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_25 }}</div>
-  
-                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Highest point roof</div>
-                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_95 }}</div>
-                        <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-                </div>
-
-                <div class="row" style="margin-top:10px">
-                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Lowest point roof</div>
-  
-                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ building.roof_0_25 }}</div>
-  
-                    <div class="p-3 col-md-3" style="background-color: #e3e3e3; color: #66615B">Type of roof</div>
-                    {% if building.roof_flat == True %}
-                      {% set roof = 'Flat' %}
-                    {% elif building.roof_flat == False %}
-                      {% set roof = 'Pitched' %}
-                    {% endif %}
-                    <div class="p-3 bg-light text-dark rounded col-md-3">{{ roof }}</div>
-                        <!-- <input type="text" class="form-control form-rounded" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value= {{ total_value }} readonly> //-->
-                </div>
-
-			</div>
-		</div>
-  </div>
-  {% endfor %}
-	</div>
-
-      </div>
 
     </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Continue to estimation</button>
+  </div>
+
+</div>
 
 {% endblock %}

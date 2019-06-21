@@ -33,3 +33,6 @@ python-editor==1.0.4
 Flask-Script
 Flask-Mail==0.9.1
 ItsDangerous==1.1.0
+google-oauth2-tool
+py3dns==3.1.1a0
+validate_email==1.3
