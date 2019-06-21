@@ -490,14 +490,14 @@ def building_management_estimation():
 
 	if buildingManagementUsed == False:
 		# Declare building characteristic variables
-		square_meters = building_properties_list[0]['square_meters']
-		city = building_properties_list[0]['Place_name']
-		building_year = building_properties_list[0]['Building_year']
-		ground_050 = building_properties_list[0]['ground_0_50']
-		roof_025 = building_properties_list[0]['roof_0_25']
-		roof_075 = building_properties_list[0]['roof_0_75']
-		roof_095 = building_properties_list[0]['roof_0_95']
-		functionality = building_properties_list[0]['building_functionality'].lower()
+		square_meters = building_properties_list[0].get('square_meters')
+		city = building_properties_list[0].get('Place_name')
+		building_year = building_properties_list[0].get('Building_year')
+		ground_050 = building_properties_list[0].get('ground_0_50')
+		roof_025 = building_properties_list[0].get('roof_0_25')
+		roof_075 = building_properties_list[0].get('roof_0_75')
+		roof_095 = building_properties_list[0].get('roof_0_95')
+		functionality = building_properties_list[0].get('building_functionality').lower()
 
 		if building_properties_list[0]['roof_flat'] == False :
 			roof_flat = 0
