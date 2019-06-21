@@ -574,20 +574,37 @@ def building_management_estimation():
 		total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
 		total_value = sum(total_list)
 
+		nr_floor = round((roof_095 - ground_050) / 3)
+
+		#Put in DB
+		building = Building(building_year= building_year, building_functionality= building_func, square_meters= square_meters,
+                           	 number_floors= nr_floor,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
+                         	 steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
+                             copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
+                             concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
+                             timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2),
+                             glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),
+                             polystyrene_Value=    round(float(polystyrene_value),2))
+							
+		db.session.add(building)
+		db.session.commit()
+
 		material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
                                 { "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
                                 { "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
                                 { "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
                                 { "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
                                 { "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
-								
+
+		nr_floor = round((roof_095 - ground_050) / 3)
+
 		return render_template('estimation.html',
                                total_value = total_value,
                                material_value_dict = material_value_dict,
                                building_year = building_year,
                                functionality = building_func,
                                square_meters = square_meters,
-                               number_floors = 2
+                               number_floors = nr_floor
                                )
 
 
@@ -669,9 +686,11 @@ def building_management_estimation():
 
 			total_house_value = steel_value + copper_value + concrete_value + timber_value + glass_value + polystyrene_value
 
+			nr_floor = round((roof_095 - ground_050) / 3)
+
 			#Put in DB
 			building = Building(building_year= building_year, building_functionality= building_func, square_meters= square_meters,
-                           	 number_floors= 2,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
+                           	 number_floors= nr_floor,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
                          	 steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
                              copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
                              concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
