@@ -28,6 +28,10 @@ def get_building_properties(postalcode, housenumber, window_count):
 #
     #WFS api
 #
+
+    if pand_id == None:
+        print(postalcode + " : " + housenumber)
+
     gebruiksdoel_Oppervlakte_data = requests.get('https://geodata.nationaalgeoregister.nl/bag/wfs?'
                                     'SERVICE=WFS&'
                                     'REQUEST=GetFeature&'

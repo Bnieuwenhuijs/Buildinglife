@@ -64,23 +64,25 @@
   						<li>Step 3</li>
   					</ul>
   			</div>
-  		</div>
+      </div>
+    </div>
       <div class="col-md-12">
         <div class="card ">
           <div class="card-header ">
             <h5 class="card-title mb-0">Please validate the building information</h5>
-            <p class="card-category">We proved you will all the information about your building! Can you just check it?
+            <p class="card-category">We provided you with all the information about your building! Could you check if everything is in order?
             </p>
           </div>
         </div>
       </div>
+      
       {% for building in building_properties_list %}
       <div class="col-md-12">
-        <div class="card ">
+        <div class="card" style="padding-left: 0px; padding-right:0px;">
           <div class="card-header ">
             {% set value = loop.index - 1 %}
-            <h5 class="card-title mb-0">The {{ buildingList[value][1] }} {{ buildingList[value][3] }} in
-              {{ buildingList[value][4] }} </h5>
+            <h5 class="card-title mb-0">The {{ buildingList[loop.index - 1][1] }} {{ buildingList[loop.index - 1][3] }} in
+              {{ buildingList[loop.index - 1][4] }} </h5>
 
           </div>
           <div class="card-body ">
@@ -162,9 +164,9 @@
           </div>
 
     </div>
-    {% endfor %}
-    <button type="submit" class="btn btn-primary">Continue to estimation</button>
   </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary" onclick= 'location.href="building_management_estimation"'>Continue to estimation</button>
 
 </div>
 
