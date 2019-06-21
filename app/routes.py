@@ -95,9 +95,9 @@ def login():
 				return redirect(url_for('dashboard'))
 		else:
 			if not user:
-				flash('Your login/password does not match or exists')
+				flash('Your login/password does not match or exists', 'alert alert-danger')
 			elif not user.isConfirmed:
-				flash('Your account is not confirmed yet. Check your email')
+				flash('Your account is not confirmed yet. Check your email', 'alert alert-danger')
 
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
@@ -136,7 +136,7 @@ def signup():
 
 				'''
 				if not validate_email(form.email.data, verify = True):
-					flash('Please use a valid email', 'error')
+					flash('Please use a valid email', 'alert alert-danger')
 					return render_template('signup.html', form = form)
 				'''
 
@@ -145,11 +145,11 @@ def signup():
 
 				db.session.add(new_user)
 				db.session.commit()
-				flash('You successfully created your account. Check your email to confirm it.')
+				flash('You successfully created your account. Check your email to confirm it.', 'alert alert-success')
 			else:
-				flash('There is already an account with that email')
+				flash('There is already an account with that email', 'alert alert-danger')
 		else:
-			flash('There is already an account with that username')
+			flash('There is already an account with that username', 'alert alert-danger')
 	return render_template('signup.html', form=form)
 
 @app.route('/confirm_email')
@@ -209,10 +209,8 @@ def testing():
 		streetname = form_building_charachteristics.streetname.data
 
 		global windowchecked
-		print("IK BEN HIER 1")
+		windowChecked = False
 		windowchecked = request.form.get("windowcount") != None
-		print(windowchecked)
-		print("IK BEN HIER 2")
 
 		global buildingManagementUsed
 		buildingManagementUsed = False
@@ -222,14 +220,17 @@ def testing():
 		).json()
 
 		if list(gebruiksdoel_Oppervlakte_data)[0] == 'error':
-			# Flask message here.
-			return ('', 204)
+			flash("Test1")
+
+			redirect(url_for('dashboard'))
 
 		response = gebruiksdoel_Oppervlakte_data["response"]
 
 		# Check if a valid building has been provided
 		if (response["numFound"] == 0):
-			return ('', 204)
+			# Flash here
+			flash("dashboard")
+			redirect(url_for('dashboard'))
 		
 		# Get the cordinates in the format (Point(Y-cordinate, X-cordinate))
 		cordinates = response['docs'][0]['centroide_ll']
@@ -425,6 +426,7 @@ building_properties_list = []
 def parameters():
 
 	global building_properties_list
+	global buildingList
 
 	building_properties_list = []
 	buildings = len(buildingList)
@@ -526,8 +528,6 @@ def building_management_estimation():
 
 		if windowchecked == True and building_properties_list[0]['windows'] > 0:
 				windows = building_properties_list[0]['windows']
-
-				print("Windows are taken into account")
 
 				if Steel == None or Steel == "None" or Steel == "":
 					Steel = abs(steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
