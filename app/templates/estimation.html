@@ -16,7 +16,6 @@
        carddiv.className = "card"
        carddiv.style     = "margin-bottom:4px; margin-top: 4px"
 
-
        var card_header = document.createElement("div")
        card_header.className = "card-header"
        card_header.innerHTML = "<h6>" + material_value_dict[i]["Name"] + "</h6>"
@@ -26,7 +25,7 @@
        card_body.style     = "margin-bottom: 0px; margin-top: 0px; padding: 5px 15px 10px 15px"
        card_body.innerHTML = "<div class='row' style='margin-top:0px'>"	+
                               "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Quantity</div>" +
-                              "<div class='p-3 bg-light text-dark rounded col-md-3'>" + material_value_dict[i]["Quantity"] + " KG" + "</div>" +
+                              "<div class='p-3 bg-light text-dark rounded col-md-3'>" +  material_value_dict[i]["Quantity"] + " KG" + "</div>" +
                               "<div class='p-3 col-md-3' style='background-color: #e3e3e3; color: #66615B'>Estimated Value</div>" +
                               "<div class='p-3 bg-light text-dark rounded col-md-3'>" + "€ " + material_value_dict[i]["Value"] + "</div>" +
                               "</div>"
