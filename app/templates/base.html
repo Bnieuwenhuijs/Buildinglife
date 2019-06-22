@@ -52,14 +52,14 @@
 	 <div class="sidebar-wrapper" style="overflow: hidden">
         <ul class="nav">
 
-          {% if url_for(request.endpoint) == "/dashboard" or normal_dashboard == True %}
+          {% if url_for(request.endpoint) == "/dashboard" or dashboard_used == True %}
             <li class="active ">
           {% else %}
             <li>
           {% endif %}
             <a href="dashboard">
               <i class="nc-icon nc-bank"></i>
-              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">Dashboard</p>
+              <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">Single estimation</p>
             </a>
           </li>
 
@@ -74,7 +74,7 @@
             </a>
           </li>
 
-          {% if url_for(request.endpoint) == "/BuildingManagement" or url_for(request.endpoint) == "/parameters" or (url_for(request.endpoint) == "/building_management_estimation" and normal_dashboard == False) %}
+          {% if url_for(request.endpoint) == "/BuildingManagement" or url_for(request.endpoint) == "/parameters" or (url_for(request.endpoint) == "/building_management_estimation" and dashboard_used != True) %}
           <li class="active ">
           {% else %}
           <li>

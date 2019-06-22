@@ -32,10 +32,10 @@ login_manager.login_view = 'login'
 
 s = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-MAIL_SERVER='smtp.gmail.com'
+MAIL_SERVER='mail.buildinglife.nl'
 MAIL_PORT= 465
-MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
-MAIL_PASSWORD= 'r2ItgT62'
+MAIL_USERNAME= 'no-reply@buildinglife.nl'
+MAIL_PASSWORD= 'test'
 
 
 @login_manager.user_loader
@@ -134,9 +134,11 @@ def signup():
 					form.email.data,
 					MAIL_USERNAME)
 
+				'''
 				if not validate_email(form.email.data, verify = True):
 					flash('Please use a valid email', 'alert alert-danger')
 					return render_template('signup.html', form = form)
+				'''
 
 				server.sendmail(MAIL_USERNAME, form.email.data, email)
 				server.quit() 
@@ -490,14 +492,14 @@ def building_management_estimation():
 
 	if buildingManagementUsed == False:
 		# Declare building characteristic variables
-		square_meters = building_properties_list[0]['square_meters']
-		city = building_properties_list[0]['Place_name']
-		building_year = building_properties_list[0]['Building_year']
-		ground_050 = building_properties_list[0]['ground_0_50']
-		roof_025 = building_properties_list[0]['roof_0_25']
-		roof_075 = building_properties_list[0]['roof_0_75']
-		roof_095 = building_properties_list[0]['roof_0_95']
-		functionality = building_properties_list[0]['building_functionality'].lower()
+		square_meters = building_properties_list[0].get('square_meters')
+		city = building_properties_list[0].get('Place_name')
+		building_year = building_properties_list[0].get('Building_year')
+		ground_050 = building_properties_list[0].get('ground_0_50')
+		roof_025 = building_properties_list[0].get('roof_0_25')
+		roof_075 = building_properties_list[0].get('roof_0_75')
+		roof_095 = building_properties_list[0].get('roof_0_95')
+		functionality = building_properties_list[0].get('building_functionality').lower()
 
 		if building_properties_list[0]['roof_flat'] == False :
 			roof_flat = 0
@@ -564,12 +566,12 @@ def building_management_estimation():
 
 
 		#Value_estimations
-		steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-		copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-		concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-		timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-		glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-		polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+		steel_value       = value_calculation(float(Steel), 0.1, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+		copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+		concrete_value    = value_calculation(float(Concrete), 0.2, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+		timber_value      = value_calculation(float(Timber), 0.02, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+		glass_value       = value_calculation(float(Glass), 1, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+		polystyrene_value = value_calculation(float(Polystyrene), 0.9, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 		
 		total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
 		total_value = sum(total_list)
@@ -605,7 +607,7 @@ def building_management_estimation():
                                functionality = building_func,
                                square_meters = square_meters,
                                number_floors = nr_floor,
-							   normal_dashboard = True
+							   dashboard_used = True
                                )
 
 
@@ -670,12 +672,12 @@ def building_management_estimation():
 			# Calculate the amount of years that have passed between the building year and current year
 			time_passed = datetime.datetime.now().year - building_year
 
-			steel_value       = value_calculation(float(Steel), 2, 0.066, 0.1333, 0.86, time_passed)
-			copper_value      = value_calculation(float(Copper), 5.56, 0.05, 0.1, 1, time_passed )
-			concrete_value    = value_calculation(float(Concrete), 1.75, 0.02, 0.04, 0.8, time_passed )
-			timber_value      = value_calculation(float(Timber), 0.9, 0.2, 0.4, 0.66, time_passed )
-			glass_value       = value_calculation(float(Glass), 1.2, 0.0667, 0.13, 1, time_passed )
-			polystyrene_value = value_calculation(float(Polystyrene), 1.87, 0.1, 0.2, 0.87, time_passed )
+			steel_value       = value_calculation(float(Steel), 0.1, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+			copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+			concrete_value    = value_calculation(float(Concrete), 0.2, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+			timber_value      = value_calculation(float(Timber), 0.02, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+			glass_value       = value_calculation(float(Glass), 1, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+			polystyrene_value = value_calculation(float(Polystyrene), 0.9, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 		
 			material_value_dict.append([{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
                                 		{ "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
@@ -736,7 +738,8 @@ def building_management_estimation():
 								total_timber_quantity = round(float(total_timber_quantity),2),
 								total_concrete_quantity = round(float(total_concrete_quantity),2),
 								total_glass_quantity = round(float(total_glass_quantity),2), 
-								total_polystyrene_quantity = round(float(total_polystyrene_quantity),2)
+								total_polystyrene_quantity = round(float(total_polystyrene_quantity),2),
+								dashboard_used = False
 							)
 
 

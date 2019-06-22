@@ -2,11 +2,6 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-MAIL_SERVER='smtp.gmail.com'
-MAIL_PORT= 465
-MAIL_USERNAME= 'buildinglife.no.reply@gmail.com'
-MAIL_PASSWORD= 'r2ItgT62'
-
 
 def generate_html_mail(subject, body, to_addr, from_addr):
 	"""Send an HTML email using the given subject, body, etc."""
