@@ -121,6 +121,7 @@
 
     </div>
 
+    <!-- Javascript -->
     <script>
       // Check if the provided postal code is valid
       function isValidPostalCode(postcalCode) {
@@ -140,6 +141,7 @@
       // Logic of when postal code field changes
       function postalcodeChanged() {
         postcalCodeField = document.getElementById("postalcode")
+        housenumberField = document.getElementById("housenumber")
 
         // Check if a valid postal code is provided
         if (! isValidPostalCode(postcalCodeField.value) ) {
@@ -151,9 +153,28 @@
 
         var request = new XMLHttpRequest()
 
-        request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value);
-        request.send()
+        // Check if a house number is provided
+        if (housenumberField == "") {
+          request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value);
+          request.send()
 
+          request.onload=function(){
+            if(this.readyState == 4 && this.status==200){
+              var data = JSON.parse(this.response);
+
+              var response = data["response"]
+
+              // Check if this postalcode actually does exist.
+              if (response["numFound"] == 0) {
+                return
+            } else {
+                  document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+              }
+          }}}
+
+       else if (housenumberField != "") {
+        request.open('GET', 'http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postcalCodeField.value + '&&fq=huisnummer:' + housenumberField.value);
+        request.send()
         request.onload=function(){
           if(this.readyState == 4 && this.status==200){
             var data = JSON.parse(this.response);
@@ -164,11 +185,20 @@
             if (response["numFound"] == 0) {
                 return
             } else {
-                document.getElementById("city").value = response["docs"]["0"]["woonplaatsnaam"]
+                cordinates = response["docs"]["0"]["centroide_ll"]
+                x_cordinate = cordinates.substring(cordinates.lastIndexOf(' ')+ 1 , cordinates.lastIndexOf(')'))
+                y_cordinate = cordinates.substring(cordinates.lastIndexOf('(')+ 1 , cordinates.lastIndexOf(' '))
+                document.getElementById("streetname").value = response["docs"]["0"]["straatnaam"]
+                document.getElementById("city").value =  response["docs"]["0"]["woonplaatsnaam"]
+
+                document.getElementById("googleMapsTop").src="http://maps.google.com/maps?q=loc:" +
+                                                              x_cordinate + ',' + y_cordinate +
+                                                              "&output=embed&iwd=-1";
               }
           }
         }
-      }
+       }
+    }
 
       // Logic of when house number field changes
       function housenumberChanged(){

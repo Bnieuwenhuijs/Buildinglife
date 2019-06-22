@@ -58,6 +58,8 @@ def value_calculation(KG, price, depreciation_rate, diminishing_value_rate, recy
 
 	return estimated_value
 
+# Functions for the index.
+# The index.... functions relate to going to a specific section on the website
 @app.route('/')
 @app.route('/index')
 def index():
@@ -102,7 +104,6 @@ def login():
 		#return '<h1>' + form.username.data + ' ' + form.password.data + '</h1>'
 
 	return render_template('login.html', form=form)
-
 
 
 @app.route('/signup', methods=['GET', 'POST'])
@@ -185,7 +186,6 @@ def token_expired():
 def token_non_existing():
 	return render_template('token_non_existing.html')
 
-
 @app.route('/dashboard')
 def dashboard():
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
@@ -219,18 +219,20 @@ def testing():
 		gebruiksdoel_Oppervlakte_data = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?rows=1&&fq=postcode:' + postalcode + '&&fq=huisnummer:' + housenumber + '&&fq=type:adres'
 		).json()
 
-		if list(gebruiksdoel_Oppervlakte_data)[0] == 'error':
-			flash("Test1")
+		if list(gebruiksdoel_Oppervlakte_data.keys())[0] == 'error':
+			form_building_charachteristics = DashboardInputCharacteristicsForm()
+			flash("The provided information is incorrect or the building does not exist.", 'alert alert-danger')
 
-			redirect(url_for('dashboard'))
-
+			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0)
+		
 		response = gebruiksdoel_Oppervlakte_data["response"]
 
 		# Check if a valid building has been provided
 		if (response["numFound"] == 0):
 			# Flash here
-			flash("dashboard")
-			redirect(url_for('dashboard'))
+			flash("The provided information is incorrect or the building does not exist.", 'alert alert-danger')
+			form_building_charachteristics = DashboardInputCharacteristicsForm()
+			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0)
 		
 		# Get the cordinates in the format (Point(Y-cordinate, X-cordinate))
 		cordinates = response['docs'][0]['centroide_ll']
@@ -281,10 +283,10 @@ def BuildingManagement():
 	headers = {'Content-Type': 'application/json'}
 	response = requests.get('http://geodata.nationaalgeoregister.nl/locatieserver/free?fq=postcode:3452AM', headers=headers)
 
-	if response.status_code == 200:
-		print (json.loads(response.content.decode('utf-8')) )
-	else:
-		print("Got an error")
+	#if response.status_code == 200:
+		#print (json.loads(response.content.decode('utf-8')) )
+	#else:
+	#	print("Got an error")
 
 	return render_template('buildingmanagement.html', BuildingManagementForm = BMform)
 
@@ -431,17 +433,12 @@ def parameters():
 	building_properties_list = []
 	buildings = len(buildingList)
 
+	# For each building in the list get the building characteric information
 	for building in range(buildings):
 		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
 										str(buildingList[building][3]), 
 										window_count = windowchecked)
 										)
-	#building_properties_list is a list with dictionaries. example: 
-	# [{'square_meters': 143, 'building_functionality': 'woonfunctie',
-	#  'Place_name': 'Vleuten', 'Building_year': 2005, 'ground-0.50': 0.26, 
-	# 'roof-0.25': 6.45, 'rmse-0.25': 1.26, 
-	# 'roof-0.75': 9.15, 'rmse-0.75': 1.22, 'roof-0.95': 10.24,
-	# 'rmse-0.95': 1.22, 'roof_flat': False}]
 
 	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
 
