@@ -8,10 +8,26 @@ class Building(db.Model):
 	__tablename__ = "Building"
 
 	id                      = db.Column(db.Integer, primary_key=True)
+	Place_name				= db.Column(db.Integer)
+	Street_name				= db.Column(db.String(120))
+	Place_name				= db.Column(db.String(120))
 	building_year           = db.Column(db.Integer)
 	building_functionality  = db.Column(db.String(120))
 	square_meters           = db.Column(db.Float)
 	number_floors           = db.Column(db.Integer)
+	ground_0_50				= db.Column(db.Integer)
+	roof_0_25				= db.Column(db.Integer)
+	roof_0_75				= db.Column(db.Integer)
+	roof_0_95				= db.Column(db.Integer)
+	user_id                 = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+	def __repr__(self):
+		return '<Building {}>'.format(self.building_year)
+
+class Material_estimation(db.Model):
+	__tablename__ = "Material_estimation"
+
+	id                      = db.Column(db.Integer, primary_key=True)
 	total_value             = db.Column(db.Integer)
 	steel_quantity          = db.Column(db.Integer)
 	steel_Value             = db.Column(db.Integer)
@@ -25,10 +41,11 @@ class Building(db.Model):
 	glass_Value             = db.Column(db.Integer)
 	polystyrene_quantity    = db.Column(db.Integer)
 	polystyrene_Value       = db.Column(db.Integer)
-	user_id                 = db.Column(db.Integer, db.ForeignKey('user.id'))
+	building_id             = db.Column(db.Integer, db.ForeignKey('Building.id'))
 
 	def __repr__(self):
 		return '<Building {}>'.format(self.building_year)
+
 
 class User(UserMixin, db.Model):
 	__tablename__ = "user"
