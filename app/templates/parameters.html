@@ -76,13 +76,12 @@
         </div>
       </div>
       
-      {% for building in building_properties_list %}
+      {% for building in building_Information  %}
       <div class="col-md-12">
         <div class="card" style="padding-left: 0px; padding-right:0px;">
           <div class="card-header ">
-            {% set value = loop.index - 1 %}
-            <h5 class="card-title mb-0">The {{ buildingList[loop.index - 1][1] }} {{ buildingList[loop.index - 1][3] }} in
-              {{ buildingList[loop.index - 1][4] }} </h5>
+            <h5 class="card-title mb-0">The {{ building.Street_name }} {{ building.house_number }} in
+              {{ building.Place_name }} </h5>
 
           </div>
           <div class="card-body ">
@@ -93,7 +92,7 @@
                   <tbody>
                     <tr>
                       <th scope="row">Building Year</th>
-                      <td> {{ building.Building_year }} </td>
+                      <td> {{ building.building_year }} </td>
 
 
                     </tr>
@@ -166,7 +165,9 @@
     </div>
   </div>
     {% endfor %}
-    <button type="submit" class="btn btn-primary" onclick= 'location.href="building_management_estimation"'>Continue to estimation</button>
+    <a href="{{ url_for('building_management_estimation', database_ids = database_ids, windowchecked = windowchecked, material_estimation_id = material_estimation_id, buildingManagement = buildingManagement) }}">
+      <button type="submit" class="btn btn-primary"> Continue to estimation</button>
+    </a>
 
 </div>
 

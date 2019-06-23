@@ -8,9 +8,9 @@ class Building(db.Model):
 	__tablename__ = "Building"
 
 	id                      = db.Column(db.Integer, primary_key=True)
-	Place_name				= db.Column(db.Integer)
 	Street_name				= db.Column(db.String(120))
 	Place_name				= db.Column(db.String(120))
+	house_number 			= db.Column(db.String(120))
 	building_year           = db.Column(db.Integer)
 	building_functionality  = db.Column(db.String(120))
 	square_meters           = db.Column(db.Float)
@@ -19,6 +19,10 @@ class Building(db.Model):
 	roof_0_25				= db.Column(db.Integer)
 	roof_0_75				= db.Column(db.Integer)
 	roof_0_95				= db.Column(db.Integer)
+	roof_flat				= db.Column(db.Boolean, default = False)
+	x_cordinate				= db.Column(db.String(120))
+	y_cordinate				= db.Column(db.String(120))
+	windows 				= db.Column(db.Integer)
 	user_id                 = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 	def __repr__(self):
