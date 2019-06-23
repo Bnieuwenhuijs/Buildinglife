@@ -5,6 +5,6 @@ class Config(object):
 	SECURITY_PASSWORD_SALT = 'my_precious_two'
 	SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 	SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
-		os.environ.get('DATABASE_URL_local')
+		'sqlite:///' + os.path.join(basedir, 'app.db')
 	SQLALCHEMY_TRACK_MODIFICATIONS = False
 
