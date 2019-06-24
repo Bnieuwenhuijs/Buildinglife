@@ -80,6 +80,7 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 	## Load all the models
 	regression_model_path =  os.path.join(os.path.dirname(os.path.abspath(__file__)), "regression_models")
 
+	age = datetime.datetime.now().year - building_year
 
 	if windows == 0:
 		steel_model = pickle.load(open(os.path.join(regression_model_path, "steel_model.sav"), 'rb'))
@@ -89,27 +90,23 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 		polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
 		timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
 
-
-		# LEEFTIJD VAN GEBOUW GEBRUIKEN
-		age = datetime.datetime.now().year - building_year
-
 		if Steel == 0 or Steel == None:
-			Steel = abs(steel_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
+			Steel = abs(steel_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Steel *= square_meters
 		if Concrete == 0 or Concrete == None:
-			Concrete = abs(concrete_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
+			Concrete = abs(concrete_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Concrete *= square_meters
 		if Copper == 0 or Copper == None:
-			Copper = abs(copper_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
+			Copper = abs(copper_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Copper *= square_meters
 		if Glass == 0 or Glass == None:
-			Glass = abs(glass_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
+			Glass = abs(glass_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Glass *= square_meters
 		if Polystyrene == 0 or Polystyrene == None:	
-			Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
+			Polystyrene = abs(polystyrene_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Polystyrene *= square_meters
 		if Timber == 0 or Timber == None:
-			Timber = abs(timber_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])			
+			Timber = abs(timber_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])			
 			Timber *= square_meters
 
 	if windows > 0:
@@ -122,31 +119,31 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 		polystyrene_window_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_window_model.sav"), 'rb'))
 
 		if Steel == 0 or Steel == None:
-			Steel = abs(steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+			Steel = abs(steel_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
 			Steel *= square_meters
 		if Concrete == 0 or Concrete == None:
-			Concrete = abs(concrete_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+			Concrete = abs(concrete_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
 			Concrete *= square_meters
 		if Copper == 0 or Copper == None:
-			Copper = abs(copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+			Copper = abs(copper_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
 			Copper *= square_meters
 		if Glass == 0 or Glass == None:
-			Glass = abs(glass_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+			Glass = abs(glass_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
 			Glass *= square_meters
 		if Polystyrene == 0 or Polystyrene == None:
-			Polystyrene = abs(polystyrene_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
+			Polystyrene = abs(polystyrene_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
 			Polystyrene *= square_meters
 		if Timber == 0 or Timber == None:
-			Timber = abs(timber_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])			
+			Timber = abs(timber_window_model.predict([[age,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])			
 			Timber *= square_meters
 
 	#Value_estimations
-	steel_value       = value_calculation(float(Steel), 0.1, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+	steel_value       = value_calculation(float(Steel), 2.15, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
 	copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-	concrete_value    = value_calculation(float(Concrete), 0.2, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-	timber_value      = value_calculation(float(Timber), 0.02, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-	glass_value       = value_calculation(float(Glass), 1, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-	polystyrene_value = value_calculation(float(Polystyrene), 0.9, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+	concrete_value    = value_calculation(float(Concrete), 1, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+	timber_value      = value_calculation(float(Timber), 0.85, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+	glass_value       = value_calculation(float(Glass), 1.15, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+	polystyrene_value = value_calculation(float(Polystyrene), 0.75, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 		
 	total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
 	total_value = sum(total_list)
@@ -289,12 +286,20 @@ def token_non_existing():
 @app.route('/dashboard')
 def dashboard():
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
-	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
+	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username, tryout = False)
+
+@app.route('/try')
+def trydashboard():
+	form_building_charachteristics = DashboardInputCharacteristicsForm()
+	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, tryout = True)
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
 	if request.method=='POST':
+
+		tryout = request.args.get('tryout', None)[0] == "T"
+		print(tryout)
 
 		# WTform for the building characteristics input
 		form_building_charachteristics = DashboardInputCharacteristicsForm()
@@ -325,7 +330,7 @@ def testing():
 			# Flash here
 			flash("The provided information is incorrect or the building does not exist.", 'alert alert-danger')
 			form_building_charachteristics = DashboardInputCharacteristicsForm()
-			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0)
+			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0, tryout=tryout)
 		
 		# Get the cordinates in the format (Point(Y-cordinate, X-cordinate))
 		cordinates = response['docs'][0]['centroide_ll']
@@ -394,7 +399,8 @@ def testing():
 								database_ids = database_ids, 
 								windowchecked = windowchecked,
 								material_estimation_id = material_estimation.id,
-								buildingManagement = False)
+								buildingManagement = False,
+								tryout=tryout)
 
 @app.route('/history')
 def history():
@@ -630,7 +636,7 @@ def building_management_estimation():
 	total_glass_quantity = 0
 	total_polystyrene_quantity = 0
 
-	
+	tryout = request.args.get('tryout', None)[0] == "T"
 	if buildingManagement[0] == 'F':
 		material_estimation_id =  request.args.get('material_estimation_id', None)
 
@@ -697,7 +703,8 @@ def building_management_estimation():
                                functionality = functionality,
                                square_meters = square_meters,
                                number_floors = nr_floors,
-							   dashboard_used = True
+							   dashboard_used = True,
+							   tryout = tryout
                                )
 
 

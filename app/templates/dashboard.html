@@ -55,7 +55,7 @@
 </div> -->
 <div class="content">
 
-	<form action="" method="POST">
+	<form action="{{url_for('dashboard', tryout= tryout) }}" method="POST">
 	{{ form_build_char.hidden_tag() }}
 
 	<!-- Provide the building location information -->
