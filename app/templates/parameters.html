@@ -70,8 +70,7 @@
         <div class="card ">
           <div class="card-header ">
             <h5 class="card-title mb-0">Please validate the building information</h5>
-            <p class="card-category">We provided you with all the information about your building! Could you check if everything is correct?
-            </p>
+            <p class="card-text">We provided you with all the information about your building! Could you check if everything is correct?</p>
           </div>
         </div>
       </div>
@@ -80,9 +79,7 @@
       <div class="col-md-12">
         <div class="card" style="padding-left: 0px; padding-right:0px;">
           <div class="card-header ">
-            <h5 class="card-title mb-0">The {{ building.Street_name }} {{ building.house_number }} in
-              {{ building.Place_name }} </h5>
-
+            <h5 class="card-title mb-0">{{ building.Street_name }} {{ building.house_number }} in {{ building.Place_name }} </h5>
           </div>
           <div class="card-body ">
             <div class="row">
@@ -91,67 +88,54 @@
 
                   <tbody>
                     <tr>
-                      <th scope="row">Building Year</th>
+                      <th scope="row">Year built</th>
                       <td> {{ building.building_year }} </td>
-
-
                     </tr>
-                    <tr>
-                      <th scope="row">Building functionality
 
-                      </th>
+                    <tr>
+                      <th scope="row">Building functionality</th>
                       <td>{{ building.building_functionality }}</td>
 
+                    </tr>
+                    <tr>
+                      <th scope="row">Square meters</th>
+                      <td colspan="2">{{ building.square_meters }} m<sup>2</sup></td>
 
                     </tr>
                     <tr>
-                      <th scope="row">Square Meters
-                      </th>
-                      <td colspan="2">{{ building.square_meters }}</td>
-
+                      <th scope="row">Ground height (from sea level)</th>
+                      <td colspan="2">{{ building.ground_0_50 }} m</td>
                     </tr>
-                    <tr>
-                      <th scope="row">Ground Height
-                      </th>
-                      <td colspan="2">{{ building.ground_0_50 }}</td>
 
-                    </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-6">
                 <table class="table table-hover">
-
                   <tbody>
                     <tr>
                       <th scope="row">Roof lowest point</th>
-                        <td>{{ building.roof_0_25 - building.ground_0_50 }}</td>
-
-
+                      {% set lowest_point = building.roof_0_25 - building.ground_0_50 %}
+                      <td>{{'%0.2f'| format(lowest_point|float)}} m</td>
                     </tr>
                     <tr>
-                      <th scope="row">Roof highest point
-
-                      </th>
-                      <td>{{ building.roof_0_95 - building.ground_0_50 }}</td>
-
-
+                      <th scope="row">Roof highest point</th>
+                      {% set highest_point = building.roof_0_95 - building.ground_0_50 %}
+                      <td>{{'%0.2f'| format(highest_point|float)}} m</td>
                     </tr>
                     <tr>
-                      <th scope="row">Type of roof
-                      </th>
+                      <th scope="row">Type of roof</th>
                         {% if building.roof_flat == True %}
                         {% set roof = 'Flat' %}
                         {% elif building.roof_flat == False %}
                         {% set roof = 'Pitched' %}
                         {% endif %}
                       <td colspan="2">{{ roof }}</td>
-
                     </tr>
+
                     {% if building.windows is defined %}
                     <tr>
-                      <th scope="row">windows
-                      </th>
+                      <th scope="row">Windows</th>
                       <td colspan="2"> {{ building.windows }} </td>
                     {% endif %}
                     </tr>
