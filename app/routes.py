@@ -23,6 +23,7 @@ from validate_email import validate_email
 from app.email_templates import generate_html_mail, welcome_email_body
 
 from datetime import timedelta
+from datetime import datetime
 import os, pickle, requests, json, datetime, smtplib, ssl
 
 
@@ -88,23 +89,27 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 		polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
 		timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
 
+
+		# LEEFTIJD VAN GEBOUW GEBRUIKEN
+		age = datetime.datetime.now().year - building_year
+
 		if Steel == 0 or Steel == None:
-			Steel = abs(steel_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Steel = abs(steel_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Steel *= square_meters
 		if Concrete == 0 or Concrete == None:
-			Concrete = abs(concrete_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Concrete = abs(concrete_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Concrete *= square_meters
 		if Copper == 0 or Copper == None:
-			Copper = abs(copper_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Copper = abs(copper_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Copper *= square_meters
 		if Glass == 0 or Glass == None:
-			Glass = abs(glass_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Glass = abs(glass_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Glass *= square_meters
 		if Polystyrene == 0 or Polystyrene == None:	
-			Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Polystyrene *= square_meters
 		if Timber == 0 or Timber == None:
-			Timber = abs(timber_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])			
+			Timber = abs(timber_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])			
 			Timber *= square_meters
 
 	if windows > 0:
@@ -350,7 +355,7 @@ def testing():
 			windows = building_properties['windows']
 
 		# Add to the database
-		building = Building(Street_name = streetname, Place_name = city, building_year = building_year, building_functionality = building_functionality,
+		building = Building(Street_name = streetname, Place_name = city, building_year = building_year, postal_code	= postalcode, building_functionality = building_functionality,
 							square_meters = square_meters, ground_0_50 = ground_0_50, roof_0_25 = roof_0_25, roof_0_75 = roof_0_75,
 							roof_0_95 = roof_0_95, x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = current_user.id, 
 							number_floors = number_floors, house_number = housenumber, windows = windows, roof_flat = roof_flat )
@@ -578,11 +583,10 @@ def parameters():
 		if wchecked:
 			windows = building_properties['windows']
 
-		print(type(roof_0_25))
 
 		# Add to the database
 		building = Building(Street_name = streetname, Place_name = city, building_year = building_year,
-							building_functionality = building_functionality, square_meters = square_meters, 
+							building_functionality = building_functionality, postal_code = postalcode, square_meters = square_meters, 
 							ground_0_50 = ground_0_50, roof_0_25 = roof_0_25, roof_0_75 = roof_0_75, roof_0_95 = roof_0_95, 
 							x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = current_user.id,  number_floors = number_floors, 
 							house_number = housenumber, windows = windows, roof_flat = roof_flat )
@@ -595,8 +599,6 @@ def parameters():
 		
 		building_Information_list.append(Building.query.filter(Building.id == database_id).first())
 
-	print(building_Information_list)
-	print(len(building_Information_list))
 	return render_template("parameters.html", 
 							building_Information = building_Information_list, 
 							database_ids = database_ids, 
@@ -606,7 +608,8 @@ def parameters():
 @app.route('/building_management_estimation')
 def building_management_estimation():
 
-	database_ids = request.args.get('database_ids', None)
+	database_ids = json.loads(request.args.get('database_ids', None))
+
 	windowchecked = request.args.get('windowchecked', None)
 	buildingManagement =  request.args.get('buildingManagement', None)
 
@@ -700,97 +703,72 @@ def building_management_estimation():
 
 		
 
-	elif buildingManagement == True:
-		for building in building_properties_list:
+	elif buildingManagement[0] == "T":
+		building_list_db = []
+		estimation_list_db = []
+		total_value = 0
 
-			square_meters = building['square_meters']
-			city = building['Place_name']
-			building_year = building['Building_year']
-			ground_050 = building['ground_0_50']
-			roof_025 = building['roof_0_25']
-			roof_075 = building['roof_0_75']
-			roof_095 = building['roof_0_95']
-			functionality = building['building_functionality'].lower()
 
+		for database_id in database_ids:
+			building = Building.query.filter_by(id = database_id).first()
+			building_list_db.append(building)
+
+			# Get the building characteristics
+			square_meters = building.square_meters
+			building_year = building.building_year
+			ground_0_50 = building.ground_0_50
+			roof_0_25 = building.roof_0_25
+			roof_0_75 = building.roof_0_75
+			roof_0_95 = building.roof_0_95
+			functionality = building.building_functionality
+			roof_flat_bool = building.roof_flat
+			windows = building.windows
+			nr_floors = building.number_floors
+
+			quantity_value_dict = quantity_value_estimation(square_meters, 
+														building_year, 
+														ground_0_50, 
+														roof_0_25, 
+														roof_0_75, 
+														roof_0_95, 
+														functionality, 
+														roof_flat_bool, 
+														windows)
 		
+			# Put in DB
+			material_estimation = Material_estimation( total_value = quantity_value_dict['total_value'], 
+												  	 steel_quantity = quantity_value_dict['steel_quantity'], steel_Value = quantity_value_dict['steel_value'], 
+												   	copper_quantity = quantity_value_dict['copper_quantity'], copper_Value = quantity_value_dict['copper_value'],
+												   	concrete_quantity = quantity_value_dict['concrete_quantity'], concrete_Value = quantity_value_dict['concrete_value'],
+												   	timber_quantity = quantity_value_dict['timber_quantity'], timber_Value = quantity_value_dict['timber_value'],
+												   	glass_quantity = quantity_value_dict['glass_quantity'], glass_Value = quantity_value_dict['glass_value'],
+												   	polystyrene_quantity = quantity_value_dict['polystyrene_quantity'], polystyrene_Value = quantity_value_dict['polystyrene_value'],
+												   	building_id = database_ids[0] )
+							
+			db.session.add(material_estimation)
+			db.session.commit()
 
-			if building['roof_flat'] == False :
-				roof_flat = 0
-			else:
-				roof_flat = 1
+			estimation_list_db.append(Material_estimation.query.filter_by(id = int(material_estimation.id)).first())
 
-			if functionality == "woonfunctie":
-				building_func = 1
-			elif functionality == "winkelfunctie":
-				building_func = 2
-			elif functionality == "industriefunctie":
-				building_func = 3
-			else:
-				building_func = 4
+			steel_quantity = round(float(quantity_value_dict['steel_quantity']),2)
+			copper_quantity  = round(float(quantity_value_dict['copper_quantity']),2)
+			concrete_quantity = round(float(quantity_value_dict['copper_quantity']),2)
+			timber_quantity = round(float(quantity_value_dict['timber_quantity']),2)
+			glass_quantity = round(float(quantity_value_dict['glass_quantity']),2)
+			polystyrene_quantity = round(float(quantity_value_dict['polystyrene_quantity']),2)
 
-
-			if windowchecked == True and building['windows'] > 0:
-				windows = building['windows']
-
-				Steel = abs(steel_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				Copper = abs(copper_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				Concrete = abs(concrete_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				Timber = abs(timber_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				Glass = abs(glass_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				Polystyrene = abs(polystyrene_window_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters, windows]])[0])
-				
-			elif windowchecked == False:
-				Steel = abs(steel_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat, square_meters]])[0])
-				Copper = abs(copper_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
-				Concrete = abs(concrete_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
-				Timber = abs(timber_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
-				Glass = abs(glass_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])
-				Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,ground_050,roof_025,roof_075,roof_095,roof_flat,square_meters]])[0])			
-
-			# Convert materials per squared meters to total.
-			Steel *= square_meters
-			Copper *= square_meters
-			Concrete *= square_meters
-			Timber *= square_meters
-			Glass *= square_meters
-			Polystyrene *= square_meters
-
-			## Calculate the values of the materials
-			# Calculate the amount of years that have passed between the building year and current year
-			time_passed = datetime.datetime.now().year - building_year
-
-			steel_value       = value_calculation(float(Steel), 0.1, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-			copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-			concrete_value    = value_calculation(float(Concrete), 0.2, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-			timber_value      = value_calculation(float(Timber), 0.02, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-			glass_value       = value_calculation(float(Glass), 1, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-			polystyrene_value = value_calculation(float(Polystyrene), 0.9, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
-		
-			material_value_dict.append([{ "Name" : "Steel", "Quantity" : round(float(Steel),2),  "Value" : round(float(steel_value),2)},
-                                		{ "Name" : "Copper", "Quantity" : round(float(Copper),2), "Value" : round(float(copper_value),2)},
-                                		{ "Name" : "Concrete", "Quantity" : round(float(Concrete),2), "Value" : round(float(concrete_value),2)},
-                                		{ "Name" : "Timber", "Quantity" : round(float(Timber),2), "Value" : round(float(timber_value),2)},
-                                		{ "Name" : "GLass", "Quantity" : round(float(Glass),2), "Value" : round(float(glass_value),2)},
-                                		{ "Name" : "Polystyrene", "Quantity" : round(float(Polystyrene),2), "Value" : round(float(polystyrene_value),2)}]
-										)
+			steel_value = round(float(quantity_value_dict['steel_value']),2)
+			copper_value = round(float(quantity_value_dict['copper_value']),2)
+			concrete_value = round(float(quantity_value_dict['concrete_value']),2)
+			timber_value = round(float(quantity_value_dict['timber_value']),2)
+			glass_value = round(float(quantity_value_dict['glass_value']),2)
+			polystyrene_value = round(float(quantity_value_dict['polystyrene_value']),2)
 
 			total_house_value = steel_value + copper_value + concrete_value + timber_value + glass_value + polystyrene_value
 
-			nr_floor = round((roof_095 - ground_050) / 3)
+			
 
-			#Put in DB
-			building = Building(building_year= building_year, building_functionality= building_func, square_meters= square_meters,
-                           	 number_floors= nr_floor,     total_value= round(float(total_value),2),           steel_quantity= round(float(Steel),2),
-                         	 steel_Value=          round(float(steel_value),2),    copper_quantity=      round(float(Copper),2),
-                             copper_Value=         round(float(copper_value),2),   concrete_quantity=    round(float(Concrete),2),
-                             concrete_Value=       round(float(concrete_value),2), timber_quantity=      round(float(Timber),2),
-                             timber_Value=         round(float(timber_value),2),   glass_quantity=       round(float(Glass),2),
-                             glass_Value=          round(float(glass_value),2),    polystyrene_quantity= round(float(Polystyrene),2),
-                             polystyrene_Value=    round(float(polystyrene_value),2))
-							
-			db.session.add(building)
-			db.session.commit()
-
+			# building_management_estimation aan de hand van DB query -> is makkelijker
 
 			# Some important calculations
 			total_steel_value += steel_value
@@ -800,19 +778,18 @@ def building_management_estimation():
 			total_glass_value += glass_value
 			total_polystyrene_value += polystyrene_value
 
-			total_steel_quantity += Steel
-			total_copper_quantity += Copper
-			total_timber_quantity += Timber
-			total_concrete_quantity += Concrete
-			total_glass_quantity += Glass
-			total_polystyrene_quantity += Polystyrene
+			total_steel_quantity += steel_quantity
+			total_copper_quantity += copper_quantity
+			total_timber_quantity += timber_quantity
+			total_concrete_quantity += concrete_quantity
+			total_glass_quantity += glass_quantity
+			total_polystyrene_quantity += polystyrene_quantity
 
-			total_value += (steel_value + copper_value + concrete_value + timber_value + glass_value + polystyrene_value)
+			total_value += round(float(quantity_value_dict['total_value']),2)
 
-		global buildingList
 		return render_template("building_management_estimation.html", 
-								buildingList = buildingList, 
-								material_value_dict = material_value_dict, 
+								building_list_db = building_list_db, 
+								estimation_list_db = estimation_list_db, 
 								total_value = round(float(total_value),2), 
 								total_steel_value = round(float(total_steel_value),2),
 								total_copper_value = round(float(total_copper_value),2),
