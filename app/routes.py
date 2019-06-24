@@ -23,6 +23,7 @@ from validate_email import validate_email
 from app.email_templates import generate_html_mail, welcome_email_body
 
 from datetime import timedelta
+from datetime import datetime
 import os, pickle, requests, json, datetime, smtplib, ssl
 
 
@@ -88,23 +89,27 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 		polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
 		timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
 
+
+		# LEEFTIJD VAN GEBOUW GEBRUIKEN
+		age = datetime.datetime.now().year - building_year
+
 		if Steel == 0 or Steel == None:
-			Steel = abs(steel_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Steel = abs(steel_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Steel *= square_meters
 		if Concrete == 0 or Concrete == None:
-			Concrete = abs(concrete_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Concrete = abs(concrete_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Concrete *= square_meters
 		if Copper == 0 or Copper == None:
-			Copper = abs(copper_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Copper = abs(copper_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Copper *= square_meters
 		if Glass == 0 or Glass == None:
-			Glass = abs(glass_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Glass = abs(glass_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Glass *= square_meters
 		if Polystyrene == 0 or Polystyrene == None:	
-			Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])
+			Polystyrene = abs(polystyrene_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Polystyrene *= square_meters
 		if Timber == 0 or Timber == None:
-			Timber = abs(timber_model.predict([[building_year,building_func,ground_0_50,roof_0_25,roof_0_75,roof_0_95,roof_flat,square_meters]])[0])			
+			Timber = abs(timber_model.predict([[building_year,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])			
 			Timber *= square_meters
 
 	if windows > 0:

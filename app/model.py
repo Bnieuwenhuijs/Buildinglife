@@ -13,11 +13,12 @@ import json
 
 
 
-dataset = pd.read_csv('D:\ImputedData.csv')
-    # Steel = 10
-    # Windows included = 1:10
-y = dataset.iloc[:, 15].values
-X = dataset.iloc[:, 1:10].values
+dataset = pd.read_csv('D:\Data for Model\completed.csv')
+    # Steel = 8
+    # Windows not included = 1:7
+    # Windows included = 1:8
+y = dataset.iloc[:, 12].values
+X = dataset.iloc[:, 1:7].values
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 0)
 
