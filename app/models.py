@@ -11,6 +11,7 @@ class Building(db.Model):
 	Street_name				= db.Column(db.String(120))
 	Place_name				= db.Column(db.String(120))
 	house_number 			= db.Column(db.String(120))
+	postal_code				= db.Column(db.String(120))
 	building_year           = db.Column(db.Integer)
 	building_functionality  = db.Column(db.String(120))
 	square_meters           = db.Column(db.Float)
