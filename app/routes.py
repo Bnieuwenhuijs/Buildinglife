@@ -1,6 +1,6 @@
 #!flask/bin/python
 
-from flask import render_template
+from flask import render_template, jsonify
 from flask import request, flash, redirect, url_for
 
 from flask_mail import Mail, Message
@@ -286,9 +286,6 @@ def dashboard():
 	form_building_charachteristics = DashboardInputCharacteristicsForm()
 	return render_template('dashboard.html', form_build_char=form_building_charachteristics , numberOfMaterialsDisplayed = 0, name=current_user.username)
 
-windowchecked = False
-buildingManagementUsed = False
-building_properties_list = []
 @app.route('/dashboard', methods=['GET', 'POST'])
 def testing():
 
@@ -530,38 +527,81 @@ def suppr():
 	buildings = Building.query.order_by(Building.id.desc())
 	return redirect(url_for('history'))
 	
-buildingList = []
-@app.route('/postlocationdata', methods = ['POST'])
+@app.route('/postlocationdata', methods = ['POST', 'GET'])
 def get_post_location_data():
 
-	global buildingManagementUsed 
-	buildingManagementUsed = True
+	buildingList = request.form['buildingList']
 
-	jsdata = request.form['javascript_data']
-	global windowchecked
 	windowchecked = request.form['window_checked_data'][0] == "t"
+	
+	#buildingList = json.loads(jsdata)
 
-	global buildingList
-	# BuildingList is a list which consists of lists of (cordinates, street, postalcode, streetnumber, city)
-	# As example: [['POINT(4.93932396 51.54225764)', 'Oranjestraat', '5126bl', '5', 'Gilze']]
-	buildingList = json.loads(jsdata)
+	return jsonify(windowchecked = windowchecked,
+				   buildingList = buildingList)
 
-	return "/parameters"
-
-building_properties_list = []
-@app.route('/parameters')
+@app.route('/parameters' )
 def parameters():
 
-	# TO BE FIXED
+	wchecked = request.args.get('windowchecked')[0] == "t"
+
+	buildingList = request.args.get('buildingList')
+	buildingList = json.loads(buildingList)
+
+	database_ids = []
+	building_Information_list = []
 
 	# For each building in the list get the building characteric information
-	for building in database_ids:
-		building_properties_list.append(get_building_properties(str(buildingList[building][2]), 
-										str(buildingList[building][3]), 
-										window_count = windowchecked)
-										)
+	for building in buildingList:
+		streetname = building[1]
+		postalcode = building[2]
+		housenumber = building[3]
+		city = building[4]
 
-	return render_template("parameters.html", buildingList = buildingList, building_properties_list = building_properties_list)
+		cordinates = building[0]
+
+		x_cordinate = cordinates[0 : int(cordinates.index(','))]
+		y_cordinate = cordinates[int(cordinates.index(',')) + 1 : len(cordinates)]
+		
+		building_properties = get_building_properties(postalcode, housenumber, window_count = wchecked)
+
+		building_year = building_properties['Building_year']
+		building_functionality = building_properties['building_functionality']
+		square_meters = building_properties['square_meters']
+		ground_0_50 = building_properties['ground_0_50']
+		roof_0_25 = building_properties['roof_0_25']
+		roof_0_75 = building_properties['roof_0_75']
+		roof_0_95 = building_properties['roof_0_95']
+		roof_flat = building_properties['roof_flat']
+		number_floors = round((roof_0_95 - ground_0_50) / 3)
+		
+		windows = 0
+		if wchecked:
+			windows = building_properties['windows']
+
+		print(type(roof_0_25))
+
+		# Add to the database
+		building = Building(Street_name = streetname, Place_name = city, building_year = building_year,
+							building_functionality = building_functionality, square_meters = square_meters, 
+							ground_0_50 = ground_0_50, roof_0_25 = roof_0_25, roof_0_75 = roof_0_75, roof_0_95 = roof_0_95, 
+							x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = current_user.id,  number_floors = number_floors, 
+							house_number = housenumber, windows = windows, roof_flat = roof_flat )
+							
+		db.session.add(building)
+		db.session.commit()
+		
+		database_id = building.id
+		database_ids.append(database_id)
+		
+		building_Information_list.append(Building.query.filter(Building.id == database_id).first())
+
+	print(building_Information_list)
+	print(len(building_Information_list))
+	return render_template("parameters.html", 
+							building_Information = building_Information_list, 
+							database_ids = database_ids, 
+							windowchecked = wchecked,
+							buildingManagement = True)
 
 @app.route('/building_management_estimation')
 def building_management_estimation():

@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 7bdb86d0c3a1
+Revision ID: 765f99db8a1c
 Revises: 
-Create Date: 2019-06-22 19:23:26.139695
+Create Date: 2019-06-24 00:09:54.250965
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '7bdb86d0c3a1'
+revision = '765f99db8a1c'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,6 +34,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('Street_name', sa.String(length=120), nullable=True),
     sa.Column('Place_name', sa.String(length=120), nullable=True),
+    sa.Column('house_number', sa.String(length=120), nullable=True),
     sa.Column('building_year', sa.Integer(), nullable=True),
     sa.Column('building_functionality', sa.String(length=120), nullable=True),
     sa.Column('square_meters', sa.Float(), nullable=True),
@@ -42,6 +43,10 @@ def upgrade():
     sa.Column('roof_0_25', sa.Integer(), nullable=True),
     sa.Column('roof_0_75', sa.Integer(), nullable=True),
     sa.Column('roof_0_95', sa.Integer(), nullable=True),
+    sa.Column('roof_flat', sa.Boolean(), nullable=True),
+    sa.Column('x_cordinate', sa.String(length=120), nullable=True),
+    sa.Column('y_cordinate', sa.String(length=120), nullable=True),
+    sa.Column('windows', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['user.id'], ),
     sa.PrimaryKeyConstraint('id')

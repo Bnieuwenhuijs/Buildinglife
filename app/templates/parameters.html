@@ -113,7 +113,7 @@
                     <tr>
                       <th scope="row">Ground Height
                       </th>
-                      <td colspan="2">{{ building.ground_0_50 | round }}</td>
+                      <td colspan="2">{{ building.ground_0_50 }}</td>
 
                     </tr>
                   </tbody>
@@ -125,7 +125,7 @@
                   <tbody>
                     <tr>
                       <th scope="row">Roof lowest point</th>
-                      <td>{{ building.roof_0_25 - building.ground_0_50 | round }}</td>
+                     <!--  <td>{{ building.roof_0_25 - building.ground_0_50 }}</td> -->
 
 
                     </tr>
@@ -133,7 +133,7 @@
                       <th scope="row">Roof highest point
 
                       </th>
-                      <td>{{ building.roof_0_95 - building.ground_0_50 | round }}</td>
+                      <td>{{ building.roof_0_95 - building.ground_0_50 }}</td>
 
 
                     </tr>

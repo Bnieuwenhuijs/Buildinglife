@@ -103,7 +103,9 @@
                       <button type="button" class="btn btn-primary col-md-3" style="margin: 0px 10px 10px 5px; background-color: #51a9da" onclick="addStreet()"> Add Street</button>
                    </div>
                    <div class="row col-md-12">
-                      <button type="button" id="EstimateValuesButton" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
+                      <!-- <a href="{{ url_for('parameters') }}"> -->
+                        <button type="button" id="EstimateValuesButton" class="btn btn-primary col-md-5" style="margin: 0px 10px 10px 10px" onclick="testPostJava()">Estimate Values</button>
+                      <!-- </a> -->
                       <div class="custom-control custom-checkbox" style="margin: 5px 20px">
                           <input type="checkbox" class="custom-control-input" style="transform: scale(1.3)" id="customCheck1">
                           <label class="custom-control-label" for="customCheck1" style="transform: scale(1)">Use the amount of windows as parameter</label>
@@ -279,9 +281,9 @@
           postalcode_housenumber_field.className = "row"
           postalcode_housenumber_field.style = "margin-top:0px"
           postalcode_housenumber_field.innerHTML = '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">Postal Code</div>' +
-                                             '<input class="p-1 bg-light text-dark rounded col-md-4" type="text" value="' + postalcode + '"readonly>' +
+                                             '<input class="p-1 bg-light text-dark rounded col-md-4" type="text" name="postalcode' + i + '" value="' + postalcode + '"readonly>' +
                                              '<div class="p-2 col-md-3" style="background-color: #e3e3e3; ; color: #66615B">House Number</div>' +
-                                             '<input class="p-1 bg-light text-dark rounded col-md-2" type="text" value="' + house_number + '"readonly>'
+                                             '<input class="p-1 bg-light text-dark rounded col-md-2" type="text" name="house_number' + i + '" value="' + house_number + '"readonly>'
 
           // Create the row with streetname
           var streetname_field = document.createElement("div")
@@ -465,24 +467,21 @@
       }
 
       function testPostJava() {
-        var data = buildingList
+        var buildingListdata = buildingList
         var windowchecked = document.getElementById("customCheck1").checked
 
-        console.log(windowchecked)
-
-        if (data.length != 0) {
+        if ( buildingListdata.length != 0) {
         estimateValuesButton = document.getElementById("EstimateValuesButton")
         estimateValuesButton.disabled = true
         estimateValuesButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
 
-
         $.post( "/postlocationdata", {
           type: 'POST',
           contentType: 'application/json; charset=utf-8',
-          javascript_data: JSON.stringify(data),
+          buildingList: JSON.stringify(buildingListdata),
           window_checked_data: windowchecked,
           }).done(function(response){
-              window.location.href = response
+              window.location.href = '{{url_for("parameters") }}?windowchecked=' + response['windowchecked'] + '&buildingList=' + response['buildingList']
             })
           } else {}
       }
