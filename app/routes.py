@@ -636,8 +636,8 @@ def building_management_estimation():
 	total_glass_quantity = 0
 	total_polystyrene_quantity = 0
 
-	tryout = request.args.get('tryout', None)[0] == "T"
 	if buildingManagement[0] == 'F':
+		tryout = request.args.get('tryout', None)[0] == "T"
 		material_estimation_id =  request.args.get('material_estimation_id', None)
 
 		# TO FIC: GET THE GLOBAL VARIABLES
