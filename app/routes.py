@@ -321,7 +321,7 @@ def testing():
 			form_building_charachteristics = DashboardInputCharacteristicsForm()
 			flash("The provided information is incorrect or the building does not exist.", 'alert alert-danger')
 
-			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0)
+			return render_template("dashboard.html", form_build_char=form_building_charachteristics, numberOfMaterialsDisplayed = 0) # name=current_user.username, 
 		
 		response = gebruiksdoel_Oppervlakte_data["response"]
 
@@ -330,7 +330,7 @@ def testing():
 			# Flash here
 			flash("The provided information is incorrect or the building does not exist.", 'alert alert-danger')
 			form_building_charachteristics = DashboardInputCharacteristicsForm()
-			return render_template("dashboard.html", form_build_char=form_building_charachteristics, name=current_user.username, numberOfMaterialsDisplayed = 0, tryout=tryout)
+			return render_template("dashboard.html", form_build_char=form_building_charachteristics, numberOfMaterialsDisplayed = 0, tryout=tryout) # name=current_user.username, 
 		
 		# Get the cordinates in the format (Point(Y-cordinate, X-cordinate))
 		cordinates = response['docs'][0]['centroide_ll']
@@ -362,7 +362,7 @@ def testing():
 		# Add to the database
 		building = Building(Street_name = streetname, Place_name = city, building_year = building_year, postal_code	= postalcode, building_functionality = building_functionality,
 							square_meters = square_meters, ground_0_50 = ground_0_50, roof_0_25 = roof_0_25, roof_0_75 = roof_0_75,
-							roof_0_95 = roof_0_95, x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = current_user.id, 
+							roof_0_95 = roof_0_95, x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = 1, #current_user.id, 
 							number_floors = number_floors, house_number = housenumber, windows = windows, roof_flat = roof_flat )
 							
 		db.session.add(building)
@@ -594,7 +594,7 @@ def parameters():
 		building = Building(Street_name = streetname, Place_name = city, building_year = building_year,
 							building_functionality = building_functionality, postal_code = postalcode, square_meters = square_meters, 
 							ground_0_50 = ground_0_50, roof_0_25 = roof_0_25, roof_0_75 = roof_0_75, roof_0_95 = roof_0_95, 
-							x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = current_user.id,  number_floors = number_floors, 
+							x_cordinate = x_cordinate, y_cordinate = y_cordinate, user_id = 1,  number_floors = number_floors, 
 							house_number = housenumber, windows = windows, roof_flat = roof_flat )
 							
 		db.session.add(building)
