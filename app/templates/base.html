@@ -52,17 +52,24 @@
 	 <div class="sidebar-wrapper" style="overflow: hidden">
         <ul class="nav">
 
-          {% if url_for(request.endpoint) == "/dashboard" or dashboard_used == True %}
+          
+          {% if url_for(request.endpoint) == "/dashboard" or dashboard_used == True or tryout == True %}
             <li class="active ">
           {% else %}
             <li>
           {% endif %}
+
+          {% if tryout != True %}
             <a href="dashboard">
+          {% else %}
+             <a href="">
+          {% endif %}
               <i class="nc-icon nc-bank"></i>
               <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem">Single estimation</p>
             </a>
           </li>
 
+        {% if tryout != True %}
           {% if url_for(request.endpoint) == "/history" %}
             <li class="active ">
           {% else %}
@@ -95,6 +102,7 @@
               <p style = "font-family: Nunito,sans-serif; font-weight: 400; font-size: 1rem;">User Profile</p>
             </a>
           </li>
+        {% endif %}
         </ul>
       </div>
     </div>
