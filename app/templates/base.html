@@ -49,10 +49,8 @@
       </div>
 
 	<!-- Sidebar items //-->
-	 <div class="sidebar-wrapper" style="overflow: hidden">
+	 <div class="sidebar-wrapper" style="overflow: hidden;">
         <ul class="nav">
-
-          
           {% if url_for(request.endpoint) == "/dashboard" or dashboard_used == True or tryout == True %}
             <li class="active ">
           {% else %}
