@@ -4864,13 +4864,13 @@ License - nucleoapp.com/license/
   background: -webkit-linear-gradient(#66615B 0%, #000 80%);
   background: -o-linear-gradient(#66615B 0%, #000 80%);
   background: -moz-linear-gradient(#66615B 0%, #000 80%);
-  background: linear-gradient(135deg, rgba(76,162,240,1) 0%, rgba(22,107,187,1) 60%);
+  background: linear-gradient(135deg, rgba(22,107,187,1) 0%, rgba(76,162,240,1) 60%);
   z-index: 3;
 }
 
 .sidebar[data-color="white"]:after,
 .off-canvas-sidebar[data-color="white"]:after {
-  background: linear-gradient(135deg, rgba(76,162,240,1) 0%, rgba(22,107,187,1) 60%);
+  background: linear-gradient(135deg, rgba(22,107,187,1) 0%, rgba(76,162,240,1) 80%);
 
 }
 
