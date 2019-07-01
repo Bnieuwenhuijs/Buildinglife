@@ -260,10 +260,10 @@
                 <div class="row" style="margin-top: 15px">
                         <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Steel</div>
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.steel_quantity }} kg/m<sup>2</sup> </div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.steel_quantity | round(2) }} kg/m<sup>2</sup> </div>
 
                         <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.steel_Value }} &euro;</div>
+                        <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.steel_Value | round(2) }} &euro;</div>
 
                 </div>
              </div>
@@ -273,9 +273,9 @@
                 <div class="row" style="margin-top: 10px">
                   <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Copper</div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.copper_quantity }} kg/m<sup>2</sup> </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.copper_quantity | round(2) }} kg/m<sup>2</sup> </div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.copper_Value }} &euro; </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.copper_Value | round(2) }} &euro; </div>
                 </div>
              </div>
 
@@ -284,10 +284,10 @@
                 <div class="row" style="margin-top: 10px">
                   <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Concrete</div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.concrete_quantity }} kg/m<sup>2</sup> </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.concrete_quantity | round(2) }} kg/m<sup>2</sup> </div>
 
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.concrete_Value }} &euro; </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.concrete_Value | round(2) }} &euro; </div>
                 </div>
              </div>
 
@@ -296,10 +296,10 @@
               <div class="row" style="margin-top: 10px">
                   <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Timber</div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.timber_quantity }} kg/m<sup>2</sup> </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.timber_quantity | round(2) }} kg/m<sup>2</sup> </div>
 
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500"> Estimated Value </div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.timber_Value }} &euro; </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.timber_Value | round(2) }} &euro; </div>
               </div>
             </div>
 
@@ -308,10 +308,10 @@
               <div class="row" style="margin-top: 10px">
                   <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Glass</div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.glass_quantity }} kg/m<sup>2</sup> </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.glass_quantity | round(2) }} kg/m<sup>2</sup> </div>
 
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.glass_Value }} &euro; </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.glass_Value | round(2) }} &euro; </div>
               </div>
             </div>
 
@@ -320,10 +320,10 @@
               <div class="row" style="margin-top: 10px; margin-bottom: 15px">
                   <div class="p-3 col-md-2 rounded" style="background-color: #e3e3e3; ; color: #66615B; padding: 0.65em!important; font-weight: 600">Polystyrene</div>
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Quantity</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.polystyrene_quantity }} kg/m<sup>2</sup> </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.polystyrene_quantity | round(2) }} kg/m<sup>2</sup> </div>
 
                   <div class="p-3 col-md-2" style="background-color: #f3eeee; ; color: #66615B; padding: 0.65em!important; font-weight: 500">Estimated Value</div>
-                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.polystyrene_Value }} &euro; </div>
+                  <div class="p-3 bg-light text-dark rounded col-md-3" style="padding: 0.65em!important"> {{ estimation.polystyrene_Value | round(2) }} &euro; </div>
               </div>
             </div>
           </div>
