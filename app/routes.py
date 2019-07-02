@@ -47,7 +47,7 @@ def value_calculation(KG, price, depreciation_rate, diminishing_value_rate, recy
 	#mult_KG_price = KG * price
 
 	if price * ( depreciation_rate * years_old) < price * (1-recyclability):
-		price_per_kg = price * 0.1
+		price_per_kg = price * 0.45
 	else:
 		price_per_kg = price * (depreciation_rate * years_old)
 
@@ -138,12 +138,12 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 			Timber *= square_meters
 
 	#Value_estimations
-	steel_value       = value_calculation(float(Steel), 2.15, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-	copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-	concrete_value    = value_calculation(float(Concrete), 1, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-	timber_value      = value_calculation(float(Timber), 0.85, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-	glass_value       = value_calculation(float(Glass), 1.15, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-	polystyrene_value = value_calculation(float(Polystyrene), 0.75, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+	steel_value       = value_calculation(float(Steel), 5.82, 0.3, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+	copper_value      = value_calculation(float(Copper), 8.19, 0.5, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+	concrete_value    = value_calculation(float(Concrete), 1.8, 0.2, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+	timber_value      = value_calculation(float(Timber), 4, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+	glass_value       = value_calculation(float(Glass), 3.5, 0.667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+	polystyrene_value = value_calculation(float(Polystyrene), 4.70, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 		
 	total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
 	total_value = sum(total_list)
@@ -404,9 +404,30 @@ def testing():
 
 @app.route('/history')
 def history():
+	material_estimation =  Material_estimation.query.order_by(Material_estimation.building_id.desc())
+
+	material_estimation_dict = []
+
+	for mat_est in material_estimation:
+		material_estimation_dict.append({"Steel_value" : mat_est.steel_Value,
+		                                 "Steel_quantity" : mat_est.steel_quantity,
+										 "Concrete_value" : mat_est.concrete_Value,
+										 "Concrete_quantity" : mat_est.concrete_quantity,
+										 "Copper_value" : mat_est.copper_Value,
+										 "Copper_quantity" : mat_est.copper_quantity,
+										 "Glass_value" : mat_est.glass_Value,
+										 "Glass_quantity" : mat_est.glass_quantity,
+										 "Timber_value" : mat_est.timber_Value,
+										 "Timber_quantity" : mat_est.timber_quantity,
+										 "Polystyrene_value" : mat_est.polystyrene_Value,
+										 "Polystyrene_quantity" : mat_est.polystyrene_quantity,
+										 "Total_value" : mat_est.total_value})
+
+	print(material_estimation_dict)
+
 	buildings = Building.query.order_by(Building.id.desc())
 
-	return render_template('history.html', buildings=buildings)
+	return render_template('history.html', buildings= buildings, material_estimation_dict = material_estimation_dict)
 
 @app.route('/BuildingManagement')
 def BuildingManagement():

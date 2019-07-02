@@ -98,10 +98,10 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #43464B; color: #FFFFFF">Estimated quantity (Kg)</div>
                         
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelqtt{{ building.id }}" value="{{ building.steel_quantity }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelqtt{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Steel_quantity'] }}">
                         
                         <div class="p-3 col-md-3" style="background-color: #43464B; color: #FFFFFF">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelvl{{ building.id }}" value="{{ building.steel_Value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="steelvl{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Steel_value'] }}">
                       </div>
                     </div>
                   </div>
@@ -115,10 +115,10 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #b87333; color: #FFFFFF">Estimated quantity (Kg)</div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3"  id="copperqtt{{ building.id }}" value="{{ building.copper_quantity }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3"  id="copperqtt{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Copper_quantity'] }}">
 
                         <div class="p-3 col-md-3" style="background-color: #b87333; color: #FFFFFF">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="coppervl{{ building.id }}" value="{{ building.copper_Value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="coppervl{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Copper_value'] }}">
                       </div>
                     </div>
                   </div>
@@ -130,10 +130,10 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #b7b6b5; color: #FFFFFF">Estimated quantity (Kg)</div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concreteqtt{{ building.id }}" value="{{ building.concrete_quantity }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concreteqtt{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Concrete_quantity'] }}">
 
                         <div class="p-3 col-md-3" style="background-color: #b7b6b5; color: #FFFFFF">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concretevl{{ building.id }}" value="{{ building.concrete_Value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="concretevl{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Concrete_value'] }}">
                       </div>
                     </div>
                   </div>
@@ -145,10 +145,10 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #a0855c; color: #FFFFFF">Estimated quantity (Kg)</div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timberqtt{{ building.id }}" value="{{ building.timber_quantity }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timberqtt{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Timber_quantity'] }}">
 
                         <div class="p-3 col-md-3" style="background-color: #a0855c; color: #FFFFFF">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timbervl{{ building.id }}" value="{{ building.timber_Value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="timbervl{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Timber_value'] }}">
                       </div>
                     </div>
                   </div>
@@ -160,10 +160,10 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #d9dada; color: #66615B">Estimated quantity (Kg)</div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassqtt{{ building.id }}" value="{{ building.glass_quantity }}" >
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassqtt{{ building.id }}" value= "{{ material_estimation_dict[loop.index - 1]['Glass_quantity'] }}" >
 
                         <div class="p-3 col-md-3" style="background-color: #d9dada; color: #66615B">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassvl{{ building.id }}" value="{{ building.glass_Value }}" >
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="glassvl{{ building.id }}" value= "{{ material_estimation_dict[loop.index - 1]['Glass_value'] }}" >
                       </div>
                     </div>
                   </div>
@@ -175,17 +175,17 @@
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Estimated quantity (Kg)</div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyqtt{{ building.id }}" value="{{ building.polystyrene_quantity }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyqtt{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Polystyrene_quantity'] }}">
 
                         <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Estimated value (&euro;)</div>
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyvl{{ building.id }}" value="{{ building.polystyrene_Value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" id="polyvl{{ building.id }}" value="{{ material_estimation_dict[loop.index - 1]['Polystyrene_value'] }}">
                       </div>
                     </div>
                     <div class="card-body ">
                       <div class="row" style="margin-top:10px">
                         <div class="p-3 col-md-3" style="background-color: #b0f2b6; color: #66615B">Total value </div>
 
-                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" value="{{ building.total_value }}">
+                        <input type="text" class="p-3 bg-light text-dark rounded col-md-3" value="{{ material_estimation_dict[loop.index - 1]['Total_value'] }}">
 
                         <button class="btn btn-primary" type="button" style="margin-left: 15%" onclick="validationTest({{ building.id }})">Validate the estimation</button>
                       </div>
