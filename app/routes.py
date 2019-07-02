@@ -47,7 +47,7 @@ def value_calculation(KG, price, depreciation_rate, diminishing_value_rate, recy
 	#mult_KG_price = KG * price
 
 	if price * ( depreciation_rate * years_old) < price * (1-recyclability):
-		price_per_kg = price * 0.45
+		price_per_kg = price * 0.1
 	else:
 		price_per_kg = price * (depreciation_rate * years_old)
 
@@ -90,9 +90,17 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 		polystyrene_model = pickle.load(open(os.path.join(regression_model_path, "polystyrene_model.sav"), 'rb'))
 		timber_model = pickle.load(open(os.path.join(regression_model_path, "timber_model.sav"), 'rb'))
 
-		if Steel == 0 or Steel == None:
+		print("ESTIMATION HIER")
+		print(Steel)
+		print(Concrete)
+
+		if Steel == 0 or Steel == None or Steel == "None":
 			Steel = abs(steel_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Steel *= square_meters
+		
+		print("ESTIMATION HIER2")
+		print(Steel)
+
 		if Concrete == 0 or Concrete == None:
 			Concrete = abs(concrete_model.predict([[age,building_func,(roof_0_75 - ground_0_50), (roof_0_95 - ground_0_50), roof_flat, round((roof_0_95 - ground_0_50) / 3)]])[0])
 			Concrete *= square_meters
@@ -138,12 +146,12 @@ def quantity_value_estimation(square_meters, building_year, ground_0_50, roof_0_
 			Timber *= square_meters
 
 	#Value_estimations
-	steel_value       = value_calculation(float(Steel), 5.82, 0.3, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
-	copper_value      = value_calculation(float(Copper), 8.19, 0.5, 0.1, 1, (datetime.datetime.now().year - building_year ) )
-	concrete_value    = value_calculation(float(Concrete), 1.8, 0.2, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
-	timber_value      = value_calculation(float(Timber), 4, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
-	glass_value       = value_calculation(float(Glass), 3.5, 0.667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
-	polystyrene_value = value_calculation(float(Polystyrene), 4.70, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
+	steel_value       = value_calculation(float(Steel), 2.15, 0.066, 0.1333, 0.86, (datetime.datetime.now().year - building_year ) )
+	copper_value      = value_calculation(float(Copper), 3.56, 0.05, 0.1, 1, (datetime.datetime.now().year - building_year ) )
+	concrete_value    = value_calculation(float(Concrete), 1, 0.02, 0.04, 0.8, (datetime.datetime.now().year - building_year ) )
+	timber_value      = value_calculation(float(Timber), 0.85, 0.2, 0.4, 0.66, (datetime.datetime.now().year - building_year ) )
+	glass_value       = value_calculation(float(Glass), 1.15, 0.0667, 0.13, 1, (datetime.datetime.now().year - building_year ) )
+	polystyrene_value = value_calculation(float(Polystyrene), 0.75, 0.1, 0.2, 0.87, (datetime.datetime.now().year - building_year ) )
 		
 	total_list = [steel_value, copper_value, concrete_value, timber_value, glass_value, polystyrene_value]
 	total_value = sum(total_list)
@@ -423,11 +431,12 @@ def history():
 										 "Polystyrene_quantity" : mat_est.polystyrene_quantity,
 										 "Total_value" : mat_est.total_value})
 
-	size = len(material_estimation_dict)
 
 	buildings = Building.query.order_by(Building.id.desc())
 
-	return render_template('history.html', buildings= buildings, material_estimation_dict = material_estimation_dict, size = size)
+	size = len(material_estimation_dict)
+
+	return render_template('history.html', buildings=buildings, material_estimation_dict = material_estimation_dict, size = size)
 
 @app.route('/BuildingManagement')
 def BuildingManagement():
@@ -659,7 +668,7 @@ def building_management_estimation():
 
 	if buildingManagement[0] == 'F':
 		tryout = request.args.get('tryout', None)[0] == "T"
-		material_estimation_id =  request.args.get('material_estimation_id', None)
+		material_estimation_id =  request.args.get('material_estimation_id')
 
 		# TO FIC: GET THE GLOBAL VARIABLES
 		# Get the database row for the estimation in question
@@ -706,7 +715,7 @@ def building_management_estimation():
 												   polystyrene_quantity = quantity_value_dict['polystyrene_quantity'], polystyrene_Value = quantity_value_dict['polystyrene_value'],
 												   building_id = database_ids[0] )
 							
-		#db.session.add(material_estimation)
+		db.session.add(material_estimation)
 		db.session.commit()
 
 		material_value_dict =  [{ "Name" : "Steel", "Quantity" : round(float(quantity_value_dict['steel_quantity']),2), "Value" : round(float(quantity_value_dict['steel_value']),2)},
