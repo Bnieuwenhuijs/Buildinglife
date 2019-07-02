@@ -423,11 +423,11 @@ def history():
 										 "Polystyrene_quantity" : mat_est.polystyrene_quantity,
 										 "Total_value" : mat_est.total_value})
 
-	print(material_estimation_dict)
+	size = len(material_estimation_dict)
 
 	buildings = Building.query.order_by(Building.id.desc())
 
-	return render_template('history.html', buildings= buildings, material_estimation_dict = material_estimation_dict)
+	return render_template('history.html', buildings= buildings, material_estimation_dict = material_estimation_dict, size = size)
 
 @app.route('/BuildingManagement')
 def BuildingManagement():
